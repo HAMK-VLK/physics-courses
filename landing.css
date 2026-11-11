@@ -30,16 +30,18 @@ main { max-width: 62rem; margin: 0 auto; padding: 1rem clamp(1rem, 3vw, 2rem) 2r
 .eyebrow { margin: 0; color: var(--primary); font-weight: 600; font-size: .95rem; }
 h1 { margin: .2em 0 .3em; font: 700 clamp(1.9rem, 3.2vw + 1rem, 2.9rem)/1.2 var(--font-head); letter-spacing: -.01em; overflow-wrap: anywhere; hyphens: auto; }
 :lang(en) h1, :lang(en) .card h2 { hyphens: manual; }
-.art { width: 180px; height: 96px; fill: none; stroke-linecap: round; stroke-linejoin: round;
-  --ink: var(--accent); --l1: var(--accent); --l2: #12936f; --l3: #8250df; --ink-o: .6; }
+.art { align-self: center; width: 180px; height: 96px; fill: none; stroke-linecap: round; stroke-linejoin: round;
+  --ink: var(--accent); --l1: var(--t5); --l2: #12936f; --l3: #8250df; --ink-o: .6;
+  --plus: #d32f2f; --minus: #000; --bulb: #b8860b; --bulb-lit: #fff3a8; }
 /* Dark theme: lighter strokes, so the drawings do not sink into the dark card */
-:root[data-theme="dark"] .card-dc .art { --ink: #8cb8ff; }
-:root[data-theme="dark"] .card-ac .art { --ink: #ff9d63; --l1: #ff9d63; --l2: #4fdcac; --l3: #b99cff; }
+:root[data-theme="dark"] .card-dc .art { --ink: #8cb8ff; --plus: #ff5a5a; --minus: #5b6470; --bulb: #c9a227; }
+:root[data-theme="dark"] .card-ac .art { --ink: #ff9d63; --l1: #ff8cc6; --l2: #4fdcac; --l3: #b99cff; }
 :root[data-theme="dark"] .art { --ink-o: .9; }
 .art .wire { stroke: var(--ink); stroke-width: 2.4; opacity: var(--ink-o); transition: opacity .3s .3s; }
+.art .plus { stroke: var(--plus); } .art .minus { stroke: var(--minus); }
 .art .pin { fill: var(--surface); stroke: var(--ink); stroke-width: 1.6; }
 .art .lever { stroke: var(--ink); stroke-width: 2.6; transform-box: view-box; transform-origin: 48px 12px; transform: rotate(-26deg); transition: transform .3s var(--ease); }
-.art .glass { stroke: var(--ink); stroke-width: 2.4; fill: var(--surface); transition: fill .25s .3s, filter .25s .3s; }
+.art .glass { stroke: var(--bulb); stroke-width: 2.4; fill: var(--surface); transition: fill .25s .3s, filter .25s .3s, stroke .25s .3s; }
 .art .filament { stroke: var(--muted); stroke-width: 1.4; transition: stroke .25s .3s; }
 .art .rays { stroke: var(--c-flow); stroke-width: 2.2; opacity: 0; transition: opacity .25s .3s; }
 .art .coil { stroke-width: 4.5; }
@@ -52,7 +54,7 @@ h1 { margin: .2em 0 .3em; font: 700 clamp(1.9rem, 3.2vw + 1rem, 2.9rem)/1.2 var(
    AC: the rotor turns once per 0.5 s and each phase wave moves out one period (37 units) per turn. */
 .card.go .lever { transform: none; }
 .card.go .wire { opacity: 1; }
-.card.go .glass { fill: var(--c-flow); filter: drop-shadow(0 0 6px var(--c-flow)); }
+.card.go .glass { stroke: var(--bulb-lit); fill: var(--c-flow); filter: drop-shadow(0 0 6px var(--c-flow)); }
 .card.go .filament { stroke: #fff; }
 .card.go .rays { opacity: 1; animation: glow .5s ease-in-out .55s infinite alternate; }
 @keyframes glow { to { opacity: .45; } }
