@@ -9,7 +9,7 @@
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="favicon.svg?v=e45cb06618" type="image/svg+xml">
 <link rel="stylesheet" href="tokens.css?v=3f46a9041d">
-<link rel="stylesheet" href="landing.css?v=b8258953c3">
+<link rel="stylesheet" href="landing.css?v=f19f15bda4">
 <script>
   // Apply saved theme/language before first paint to avoid a flash of the wrong theme.
   (function () {
@@ -45,7 +45,8 @@
 
   <ul class="grid">
     <li class="card card-dc" data-key="tdc.summary" data-topics="5">
-      <svg class="art" viewBox="0 0 120 64" aria-hidden="true"><path class="wire" d="M20 12H44M76 12H100V52H20V12"/><rect class="wire" x="44" y="6" width="32" height="12" rx="2"/><path class="wire" d="M14 26H26M18 32H22" /><path class="flow" d="M20 20V52H100V12H76M44 12H20"/></svg>
+      <!-- Battery, switch and bulb. Click: the switch closes, then the bulb lights. -->
+      <svg class="art" viewBox="0 0 120 64" aria-hidden="true"><path class="wire" d="M20 26V12H46M74 12H100V23M100 41V52H20V32"/><path class="wire" d="M14 26H26M17 32H23"/><path class="lever" d="M48 12H71"/><circle class="pin" cx="48" cy="12" r="2"/><circle class="pin" cx="72" cy="12" r="2"/><g class="bulb"><path class="rays" d="M100 17V13M111 21l3-3M115 32h4M111 43l3 3M89 21l-3-3M85 32h-4M89 43l-3 3"/><circle class="glass" cx="100" cy="32" r="9"/><path class="filament" d="M95 35l2.5-5 2.5 5 2.5-5 2.5 5"/></g></svg>
       <h2 data-i18n="dc.title">Theoretical Electrical Engineering DC</h2>
       <p class="sum" data-i18n="dc.lead"></p>
       <p class="topics" data-i18n="topics"></p>
@@ -56,7 +57,9 @@
       <a class="btn" href="dc/index.html"></a>
     </li>
     <li class="card card-ac" data-key="tac.summary" data-topics="5">
-      <svg class="art" viewBox="0 0 120 64" aria-hidden="true"><path class="wire" d="M6 32H114"/><path class="wire" d="M6 32C16 4 34 4 40 32S64 60 74 32S98 4 114 32"/><path class="flow" d="M6 32C16 4 34 4 40 32S64 60 74 32S98 4 114 32"/></svg>
+      <!-- Three-phase generator: a magnet rotor inside three coils 120° apart. Click: the rotor spins (one turn per
+           0.5 s) and the three phase voltages grow and travel out, one period per turn. Wave paths: landing.js. -->
+      <svg class="art" viewBox="0 0 120 64" aria-hidden="true"><clipPath id="ac-clip"><rect x="40" y="0" width="80" height="64"/></clipPath><path class="wire" d="M40 32H118"/><g clip-path="url(#ac-clip)"><g class="phases"><path class="phase l1"/><path class="phase l2"/><path class="phase l3"/></g></g><circle class="wire" cx="22" cy="32" r="16"/><path class="coil l1" d="M17.86 16.55A16 16 0 0 1 26.14 16.55"/><path class="coil l2" d="M37.45 36.14A16 16 0 0 1 33.31 43.31"/><path class="coil l3" d="M10.69 43.31A16 16 0 0 1 6.55 36.14"/><g class="rotor"><rect class="pole-s" x="19.5" y="32" width="5" height="11" rx="1.5"/><rect class="pole-n" x="19.5" y="21" width="5" height="11" rx="1.5"/><circle class="axle" cx="22" cy="32" r="1.6"/></g></svg>
       <h2 data-i18n="ac.title">Theoretical Electrical Engineering AC</h2>
       <p class="sum" data-i18n="ac.lead"></p>
       <p class="topics" data-i18n="topics"></p>
@@ -71,6 +74,6 @@
 
 <footer class="foot-note"><p data-i18n="footer"></p></footer>
 <noscript><p class="noscript">Open the courses: <a href="dc/index.html">DC</a> · <a href="ac/index.html">AC</a></p></noscript>
-<script src="landing.js?v=c058199a79"></script>
+<script src="landing.js?v=964d4ce11c"></script>
 </body>
 </html>

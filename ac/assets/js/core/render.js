@@ -217,7 +217,7 @@
     var p = (TDC.store.doc.progress[topicId] || {}).visited || {};
     var secs = t.sections.length, seen = t.sections.filter(function (s) { return p[s.id]; }).length;
     var prac = t.questions || [];   // practice and topic-test questions alike are self-checked
-    var ok = prac.filter(function (q) { var a = TDC.store.doc.answers[q.id]; return a && a.score > 0; }).length;
+    var ok = prac.filter(function (q) { var a = TDC.store.doc.answers[q.id]; return a && a.correct; }).length;
     var total = secs + prac.length;
     return total ? (seen + ok) / total : 0;
   };
@@ -350,7 +350,7 @@
     if (practiceLeft.length) sections.push({ id: topicId + '-practice', title: { en: 'More practice', fi: 'Lisää harjoituksia' }, auto: true,
       blocks: practiceLeft.map(function (q) { return { type: 'question', q: q.id, id: q.id + '-blk' }; }) });
     var graded = (t.questions || []).filter(function (q) { return q.mode === 'graded'; });
-    if (graded.length) sections.push({ id: topicId + '-quiz', title: { en: 'Topic test', fi: 'Aihetesti' }, quiz: true, blocks: [] });
+    if (graded.length) sections.push({ id: topicId + '-quiz', title: { get en() { return TDC.t('quiz.topicTest'); }, get fi() { return TDC.t('quiz.topicTest'); } }, quiz: true, blocks: [] });
 
     var visited = ((TDC.store.doc.progress[topicId] || {}).visited) || {};
     var tocMin = TDC.prefs.get('tocMin', false);

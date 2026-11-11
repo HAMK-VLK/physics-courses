@@ -10,7 +10,7 @@
     var st = TDC.store.status(), n = $('#save-status');
     var file = st.file === 'linked' ? ' · 📄 ' + TDC.t('status.file') : st.file === 'needs-permission' ? ' · ⚠ ' + TDC.t('status.reconnect') : '';
     var msg = TDC.t('status.unsaved');
-    n.textContent = (st.saved ? '✓ ' + TDC.t('status.saved') : '') + file;
+    n.textContent = (st.saved && !st.unsaved ? '✓ ' + TDC.t('status.saved') : '') + file;   // "saved" next to "not saved" reads as a contradiction
     n.className = 'save-status' + (st.file === 'needs-permission' ? ' warn' : '') + (st.unsaved ? ' unsaved' : '');
     if (st.unsaved) {   // dot + text; on phones only the dot stays, so the text is also the tooltip
       n.textContent += (n.textContent ? ' · ' : '');

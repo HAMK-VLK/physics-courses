@@ -30,17 +30,44 @@ main { max-width: 62rem; margin: 0 auto; padding: 1rem clamp(1rem, 3vw, 2rem) 2r
 .eyebrow { margin: 0; color: var(--primary); font-weight: 600; font-size: .95rem; }
 h1 { margin: .2em 0 .3em; font: 700 clamp(1.9rem, 3.2vw + 1rem, 2.9rem)/1.2 var(--font-head); letter-spacing: -.01em; overflow-wrap: anywhere; hyphens: auto; }
 :lang(en) h1, :lang(en) .card h2 { hyphens: manual; }
-.art { width: 150px; height: 80px; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-.art .wire { stroke: var(--accent); stroke-width: 2.4; opacity: .55; }
-.art .flow { stroke: var(--c-flow); stroke-width: 3.4; stroke-dasharray: 1 11; animation: flow 1.6s linear infinite; }
-@keyframes flow { to { stroke-dashoffset: -12; } }
+.art { width: 180px; height: 96px; fill: none; stroke-linecap: round; stroke-linejoin: round;
+  --ink: var(--accent); --l1: var(--accent); --l2: #12936f; --l3: #8250df; --ink-o: .6; }
+/* Dark theme: lighter strokes, so the drawings do not sink into the dark card */
+:root[data-theme="dark"] .card-dc .art { --ink: #8cb8ff; }
+:root[data-theme="dark"] .card-ac .art { --ink: #ff9d63; --l1: #ff9d63; --l2: #4fdcac; --l3: #b99cff; }
+:root[data-theme="dark"] .art { --ink-o: .9; }
+.art .wire { stroke: var(--ink); stroke-width: 2.4; opacity: var(--ink-o); transition: opacity .3s .3s; }
+.art .pin { fill: var(--surface); stroke: var(--ink); stroke-width: 1.6; }
+.art .lever { stroke: var(--ink); stroke-width: 2.6; transform-box: view-box; transform-origin: 48px 12px; transform: rotate(-26deg); transition: transform .3s var(--ease); }
+.art .glass { stroke: var(--ink); stroke-width: 2.4; fill: var(--surface); transition: fill .25s .3s, filter .25s .3s; }
+.art .filament { stroke: var(--muted); stroke-width: 1.4; transition: stroke .25s .3s; }
+.art .rays { stroke: var(--c-flow); stroke-width: 2.2; opacity: 0; transition: opacity .25s .3s; }
+.art .coil { stroke-width: 4.5; }
+.art .l1 { stroke: var(--l1); } .art .l2 { stroke: var(--l2); } .art .l3 { stroke: var(--l3); }
+.art .rotor { transform-box: view-box; transform-origin: 22px 32px; }
+.art .pole-n { fill: var(--ink); } .art .pole-s { fill: var(--muted); } .art .axle { fill: var(--surface); }
+.art .phases { transform-box: view-box; transform-origin: 0 32px; transform: scaleY(.05); transition: transform .5s var(--ease); }
+.art .phase { stroke-width: 2; }
+/* Click effect (2 s, then the course opens). DC: the switch closes, then the bulb lights.
+   AC: the rotor turns once per 0.5 s and each phase wave moves out one period (37 units) per turn. */
+.card.go .lever { transform: none; }
+.card.go .wire { opacity: 1; }
+.card.go .glass { fill: var(--c-flow); filter: drop-shadow(0 0 6px var(--c-flow)); }
+.card.go .filament { stroke: #fff; }
+.card.go .rays { opacity: 1; animation: glow .5s ease-in-out .55s infinite alternate; }
+@keyframes glow { to { opacity: .45; } }
+.card.go .rotor { animation: spin .5s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.card.go .phases { transform: none; }
+.card.go .phase { animation: flow .5s linear infinite; }
+@keyframes flow { to { transform: translateX(37px); } }
 .lead { font-size: 1.15rem; color: var(--muted); max-width: 40rem; margin: 0; }
 
 .grid { list-style: none; margin: 1.5rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: 1.2rem; }
 .card {
   --accent: var(--t1); position: relative; display: flex; flex-direction: column; gap: .5rem; padding: 1.4rem 1.3rem 1.2rem; min-width: 0;
   background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden;
-  transition: transform .2s var(--ease), box-shadow .2s var(--ease), border-color .2s;
+  transition: transform .2s var(--ease), box-shadow .2s var(--ease), border-color .2s; cursor: pointer;
 }
 .card-ac { --accent: var(--t2); }
 .card::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 4px; background: var(--accent); }
@@ -59,6 +86,5 @@ h1 { margin: .2em 0 .3em; font: 700 clamp(1.9rem, 3.2vw + 1rem, 2.9rem)/1.2 var(
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }
-  .art .flow { stroke-dasharray: 1 11; }
   .card:hover { transform: none; }
 }

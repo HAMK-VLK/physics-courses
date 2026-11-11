@@ -143,7 +143,7 @@
     },
     /** True when this browser holds work that no saved file has. A fresh browser with no work is not "unsaved". */
     unsaved: function () {
-      return !!S.doc && hasContent(S.doc) && (!S.fileSavedAt || S.doc.updated > S.fileSavedAt);
+      return !!S.doc && hasContent(S.doc) && (!S.fileSavedAt || S.doc.updated !== S.fileSavedAt);
     },
     _markFileSaved: function (updated) {
       S.fileSavedAt = updated;

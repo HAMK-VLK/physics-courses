@@ -214,7 +214,7 @@
     var card = el('div', { class: 'q-card q-practice', id: 'q-' + q.id, dataset: { qid: q.id } });
     var head = el('div', { class: 'q-head' }, [
       el('span', { class: 'q-type', 'data-i18n-title': 'quiz.type.' + q.type, title: TDC.t('quiz.type.' + q.type), 'aria-hidden': 'true' }, TYPE_ICON[q.type] || '?'),
-      el('span', { class: 'q-badge', 'data-i18n': 'quiz.practice' }),
+      el('span', { class: 'q-badge', 'data-i18n': opts.badge || 'quiz.practice' }),
       el('span', { class: 'q-points' }),
       el('span', { class: 'q-status' })
     ]);
@@ -322,7 +322,7 @@
       el('strong', { 'data-i18n': 'quiz.topicTest' }), el('p', { 'data-i18n': 'quiz.topicTestIntro' })
     ])]));
     questions.forEach(function (q, i) {
-      var c = Q.renderQuestion(q);
+      var c = Q.renderQuestion(q, { badge: 'quiz.topicTest' });
       c.querySelector('.q-head').insertBefore(el('span', { class: 'q-index' }, (i + 1) + '/' + questions.length), c.querySelector('.q-head').firstChild);
       wrap.appendChild(c);
     });

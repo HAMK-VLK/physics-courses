@@ -4,7 +4,7 @@ TDC.i18n.add('en', {
   'app.short': 'Circuits',
   'a11y.skip': 'Skip to content',
   'nav.home': 'Home',
-  'pref.lang': 'Language: English / suomi',
+  'pref.lang': 'EN FI – Language: English / suomi',
   'pref.theme': 'Switch light / dark theme',
   'common.close': 'Close', 'common.cancel': 'Cancel', 'common.ok': 'OK',
 
@@ -79,11 +79,11 @@ TDC.i18n.add('en', {
   'quiz.notNumber': 'Not a number yet. Examples: 4.7, 4,7, 4k7, 2.2m, 1e-3',
 
 
-  'status.saved': 'Saved', 'status.file': 'file', 'status.reconnect': 'Reconnect file',
+  'status.saved': 'Saved in this browser', 'status.file': 'file', 'status.reconnect': 'Reconnect file',
   'status.unsaved': 'Not saved to a file',
 
   'help.title': 'How to use this material',
-  'help.body': '<ul><li><b>Topics:</b> start from the home page; the list on the left shows your progress.</li><li><b>Interactives:</b> click components to change values, use 〰 to draw a wire (a wire across a resistor shorts it), ✂ to cut, and watch the current flow.</li><li><b>Annotate:</b> press ✍ (bottom right): pen, highlighter, text marker, arrows, boxes, sticky notes, eraser, undo (Ctrl+Z).</li><li><b>Tools:</b> ☰ at the top opens the calculator, formula sheet and EN–FI glossary.</li><li><b>Practice questions</b> give instant feedback. The <b>Topic test</b> at the end of a topic is checked the same way.</li><li><b>Language and theme:</b> EN/FI and ☀/🌙 at the top right.</li><li>Works offline. Your work is kept in this browser. Save the notes file to keep a copy or continue on another computer, and load it to continue.</li></ul>',
+  'help.body': '<ul><li><b>Topics:</b> start from the home page; the list on the left shows your progress.</li><li><b>Interactives:</b> click components to change values, use 〰 to draw a wire (a wire across a resistor shorts it), ✂ to cut, and watch the current flow.</li><li><b>Annotate:</b> press ✍ (bottom right): pen, highlighter, text marker, arrows, boxes, sticky notes, eraser, undo (Ctrl+Z).</li><li><b>Tools:</b> ☰ at the top opens the calculator, formula sheet and EN–FI glossary.</li><li><b>Scoring:</b> each wrong check costs 25 % of the points; after a wrong check, Check waits 5 s, then 10 s; hints open by themselves on hard (difficulty 3) questions.</li><li><b>Practice questions</b> give instant feedback. The <b>Topic test</b> at the end of a topic is checked the same way.</li><li><b>Language and theme:</b> EN/FI and ☀/🌙 at the top right.</li><li>Works offline. Your work is kept in this browser. Save the notes file to keep a copy or continue on another computer, and load it to continue.</li></ul>',
 
   'annot.tools': 'Annotate', 'annot.select': 'Select / read (Esc)', 'annot.pen': 'Pen', 'annot.highlighter': 'Highlighter',
   'annot.textmark': 'Highlight text (select text)', 'annot.arrow': 'Arrow', 'annot.box': 'Box', 'annot.sticky': 'Sticky note',
@@ -150,7 +150,7 @@ TDC.i18n.add('fi', {
   'app.short': 'Piirit',
   'a11y.skip': 'Siirry sisältöön',
   'nav.home': 'Etusivu',
-  'pref.lang': 'Kieli: English / suomi',
+  'pref.lang': 'EN FI – Kieli: English / suomi',
   'pref.theme': 'Vaihda vaalea / tumma teema',
   'common.close': 'Sulje', 'common.cancel': 'Peruuta', 'common.ok': 'OK',
 
@@ -225,11 +225,11 @@ TDC.i18n.add('fi', {
   'quiz.notNumber': 'Ei vielä luku. Esimerkkejä: 4,7, 4.7, 4k7, 2,2m, 1e-3',
 
 
-  'status.saved': 'Tallennettu', 'status.file': 'tiedosto', 'status.reconnect': 'Yhdistä tiedosto',
+  'status.saved': 'Tallennettu selaimeen', 'status.file': 'tiedosto', 'status.reconnect': 'Yhdistä tiedosto',
   'status.unsaved': 'Ei tallennettu tiedostoon',
 
   'help.title': 'Näin käytät materiaalia',
-  'help.body': '<ul><li><b>Aiheet:</b> aloita etusivulta; vasemmalla oleva luettelo näyttää edistymisesi.</li><li><b>Interaktiiviset piirit:</b> muuta arvoja napsauttamalla komponentteja, piirrä johdin 〰-työkalulla (vastuksen yli piirretty johdin oikosulkee sen), katkaise ✂-työkalulla ja seuraa virran kulkua.</li><li><b>Merkinnät:</b> paina ✍ (oikealla alhaalla): kynä, korostuskynä, tekstin korostus, nuolet, laatikot, muistilaput, pyyhekumi, kumoa (Ctrl+Z).</li><li><b>Työkalut:</b> ylhäällä oleva ☰ avaa laskimen, kaavakokoelman ja EN–FI-sanaston.</li><li><b>Harjoitustehtävistä</b> saat heti palautteen. Myös aiheen lopun <b>aihetesti</b> tarkistetaan heti.</li><li><b>Kieli ja teema:</b> EN/FI ja ☀/🌙 oikealla ylhäällä.</li><li>Toimii ilman verkkoyhteyttä. Työsi säilyy tässä selaimessa. Tallenna muistiinpanotiedosto, jos haluat kopion tai jatkaa toisella tietokoneella, ja avaa se jatkaaksesi.</li></ul>',
+  'help.body': '<ul><li><b>Aiheet:</b> aloita etusivulta; vasemmalla oleva luettelo näyttää edistymisesi.</li><li><b>Interaktiiviset piirit:</b> muuta arvoja napsauttamalla komponentteja, piirrä johdin 〰-työkalulla (vastuksen yli piirretty johdin oikosulkee sen), katkaise ✂-työkalulla ja seuraa virran kulkua.</li><li><b>Merkinnät:</b> paina ✍ (oikealla alhaalla): kynä, korostuskynä, tekstin korostus, nuolet, laatikot, muistilaput, pyyhekumi, kumoa (Ctrl+Z).</li><li><b>Työkalut:</b> ylhäällä oleva ☰ avaa laskimen, kaavakokoelman ja EN–FI-sanaston.</li><li><b>Pisteytys:</b> jokainen väärä tarkistus vie 25 % tehtävän pisteistä; väärän tarkistuksen jälkeen Tarkista-painike odottaa ensin 5 s, sitten 10 s; vihjeet aukeavat itsestään vaikeilla (vaikeustaso 3) tehtävillä.</li><li><b>Harjoitustehtävistä</b> saat heti palautteen. Myös aiheen lopun <b>aihetesti</b> tarkistetaan heti.</li><li><b>Kieli ja teema:</b> EN/FI ja ☀/🌙 oikealla ylhäällä.</li><li>Toimii ilman verkkoyhteyttä. Työsi säilyy tässä selaimessa. Tallenna muistiinpanotiedosto, jos haluat kopion tai jatkaa toisella tietokoneella, ja avaa se jatkaaksesi.</li></ul>',
 
   'annot.tools': 'Merkinnät', 'annot.select': 'Valitse / lue (Esc)', 'annot.pen': 'Kynä', 'annot.highlighter': 'Korostuskynä',
   'annot.textmark': 'Korosta tekstiä (valitse teksti)', 'annot.arrow': 'Nuoli', 'annot.box': 'Laatikko', 'annot.sticky': 'Muistilappu',

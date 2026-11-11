@@ -10,6 +10,9 @@
   var SUP = '⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺', SUB = '₀₁₂₃₄₅₆₇₈₉';
   var OPS = '=+−-×·≈<>≤≥→⇒⇔±∓÷∥|,:;()[]–∝∠/∫∑Σ∞';
   var LETTER = /[A-Za-zΑ-Ωα-ωµ]/;
+  // SI units are upright (ISO 80000-1). A letter run counts as a unit only right after a number ("12 V", "4,7 kΩ")
+  // or glued to a unit by · or / ("N·m²/C²", "rad/s"), so quantity symbols ("2 R", "V_1") stay italic.
+  var UNIT = /^(?:[pnµμmkMG]?(?:Hz|Wb|Wh|VAr|VA|var|eV|rad|Ah|Vs|As|[VAΩWJCFHSsmgKNTh])|min|cm|dB)$/;
 
   function mi(s) { return s.length > 2 ? '<mi mathvariant="normal">' + esc(s) + '</mi>' : '<mi>' + esc(s) + '</mi>'; }
   function digitsOrWord(s) { return /^[\d.]+$/.test(s) ? '<mn>' + s + '</mn>' : /^[−-]?[\d.]+$/.test(s) ? '<mrow><mo>−</mo><mn>' + s.replace(/^[−-]/, '') + '</mn></mrow>' : mi(s); }
@@ -26,7 +29,7 @@
       return '<mrow></mrow>';
     }
     function seq(stop) {
-      var out = [], spaces = 0;
+      var out = [], spaces = 0, prev = '';   // prev: 'num' | 'unit' | 'unitop' (· or / right after a unit) | ''
       function isOp(x) { return x && x.indexOf('<mo') === 0; }
       function push(node) {
         if (spaces && out.length) {
@@ -39,8 +42,9 @@
       while (i < src.length && src[i] !== stop) {
         var c = src[i];
         if (c === ' ') { spaces++; i++; continue; }
-        if (src.substr(i, 5) === 'sqrt{') { i += 4; push('<msqrt>' + group() + '</msqrt>'); continue; }
+        if (src.substr(i, 5) === 'sqrt{') { i += 4; push('<msqrt>' + group() + '</msqrt>'); prev = ''; continue; }
         if (c === '{') {
+          prev = '';
           var num = group();
           if (src[i] === '/' && src[i + 1] === '{') { i++; push('<mfrac>' + num + group() + '</mfrac>'); } else push(num);
           continue;
@@ -59,17 +63,23 @@
           spaces = 0; var bb = base(); push('<' + tag + '>' + bb + arg + '</' + tag + '>');
           continue;
         }
-        if (c === '\\' && i + 1 < src.length) { push(mi(src[i + 1])); i += 2; continue; }
+        if (c === '\\' && i + 1 < src.length) { push(mi(src[i + 1])); i += 2; prev = ''; continue; }
         var m = /^\d+(?:[.,]\d+)?/.exec(src.slice(i));            // 0.5 or 0,5 -> the reader's decimal separator
-        if (m) { push('<mn>' + m[0].replace(/[.,]/, TDC.i18n.lang === 'fi' ? ',' : '.') + '</mn>'); i += m[0].length; continue; }
+        if (m) { push('<mn>' + m[0].replace(/[.,]/, TDC.i18n.lang === 'fi' ? ',' : '.') + '</mn>'); i += m[0].length; prev = 'num'; continue; }
         if (LETTER.test(c)) {
           var w = /^[A-Za-zΑ-Ωα-ωµ]+/.exec(src.slice(i))[0];
           i += w.length;
-          if (w.length > 2) push(mi(w)); else for (var k = 0; k < w.length; k++) push(mi(w[k]));
+          var unit = (prev === 'num' || (prev === 'unitop' && !spaces)) && src[i] !== '_' && UNIT.test(w);
+          if (unit || w.length > 2) push('<mi mathvariant="normal">' + esc(w) + '</mi>'); else for (var k = 0; k < w.length; k++) push(mi(w[k]));
+          prev = unit ? 'unit' : '';
           continue;
         }
         // Literal brackets keep text height (MathML would stretch them around subscripts: "(N_p − N_e)")
-        if (OPS.indexOf(c) >= 0) { push('<mo' + ('()[]|'.indexOf(c) >= 0 ? ' stretchy="false"' : '') + '>' + esc(c === '-' ? '−' : c) + '</mo>'); i++; continue; }
+        if (OPS.indexOf(c) >= 0) {
+          prev = prev === 'unit' && !spaces && (c === '·' || c === '/') ? 'unitop' : '';
+          push('<mo' + ('()[]|'.indexOf(c) >= 0 ? ' stretchy="false"' : '') + '>' + esc(c === '-' ? '−' : c) + '</mo>'); i++; continue;
+        }
+        prev = c === '°' ? (prev === 'num' ? 'num' : 'unitop') : '';   // "30° A", "30 °C", "1/°C"
         push('<mtext>' + esc(c) + '</mtext>'); i++;
       }
       return out;

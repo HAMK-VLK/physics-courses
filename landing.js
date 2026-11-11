@@ -52,7 +52,7 @@
     document.querySelectorAll('#btn-lang span').forEach(function (s) { s.classList.toggle('on', s.textContent.toLowerCase() === lang); });
     var bl = document.getElementById('btn-lang'), bt = document.getElementById('btn-theme');
     var ln = t('lang') + ': ' + (lang === 'fi' ? 'suomi' : 'English');
-    bl.title = ln; bl.setAttribute('aria-label', ln);
+    bl.title = ln; bl.setAttribute('aria-label', 'EN FI – ' + ln);   // accessible name contains the visible text (WCAG 2.5.3)
     bt.title = t('theme'); bt.setAttribute('aria-label', t('theme'));
     document.title = t('title') + ' · HAMK';
     document.querySelectorAll('.card').forEach(function (c) {
@@ -72,6 +72,25 @@
     var n = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     root.setAttribute('data-theme', n); save('theme', n);
   });
-  window.addEventListener('pageshow', render);   // back from a course: refresh progress
+  // AC art: three phase waves 120° apart (period 37, amplitude 13), one extra period on the left to scroll in.
+  document.querySelectorAll('.card-ac .phase').forEach(function (p, k) {
+    var d = '';
+    for (var x = 5; x <= 118; x += 1.5) d += (d ? 'L' : 'M') + x + ' ' + (32 - 13 * Math.sin(2 * Math.PI * (x - 42) / 37 - k * 2 * Math.PI / 3)).toFixed(1);
+    p.setAttribute('d', d);
+  });
+  // Click anywhere on a card: play its art effect for 2 s, then open the course. New-tab clicks keep the browser default.
+  document.querySelectorAll('.card').forEach(function (c) {
+    c.addEventListener('click', function (e) {
+      if (e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      if (c.classList.contains('go')) return;
+      c.classList.add('go');
+      setTimeout(function () { location.href = c.querySelector('.btn').href; }, matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 2000);
+    });
+  });
+  window.addEventListener('pageshow', function () {   // back from a course: bulb off, refresh progress
+    document.querySelectorAll('.card.go').forEach(function (c) { c.classList.remove('go'); });
+    render();
+  });
   render();
 })();
