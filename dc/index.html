@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-WDL+pdde+L0XY1HrBqq9ZRlSX5LatPuaiZPUe5iO778='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Theoretical Electrical Engineering DC · Responsive materials</title>
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="assets/img/favicon.svg?v=e45cb06618" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/tokens.css?v=3f46a9041d">
+<link rel="stylesheet" href="assets/css/main.css?v=fabbd9c7ed">
+<link rel="stylesheet" href="assets/css/widgets.css?v=87037eb9d8">
+<script>
+  // Apply saved theme before first paint to avoid a flash of the wrong theme.
+  (function () {
+    try {
+      var p = JSON.parse(localStorage.getItem('tdc.prefs') || '{}'), q = {};
+      try { q = JSON.parse(localStorage.getItem('phys.prefs')) || {}; } catch (e) {}   // landing page choice: fallback on a first visit
+      var t = p.theme || q.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', t);
+      var l = p.lang || q.lang;
+      if (l) document.documentElement.setAttribute('lang', l);
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to content</a>
+
+<header class="app-header" id="app-header">
+  <a class="brand" href="#/" aria-label="Home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M4 16h5l2-6 4 12 4-12 4 12 2-6h3" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/></svg>
+    <span class="brand-text"><b>DC</b> <span data-i18n="app.short">Circuits</span></span>
+  </a>
+  <nav class="crumbs" id="crumbs" aria-label="Breadcrumb"></nav>
+  <div class="header-actions">
+    <span class="save-status" id="save-status" role="status" aria-live="polite"></span>
+    <button class="icon-btn" id="btn-tools" aria-haspopup="true" data-i18n-title="tools.title" data-i18n-aria="tools.title">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+    </button>
+    <button class="icon-btn" id="btn-notes" aria-haspopup="true" data-i18n-title="notes.title" data-i18n-aria="notes.title">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6z M14 3v5h5 M9 12h7 M9 16h5"/></svg>
+    </button>
+    <button class="lang-btn" id="btn-lang" data-i18n-title="pref.lang" data-i18n-aria="pref.lang"><span>EN</span><span>FI</span></button>
+    <button class="icon-btn" id="btn-theme" data-i18n-title="pref.theme" data-i18n-aria="pref.theme">
+      <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>
+      <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg>
+    </button>
+  </div>
+</header>
+
+
+<main id="main" tabindex="-1"></main>
+
+<div class="drawer-host" id="drawer-host"></div>
+<div class="modal-host" id="modal-host"></div>
+<div class="toast-host" id="toast-host" aria-live="polite"></div>
+
+<noscript><p style="padding:2rem">This material needs JavaScript. / Tämä materiaali vaatii JavaScriptin.</p></noscript>
+
+<!-- Core (classic scripts only: ES modules are blocked on file://) -->
+<script src="assets/js/core/tdc.js?v=23fd19efbb"></script>
+<script src="assets/js/core/i18n.js?v=c97fa5cfc4"></script>
+<script src="lang/ui.js?v=4d40f7a039"></script>
+<script src="assets/js/core/theme.js?v=9b73047cfd"></script>
+<script src="assets/js/core/ui.js?v=63420fcae2"></script>
+<script src="assets/js/core/answer-norm.js?v=86c3b2309d"></script>
+<script src="assets/js/core/scoring.js?v=700bbb0a70"></script>
+<script src="assets/js/core/calc.js?v=0ace754a45"></script>
+<script src="assets/js/core/crypto.js?v=f3ba19138d"></script>
+<script src="assets/js/core/store.js?v=fac4e8547e"></script>
+<script src="assets/js/core/formula.js?v=2c5abfe406"></script>
+<script src="assets/js/core/render.js?v=9a0b8ba452"></script>
+<script src="assets/js/core/colorpicker.js?v=32179fa64b"></script>
+<script src="assets/js/core/annotate.js?v=4a13ff8cd0"></script>
+<script src="assets/js/core/quiz.js?v=8e31409bd6"></script>
+<script src="assets/js/core/tools.js?v=8d64a7d02c"></script>
+<script src="assets/js/core/router.js?v=a27c49e903"></script>
+<!-- Simulation & visualisation widgets -->
+<script src="assets/vendor/three.min.js?v=8a5f724990"></script>
+<script src="assets/js/sim/circuit.js?v=7bf5586d8f"></script>
+<script src="assets/js/sim/circuit-view.js?v=311b019c8f"></script>
+<script src="assets/js/viz/plot.js?v=21954bed4b"></script>
+<script src="assets/js/viz/three-widget.js?v=1bd84b142c"></script>
+<script src="assets/js/viz/widgets-common.js?v=a568101e77"></script>
+<!-- Content -->
+<script src="content/topics.js?v=a25712f480"></script>
+<script src="content/topic0.js?v=64d95965bc"></script>
+<script src="content/topic1.js?v=360ac19c91"></script>
+<script src="content/topic2.js?v=b60d3e5656"></script>
+<script src="content/topic3.js?v=95282dedfd"></script>
+<script src="content/topic4.js?v=9af75e902c"></script>
+<script src="content/topic5.js?v=53dab6cfe2"></script>
+<!-- Generated answer keys (hashed / encrypted; see tools/build-keys.mjs) -->
+<script src="assets/data/keys.js?v=bc39aeaa20"></script>
+<script src="assets/js/core/boot.js?v=c9dde3bacd"></script>
+</body>
+</html>
