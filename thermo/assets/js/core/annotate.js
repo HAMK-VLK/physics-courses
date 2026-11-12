@@ -10,6 +10,7 @@
   var state = { tool: 'none', color: COLORS[0], width: 3, visible: true, article: null, topic: null, undo: [], redo: [], defs: null };
   var A = TDC.annotate = { state: state };
   var DRAW_TOOLS = { pen: 1, hl: 1, eraser: 1, arrow: 1, box: 1, sticky: 1 };
+  function strokeW(tool) { return tool === 'hl' ? 6 + 3 * state.width : state.width; }   // highlighter 9…36 px, default 15
   var catcher = null;   // transparent layer under the header (not over the TOC) that starts every drawing
 
   // ---------- geometry helpers ----------
@@ -118,11 +119,19 @@
     } });
     var out = [], n; while ((n = w.nextNode())) out.push(n); return out;
   }
+  // Character offset of a boundary point within root's text. The point may sit in an element (drag from a margin,
+  // triple-click): then it counts the text nodes that end before it.
   function offsetOf(root, node, off) {
-    var total = 0, list = textNodes(root);
-    for (var i = 0; i < list.length; i++) { if (list[i] === node) return total + off; total += list[i].length; }
-    return -1;
+    var total = 0, list = textNodes(root), r = document.createRange();
+    r.setStart(node, off);
+    for (var i = 0; i < list.length; i++) {
+      if (list[i] === node) return total + off;
+      if (r.comparePoint(list[i], list[i].length) > 0) return total;   // this text node ends after the point
+      total += list[i].length;
+    }
+    return total;
   }
+  function blkOf(node) { return (node.nodeType === 1 ? node : node.parentNode).closest('.blk'); }
   function wrapRange(root, start, end, hl) {
     var pos = 0;
     textNodes(root).forEach(function (n) {
@@ -153,14 +162,17 @@
   function captureSelection() {
     var sel = window.getSelection();
     if (!sel || sel.isCollapsed || !sel.rangeCount) return;
-    var r = sel.getRangeAt(0);
-    var blk = (r.startContainer.nodeType === 1 ? r.startContainer : r.startContainer.parentNode).closest('.blk');
+    var r = sel.getRangeAt(0), blk = blkOf(r.startContainer) || blkOf(r.endContainer);
     var sec = blk && blk.closest('.sec');
-    if (!blk || !sec || !state.article.contains(sec)) return;
-    if (!blk.contains(r.endContainer)) { TDC.ui.toast(TDC.t('annot.oneBlock')); return; }
-    var st = offsetOf(blk, r.startContainer, r.startOffset), en = offsetOf(blk, r.endContainer, r.endOffset);
-    if (st < 0 || en <= st) return;
-    var hl = { id: U.uid('h'), block: blk.dataset.block, lang: TDC.i18n.lang, start: st, end: en, color: state.color, text: r.toString().slice(0, 200) };
+    if (!blk || !sec || !state.article || !state.article.contains(sec)) return;
+    // Clip to the block: a triple-click or a drag from the margin reaches just past it. Only reject real multi-block text.
+    var c = r.cloneRange();
+    if (!blk.contains(c.startContainer)) c.setStart(blk, 0);
+    if (!blk.contains(c.endContainer)) c.setEnd(blk, blk.childNodes.length);
+    if (r.toString().trim().length > c.toString().trim().length) { TDC.ui.toast(TDC.t('annot.oneBlock')); return; }
+    var st = offsetOf(blk, c.startContainer, c.startOffset), en = offsetOf(blk, c.endContainer, c.endOffset);
+    if (en <= st) return;
+    var hl = { id: U.uid('h'), block: blk.dataset.block, lang: TDC.i18n.lang, start: st, end: en, color: state.color, text: c.toString().slice(0, 200) };
     sel.removeAllRanges();
     addItem(sec, 'highlights', hl);
   }
@@ -224,7 +236,7 @@
     var sr = sec.getBoundingClientRect();
     var raw = [[e.clientX, e.clientY]];
     var preview = svg(state.tool === 'box' ? 'rect' : state.tool === 'arrow' ? 'line' : 'path', {
-      stroke: state.color, 'stroke-width': state.tool === 'hl' ? 16 : state.width, fill: 'none', 'stroke-linecap': 'round', 'stroke-linejoin': 'round',
+      stroke: state.color, 'stroke-width': strokeW(state.tool), fill: 'none', 'stroke-linecap': 'round', 'stroke-linejoin': 'round',
       class: state.tool === 'hl' ? 'annot-hl' : null, 'marker-end': state.tool === 'arrow' ? arrowHead(state.color) : null });
     layer.appendChild(preview);
     function draw() {
@@ -248,7 +260,7 @@
       preview.remove();
       if ((state.tool === 'arrow' || state.tool === 'box') && raw.length < 2) return;
       var pts = state.tool === 'arrow' || state.tool === 'box' ? [raw[0], raw[raw.length - 1]] : raw;
-      addItem(sec, 'strokes', { id: U.uid('s'), tool: state.tool, color: state.color, w: state.tool === 'hl' ? 16 : state.width, block: blockId,
+      addItem(sec, 'strokes', { id: U.uid('s'), tool: state.tool, color: state.color, w: strokeW(state.tool), block: blockId,
         pts: pts.map(function (p) { return toLocal(sec, blockId, p[0], p[1]); }) });
     }
     cap.addEventListener('pointermove', mv); cap.addEventListener('pointerup', up); cap.addEventListener('pointercancel', up);
@@ -291,6 +303,7 @@
     document.body.classList.toggle('annot-marking', t === 'mark');
     document.body.dataset.annotTool = t;
     if (bar) bar.querySelectorAll('[data-tool]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.tool === t)); });
+    if (t === 'mark') setTimeout(captureSelection, 0);   // text selected before the tool was picked
   }
   A.setTool = setTool;
   function updateUndoButtons() {
@@ -336,7 +349,7 @@
   }
   function toolbar() {
     var tools = [['none', '🖱', 'annot.select'], ['pen', '✏️', 'annot.pen'], ['hl', '🖍', 'annot.highlighter'], ['mark', '🅰', 'annot.textmark'],
-      ['arrow', '↗', 'annot.arrow'], ['box', '▭', 'annot.box'], ['sticky', '🗒', 'annot.sticky'], ['eraser', '🧽', 'annot.eraser']];
+      ['arrow', '↗', 'annot.arrow'], ['box', '▭', 'annot.box'], ['sticky', '📝', 'annot.sticky'], ['eraser', '🧽', 'annot.eraser']];
     var body = el('div', { class: 'annot-tools', id: 'annot-tools' }, [
       el('div', lbl('annot.tools', { class: 'annot-group', role: 'toolbar' }, true), tools.map(function (t) {
         return el('button', lbl(t[2], { class: 'annot-btn', dataset: { tool: t[0] }, 'aria-pressed': 'false', onclick: function () { setTool(state.tool === t[0] ? 'none' : t[0]); } }), t[1]);
@@ -388,6 +401,10 @@
     TDC.i18n.applyStatic(bar);
     setTool('none');
     var onUp = function () { if (state.tool === 'mark') setTimeout(captureSelection, 0); };
+    var onKeyUp = function (e) { if (state.tool === 'mark' && e.key === 'Shift') setTimeout(captureSelection, 0); };   // Shift+arrow selection (caret browsing), taken when Shift is released
+    // Touch/pen selection (long-press, then handles) ends without a pointerup on the page: take it once it settles.
+    var lastPointer = 'mouse', onPDown = function (e) { lastPointer = e.pointerType; };
+    var onSelChange = U.debounce(function () { if (state.tool === 'mark' && lastPointer !== 'mouse') captureSelection(); }, 900);
     var onKey = function (e) {
       if (e.target.closest && e.target.closest('input, textarea, [contenteditable]')) return;
       if (e.key === 'Escape') setTool('none');
@@ -397,11 +414,15 @@
     var onMarkClick = function (e) {
       var m = e.target.closest && e.target.closest('mark.annot-mark');
       if (!m || !(state.tool === 'mark' || state.tool === 'eraser')) return;
+      if (state.tool === 'mark' && !window.getSelection().isCollapsed) return;   // a drag inside a mark marks again, not removes
       var sec = m.closest('.sec'), h = S().section(sec.dataset.section).highlights.find(function (x) { return x.id === m.dataset.id; });
       if (h) removeItem(sec, 'highlights', h);
     };
     document.addEventListener('pointerup', onUp);
     document.addEventListener('keydown', onKey);
+    document.addEventListener('keyup', onKeyUp);
+    document.addEventListener('pointerdown', onPDown, true);
+    document.addEventListener('selectionchange', onSelChange);
     article.addEventListener('click', onMarkClick);
     var ro = new ResizeObserver(U.debounce(A.refreshAll, 120));
     ro.observe(article);
@@ -414,6 +435,8 @@
     TDC.render.onCleanup(function () {
       ro.disconnect(); offs.forEach(function (f) { f(); });
       document.removeEventListener('pointerup', onUp); document.removeEventListener('keydown', onKey);
+      document.removeEventListener('keyup', onKeyUp); document.removeEventListener('pointerdown', onPDown, true);
+      document.removeEventListener('selectionchange', onSelChange);
       if (bar) bar.remove(); bar = null; catcher.remove(); setTool('none'); state.article = null;
     });
   };

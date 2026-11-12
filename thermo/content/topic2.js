@@ -554,7 +554,7 @@
       { id: "t2-q21", mode: "practice", type: "match", difficulty: 1,
         prompt: T("Match the type of flow with its Reynolds number range.", "Yhdistä virtaustyyppi ja Reynoldsin luvun alue."),
         left: [{ id: "lam", html: T("laminar flow", "laminaarinen virtaus") }, { id: "tur", html: T("turbulent flow", "turbulentti virtaus") }, { id: "mix", html: T("mixture of both", "molempien sekamuoto") }],
-        right: [{ id: "r2", html: T("R_e > 3000", "R_e > 3000") }, { id: "r3", html: T("2000 < R_e < 3000", "2000 < R_e < 3000") }, { id: "r1", html: T("R_e < 2000", "R_e < 2000") }],
+        right: [{ id: "r2", html: T("<f>R_e > 3000</f>", "<f>R_e > 3000</f>") }, { id: "r3", html: T("<f>2000 < R_e < 3000</f>", "<f>2000 < R_e < 3000</f>") }, { id: "r1", html: T("<f>R_e < 2000</f>", "<f>R_e < 2000</f>") }],
         hints: [{ en: "Small Reynolds number means viscous forces win: smooth layers.", fi: "Pieni Reynoldsin luku tarkoittaa, että viskoosit voimat voittavat: tasaiset kerrokset." }] },
       { id: "t2-q22", mode: "practice", type: "numeric", difficulty: 2, tol: 0.02,
         prompt: T("Oil (ρ = 880 kg/m³, η = 0.20 Pa·s) flows at 1.5 m/s in a pipe of diameter 50 mm. Find the Reynolds number.", "Öljy (ρ = 880 kg/m³, η = 0,20 Pa·s) virtaa 1,5 m/s nopeudella 50 mm:n putkessa. Laske Reynoldsin luku."),

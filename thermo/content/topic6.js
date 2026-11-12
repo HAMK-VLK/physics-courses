@@ -332,7 +332,7 @@
       },
       // ------------------------------------------------------------------ 4
       {
-        id: "t6-cpcv", title: T("Energy and power equations: c_p and c_V", "Energia- ja tehoyhtälöt: c_p ja c_V"),
+        id: "t6-cpcv", title: T("Heating at constant volume or constant pressure", "Lämmitys vakiotilavuudessa tai vakiopaineessa"),
         blocks: [
           { id: "t6-cp-p1", type: "text", html: T(
             "<p>Energy and power equations are the base for designing simple heating or cooling systems, and systems where heat is moved from one place to another. The subscripts <em>V</em> and <em>p</em> mean heating at constant volume or at constant pressure.</p>",
@@ -391,7 +391,7 @@
           { id: "t6-lat-f1", type: "formula", key: true, tex: "Q_F = m L_F,   Q_V = m L_V", label: T("Energy of melting/freezing and vaporization/condensation", "Sulamisen/jähmettymisen ja höyrystymisen/tiivistymisen energia"),
             legend: [["L_F", T("heat of fusion", "sulamislämpö"), "J/kg"], ["L_V", T("heat of vaporization", "höyrystymislämpö"), "J/kg"]] },
           { id: "t6-lat-t1", type: "table", caption: T("Latent heats (1 atm)", "Piilevät lämmöt (1 atm)"),
-            head: [T("Substance", "Aine"), T("Melting point (°C)", "Sulamispiste (°C)"), "L_F (kJ/kg)", T("Boiling point (°C)", "Kiehumispiste (°C)"), "L_V (kJ/kg)"],
+            head: [T("Substance", "Aine"), T("Melting point (°C)", "Sulamispiste (°C)"), { tex: "L_F / (kJ/kg)" }, T("Boiling point (°C)", "Kiehumispiste (°C)"), { tex: "L_V / (kJ/kg)" }],
             rows: [
               [T("Oxygen", "Happi"), "−218.8", "14", "−183", "210"], [T("Nitrogen", "Typpi"), "−210.0", "26", "−195.8", "200"],
               [T("Ethyl alcohol", "Etanoli"), "−114", "104", "78", "850"], [T("Ammonia", "Ammoniakki"), "−77.8", "33", "−33.4", "137"],

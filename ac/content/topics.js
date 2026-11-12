@@ -23,6 +23,6 @@
     { id: 't10', num: 10, color: 'var(--t5)',
       title: { en: 'Parallel AC circuits', fi: 'Rinnakkaiset vaihtosähköpiirit' },
       summary: { en: 'Admittance, conductance and susceptance; parallel RC, RL and RLC circuits with current phasors, parallel resonance and power factor correction.', fi: 'Admittanssi, konduktanssi ja suskeptanssi; RC-, RL- ja RLC-rinnankytkennät virtaosoittimin, rinnakkaisresonanssi ja tehokertoimen parantaminen.' },
-      icon: '<svg viewBox="0 0 64 64"><path ' + S + ' d="M8 12h48M8 52h48M20 12v40M44 12v14M44 38v14"/><rect ' + S + ' x="15" y="24" width="10" height="16" rx="1"/><path ' + S + ' d="M36 26h16M36 38h16"/></svg>' }
+      icon: '<svg viewBox="0 0 64 64"><path ' + S + ' d="M8 12h48M8 52h48M20 12v12M20 40v12M44 12v14M44 38v14"/><rect ' + S + ' x="15" y="24" width="10" height="16" rx="1"/><path ' + S + ' d="M36 26h16M36 38h16"/></svg>' }
   ];
 })();

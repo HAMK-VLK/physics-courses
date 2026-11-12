@@ -113,7 +113,7 @@
       TV.font(g, fs - 1, 500);
       TV.text(g, ctx.tx(T('brass', 'messinki')), x0 + 6, y0 - 22, ctx.color('--c-2'), 'left');
       TV.text(g, ctx.tx(T('steel', 'teräs')), x0 + 6, y0 + 24, ctx.color('--c-1'), 'left');
-      TV.text(g, ctx.tx(T('contact', 'koskettimet')), xt, yc - 20, fg, 'center');
+      TV.text(g, ctx.tx(T('contact', 'koskettimet')), xt + 14, yc - 14, fg, 'left');   // beside the wire, not across it
       TV.text(g, ctx.tx(T('bend exaggerated', 'taipuma liioiteltu')), w - 8, h - 12, mu, 'right');
     },
     outputs: function (p) {
@@ -207,7 +207,7 @@
       TV.font(g, fs - 1, 500);
       TV.text(g, ctx.tx(T('anchor', 'kiintopiste')), xa - 6, yc + hp + 36, mu, 'left');
       TV.text(g, ctx.tx(T('anchor', 'kiintopiste')), xb + 6, yc + hp + 36, mu, 'right');
-      TV.text(g, ctx.tx(T('expansion joint', 'laajennusjousto')), xm, yc + hp + 26, fg, 'center');
+      TV.text(g, ctx.tx(T('expansion joint', 'paljekompensaattori')), xm, yc + hp + 26, fg, 'center');
       TV.text(g, 't = ' + nf(p.t, 3) + ' °C   l₀ = ' + nf(p.L, 3) + ' m', 8, h - 12, mu, 'left');
     },
     outputs: function (p) {
@@ -215,7 +215,7 @@
       return [
         { tex: 'Δt', value: p.t - 10, unit: '°C', digits: 3 },
         { tex: 'Δl', value: dl, unit: 'm', digits: 3 },
-        { label: T('Joints needed', 'Tarvittavia jouston kappaleita'), value: String(n), warn: n > 1 }
+        { label: T('Joints needed', 'Tarvittavia kompensaattoreita'), value: String(n), warn: n > 1 }
       ];
     },
     answer: function (p) { return { v: TDC.thermo.linExp(STEEL, p.L, p.t - 10) }; }
@@ -414,8 +414,8 @@
           { id: 't3-s-f1', type: 'formula', key: true, tex: 'Δl = α · l_0 · ΔT,  l = l_0 + Δl', label: T('Linear expansion', 'Pituuden lämpölaajeneminen'),
             legend: [['α', T('coefficient of linear expansion', 'pituuden lämpötilakerroin'), '1/K'], ['l_0', T('original length', 'alkuperäinen pituus'), 'm'], ['ΔT', T('temperature change', 'lämpötilan muutos'), 'K']] },
           { id: 't3-s-p2', type: 'text', html: T(
-            '<p>Area growth is linear growth in two directions: <f>A = l² = l_0²(1 + αΔT)² = A_0[1 + 2αΔT + (αΔT)²] ≈ A_0(1 + 2αΔT)</f>, because <f>(αΔT)²</f> is negligible (α is tiny). Likewise for volume, where the second and third order terms are neglected:</p>',
-            '<p>Pinta-alan kasvu on pituuden kasvu kahdessa suunnassa: <f>A = l² = l_0²(1 + αΔT)² = A_0[1 + 2αΔT + (αΔT)²] ≈ A_0(1 + 2αΔT)</f>, koska <f>(αΔT)²</f> on mitätön (α on pieni). Samoin tilavuudelle, jossa toisen ja kolmannen asteen termit jätetään pois:</p>') },
+            '<p>Area growth is linear growth in two directions: <f>A = l² = l_0²(1 + αΔT)²</f> <f>= A_0[1 + 2αΔT + (αΔT)²]</f> <f>≈ A_0(1 + 2αΔT)</f>, because <f>(αΔT)²</f> is negligible (α is tiny). Likewise for volume, where the second and third order terms are neglected:</p>',
+            '<p>Pinta-alan kasvu on pituuden kasvu kahdessa suunnassa: <f>A = l² = l_0²(1 + αΔT)²</f> <f>= A_0[1 + 2αΔT + (αΔT)²]</f> <f>≈ A_0(1 + 2αΔT)</f>, koska <f>(αΔT)²</f> on mitätön (α on pieni). Samoin tilavuudelle, jossa toisen ja kolmannen asteen termit jätetään pois:</p>') },
           { id: 't3-s-f2', type: 'formula', key: true, tex: 'ΔA = α_A · A_0 · ΔT,  α_A = 2α', label: T('Area expansion', 'Pinta-alan lämpölaajeneminen') },
           { id: 't3-s-f3', type: 'formula', key: true, tex: 'ΔV = α_V · V_0 · ΔT,  α_V = 3α', label: T('Volume expansion', 'Tilavuuden lämpölaajeneminen') },
           { id: 't3-s-tab', type: 'table', caption: T('Coefficients of expansion near 20 °C, unit 1/K (the slide writes (C°)⁻¹, the same thing)', 'Lämpötilakertoimet 20 °C:n lähellä, yksikkö 1/K (kalvossa (C°)⁻¹, sama asia)'),
@@ -581,12 +581,12 @@
             caption: T('Set the rail temperature. Above 20 °C it is squeezed, below 20 °C it is stretched. The gauge compares the stress with the yield strength of S235 steel (235 MPa).', 'Aseta kiskon lämpötila. Yli 20 °C:ssa se puristuu, alle 20 °C:ssa se venyy. Mittari vertaa jännitystä S235-teräksen myötörajaan (235 MPa).'),
             config: dev(STRESS) },
           { id: 't3-q17-blk', type: 'question', q: 't3-q17' },
-          { id: 't3-st-h2', type: 'h', text: T('Device example: expansion joint in a heating pipeline', 'Laiteesimerkki: kaukolämpöputken laajennusjousto') },
+          { id: 't3-st-h2', type: 'h', text: T('Device example: expansion joint in a heating pipeline', 'Laiteesimerkki: kaukolämpöputken paljekompensaattori') },
           { id: 't3-st-p3', type: 'text', html: T(
             '<p>A steam or district-heating pipe is laid at about 10 °C and carries water at over 100 °C. A steel pipe of 100 m grows by 12·10<sup>-6</sup> · 100 · 120 = 0.144 m. If the pipe is anchored at both ends it would develop an enormous thermal stress (σ = αEΔT ≈ 290 MPa, more than steel can carry), so an <b>expansion joint</b> (a bellows) takes up the movement. Each bellows can absorb only a limited stroke <em>c</em>.</p>',
-            '<p>Höyry- tai kaukolämpöputki asennetaan noin 10 °C:ssa ja sen läpi virtaa yli 100-asteista vettä. 100 m teräsputki pitenee 12·10<sup>-6</sup> · 100 · 120 = 0,144 m. Jos putki ankkuroitaisiin molemmista päistä, siihen syntyisi valtava lämpöjännitys (σ = αEΔT ≈ 290 MPa, enemmän kuin teräs kestää), joten <b>laajennusjousto</b> (palje) ottaa liikkeen vastaan. Yksi palje voi vastaanottaa vain rajallisen liikkeen <em>c</em>.</p>') },
+            '<p>Höyry- tai kaukolämpöputki asennetaan noin 10 °C:ssa ja sen läpi virtaa yli 100-asteista vettä. 100 m teräsputki pitenee 12·10<sup>-6</sup> · 100 · 120 = 0,144 m. Jos putki ankkuroitaisiin molemmista päistä, siihen syntyisi valtava lämpöjännitys (σ = αEΔT ≈ 290 MPa, enemmän kuin teräs kestää), joten <b>paljekompensaattori</b> ottaa liikkeen vastaan. Yksi palje voi vastaanottaa vain rajallisen liikkeen <em>c</em>.</p>') },
           { id: 't3-st-pipe', type: 'interactive', widget: 'custom', title: T('Pipeline between two anchors', 'Putkilinja kahden kiintopisteen välissä'),
-            caption: T('Lengthen the pipe or heat the medium. When the expansion exceeds the stroke of the bellows, more joints are needed. The pipe is laid at 10 °C.', 'Pidennä putkea tai lämmitä väliainetta. Kun laajeneminen ylittää paljeen liikkeen, tarvitaan lisää jousto-osia. Putki on asennettu 10 °C:ssa.'),
+            caption: T('Lengthen the pipe or heat the medium. When the expansion exceeds the stroke of the bellows, more joints are needed. The pipe is laid at 10 °C.', 'Pidennä putkea tai lämmitä väliainetta. Kun laajeneminen ylittää palkeen liikkeen, tarvitaan lisää kompensaattoreita. Putki on asennettu 10 °C:ssa.'),
             config: dev(PIPE) },
           { id: 't3-q18-blk', type: 'question', q: 't3-q18' },
           { id: 't3-q19-blk', type: 'question', q: 't3-q19' }

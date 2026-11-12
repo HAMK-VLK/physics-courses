@@ -76,7 +76,7 @@
       function X(t) { return o.x0 + (t - S.tmin) / (S.tmax - S.tmin) * (o.x1 - o.x0); }
       function Y(p) { return o.y1 - (Math.log10(p) - lo) / (hi - lo) * (o.y1 - o.y0); }
       function draw(g, w, h) {
-        o = { x0: 50, y0: 16, x1: w - 14, y1: h - 40 };
+        o = { x0: 50, y0: 30, x1: w - 22, y1: h - 40 };   // room for the axis name above and the last tick on the right
         var p = F.p(), fg = ctx.color('--fg'), muted = ctx.color('--muted'), bg = ctx.color('--surface-2');
         g.clearRect(0, 0, w, h);
         var fills = {}; Object.keys(PHCOL).forEach(function (k) { fills[k] = TV.alpha(ctx.color(PHCOL[k]), 0.28); });
@@ -88,11 +88,11 @@
         for (var k = Math.ceil(lo); k <= hi; k++) {
           var pk = Math.pow(10, k);
           g.strokeStyle = ctx.color('--line'); g.lineWidth = 1; g.beginPath(); g.moveTo(o.x0, Y(pk)); g.lineTo(o.x1, Y(pk)); g.stroke();
-          TV.text(g, k >= 4 ? '10^' + k : String(pk), o.x0 - 5, Y(pk), muted, 'right');
+          TV.text(g, k >= 4 ? '10' + '⁰¹²³⁴⁵⁶⁷⁸⁹'[k] : String(pk), o.x0 - 5, Y(pk), muted, 'right');
         }
         V.niceTicks(S.tmin, S.tmax, 6).forEach(function (tt) { TV.text(g, String(tt), X(tt), o.y1 + 10, muted, 'center'); });
         g.strokeStyle = muted; g.lineWidth = 1.5; g.strokeRect(o.x0, o.y0, o.x1 - o.x0, o.y1 - o.y0);
-        TV.font(g, 12, 600); TV.text(g, 't / °C', o.x1, o.y1 + 26, muted, 'right'); TV.text(g, 'p / kPa', o.x0 - 4, o.y0 - 7, muted, 'left');
+        TV.font(g, 12, 600); TV.text(g, 't / °C', o.x1, o.y1 + 26, muted, 'right'); TV.text(g, 'p / kPa', o.x0 - 4, o.y0 - 16, muted, 'left');
         // phase boundaries
         g.strokeStyle = fg; g.lineWidth = 2.2; g.setLineDash([]);
         var curve = function (fn, a, b, n) { g.beginPath(); for (var i = 0; i <= n; i++) { var q = fn(a + (b - a) * i / n); if (i) g.lineTo(q[0], q[1]); else g.moveTo(q[0], q[1]); } g.stroke(); };
@@ -110,7 +110,7 @@
         TV.font(g, 12, 700);
         var names = opt.sub === 'co2' ? [['solid', -85, 30000], ['liquid', 8, 20000], ['gas', 20, 300], ['super', 45, 60000]]
                                       : [['solid', -30, 1000], ['liquid', 130, 20000], ['gas', 200, 5], ['super', 370, 60000]];
-        names.forEach(function (r) { TV.text(g, ctx.tx(PHNAME[r[0]]), X(r[1]), Y(r[2]), fg, 'center'); });
+        names.forEach(function (r) { var sup = r[0] === 'super'; TV.text(g, ctx.tx(PHNAME[r[0]]), sup ? o.x1 - 6 : X(r[1]), Y(r[2]), fg, sup ? 'right' : 'center'); });   // the supercritical corner is narrow: right-align so the name stays inside
         g.fillStyle = ctx.color('--c-flow'); g.strokeStyle = ctx.color('--surface'); g.lineWidth = 2.5; g.beginPath(); g.arc(X(p.t), Y(p.p), 8, 0, 7); g.fill(); g.stroke();
       }
       TV.drag(cv.canvas, function (x, y) { return x >= o.x0 - 6 && x <= o.x1 + 6 && y >= o.y0 - 6 && y <= o.y1 + 6; }, function (x, y) {
@@ -380,7 +380,7 @@
     { id: 't5-q20', mode: 'graded', type: 'match', difficulty: 1, points: 2,
       prompt: T('Match each quantity with its description.', 'Yhdistä suure ja sen kuvaus.'),
       left: [{ id: 'a', html: T('absolute humidity', 'absoluuttinen kosteus') }, { id: 'b', html: T('relative humidity', 'suhteellinen kosteus') }, { id: 'c', html: T('dew point', 'kastepiste') }, { id: 'd', html: T('supersaturation', 'ylikyllästyminen') }],
-      right: [{ id: 'r1', html: T('RH > 100 %', 'RH > 100 %') }, { id: 'r2', html: T('temperature at which p_v = p_vs', 'lämpötila, jossa p_v = p_vs') }, { id: 'r3', html: T('mass of vapour per volume of air', 'vesihöyryn massa ilmatilavuutta kohti') }, { id: 'r4', html: T('p_v / p_vs', 'p_v / p_vs') }],
+      right: [{ id: 'r1', html: T('<f>φ > 100 %</f>', '<f>φ > 100 %</f>') }, { id: 'r2', html: T('temperature at which <f>p_v = p_{vs}</f>', 'lämpötila, jossa <f>p_v = p_{vs}</f>') }, { id: 'r3', html: T('mass of vapour per volume of air', 'vesihöyryn massa ilmatilavuutta kohti') }, { id: 'r4', html: T('<f>p_v / p_{vs}</f>', '<f>p_v / p_{vs}</f>') }],
       hints: [T('Absolute = per volume; relative = a ratio.', 'Absoluuttinen = tilavuutta kohti; suhteellinen = suhdeluku.')] },
     { id: 't5-q21', mode: 'graded', type: 'numeric', difficulty: 3, points: 2, tol: 0.03,
       prompt: T('An electrical cabinet of 0.8 m³ holds air at 30 °C with RH = 70 %. The temperature drops to 10 °C at night (the volume is constant). How many grams of water condense? Use the saturation table.', 'Sähkökotelon tilavuus on 0,8 m³ ja siinä on ilmaa 30 °C:ssa, RH = 70 %. Lämpötila laskee yöllä 10 °C:seen (tilavuus on vakio). Montako grammaa vettä tiivistyy? Käytä kyllästystaulukkoa.'),
