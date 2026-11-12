@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-V/N1ooQSh7wL2AsYGB/UX/aaaCyas+QQJV4KonrlRlY='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fluids, Heat and Thermodynamics · Responsive materials</title>
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="assets/img/favicon.svg?v=cc48bef034" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/tokens.css?v=7a0b66e56b">
+<link rel="stylesheet" href="assets/css/main.css?v=a5764bf54d">
+<link rel="stylesheet" href="assets/css/widgets.css?v=1a0e300fb2">
+<script>
+  // Apply saved theme before first paint to avoid a flash of the wrong theme.
+  (function () {
+    try {
+      var p = JSON.parse(localStorage.getItem('fht.prefs') || '{}'), q = {};
+      try { q = JSON.parse(localStorage.getItem('phys.prefs')) || {}; } catch (e) {}   // landing page choice: fallback on a first visit
+      var t = p.theme || q.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', t);
+      var l = p.lang || q.lang;
+      if (l) document.documentElement.setAttribute('lang', l);
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to content</a>
+
+<header class="app-header" id="app-header">
+  <a class="brand" href="#/" aria-label="Home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M13 18.6V6.5a3 3 0 0 1 6 0v12.1a5.6 5.6 0 1 1-6 0z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M16 22.5V10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><circle cx="16" cy="23" r="2.6" fill="currentColor"/></svg>
+    <span class="brand-text"><b>Ph2</b> <span data-i18n="app.short">Thermo</span></span>
+  </a>
+  <nav class="crumbs" id="crumbs" aria-label="Breadcrumb"></nav>
+  <div class="header-actions">
+    <span class="save-status" id="save-status" role="status" aria-live="polite"></span>
+    <button class="icon-btn" id="btn-tools" aria-haspopup="true" data-i18n-title="tools.title" data-i18n-aria="tools.title">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+    </button>
+    <button class="icon-btn" id="btn-notes" aria-haspopup="true" data-i18n-title="notes.title" data-i18n-aria="notes.title">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6z M14 3v5h5 M9 12h7 M9 16h5"/></svg>
+    </button>
+    <button class="lang-btn" id="btn-lang" data-i18n-title="pref.lang" data-i18n-aria="pref.lang"><span>EN</span><span>FI</span></button>
+    <button class="icon-btn" id="btn-theme" data-i18n-title="pref.theme" data-i18n-aria="pref.theme">
+      <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>
+      <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg>
+    </button>
+  </div>
+</header>
+
+
+<main id="main" tabindex="-1"></main>
+
+<div class="drawer-host" id="drawer-host"></div>
+<div class="modal-host" id="modal-host"></div>
+<div class="toast-host" id="toast-host" aria-live="polite"></div>
+
+<noscript><p style="padding:2rem">This material needs JavaScript. / Tämä materiaali vaatii JavaScriptin.</p></noscript>
+
+<!-- Core (classic scripts only: ES modules are blocked on file://) -->
+<script src="assets/js/core/tdc.js?v=2f64947749"></script>
+<script src="assets/js/core/i18n.js?v=034b7fea06"></script>
+<script src="lang/ui.js?v=d0c8845840"></script>
+<script src="assets/js/core/theme.js?v=9b73047cfd"></script>
+<script src="assets/js/core/ui.js?v=63420fcae2"></script>
+<script src="assets/js/core/answer-norm.js?v=86c3b2309d"></script>
+<script src="assets/js/core/scoring.js?v=700bbb0a70"></script>
+<script src="assets/js/core/calc.js?v=e901305fff"></script>
+<script src="assets/js/core/crypto.js?v=f3ba19138d"></script>
+<script src="assets/js/core/store.js?v=f58e8ade8b"></script>
+<script src="assets/js/core/formula.js?v=489525cb7b"></script>
+<script src="assets/js/core/render.js?v=5e84ee45a5"></script>
+<script src="assets/js/core/colorpicker.js?v=32179fa64b"></script>
+<script src="assets/js/core/annotate.js?v=4a13ff8cd0"></script>
+<script src="assets/js/core/quiz.js?v=ab4d814f95"></script>
+<script src="assets/js/core/tools.js?v=c1b6b6c9e5"></script>
+<script src="assets/js/core/router.js?v=a27c49e903"></script>
+<!-- Simulation & visualisation widgets -->
+<script src="assets/vendor/three.min.js?v=8a5f724990"></script>
+<script src="assets/js/sim/circuit.js?v=7bf5586d8f"></script>
+<script src="assets/js/sim/circuit-view.js?v=311b019c8f"></script>
+<script src="assets/js/viz/plot.js?v=21954bed4b"></script>
+<script src="assets/js/viz/three-widget.js?v=1bd84b142c"></script>
+<script src="assets/js/viz/widgets-common.js?v=6b64705f1b"></script>
+<script src="assets/js/viz/thermo-model.js?v=b2bae3c813"></script>
+<script src="assets/js/viz/thermo-common.js?v=75e1ac9129"></script>
+<script src="assets/js/viz/thermo-fluids.js?v=edc7993de8"></script>
+<script src="assets/js/viz/thermo-gas.js?v=a761424f4c"></script>
+<script src="assets/js/viz/thermo-heat.js?v=cf0699bd38"></script>
+<!-- Content -->
+<script src="content/topics.js?v=7cd8f24e33"></script>
+<script src="content/topic0.js?v=98fa059d97"></script>
+<script src="content/topic1.js?v=2da1ef2fcd"></script>
+<script src="content/topic2.js?v=d79175cf2a"></script>
+<script src="content/topic3.js?v=a43fdd58f6"></script>
+<script src="content/topic4.js?v=c05ae6b12a"></script>
+<script src="content/topic5.js?v=e56ed6500e"></script>
+<script src="content/topic6.js?v=21fbd14e39"></script>
+<script src="content/topic7.js?v=9c26d99ca9"></script>
+<!-- Generated answer keys (hashed / encrypted; see tools/build-keys.mjs) -->
+<script src="assets/data/keys.js?v=5406382ea4"></script>
+<script src="assets/js/core/boot.js?v=d4b5ce35d7"></script>
+</body>
+</html>

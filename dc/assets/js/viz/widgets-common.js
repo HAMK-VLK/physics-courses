@@ -30,7 +30,7 @@
   };
 
   /** Canvas text with the same X_y / X^y notation as formulas: "V_N", "R_{eq}" draw a real lowered/raised script. */
-  var SCRIPT = /([_^])(\{[^}]*\}|[A-Za-z0-9]+)/g;
+  var SCRIPT = /([_^])(\{[^}]*\}|[A-Za-z0-9Ͱ-Ͽ]+)/g;   // Greek too: "M_λ"
   function richText(g) {
     var plain = g.fillText;
     g.fillText = function (s, x, y) {

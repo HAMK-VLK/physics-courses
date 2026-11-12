@@ -102,7 +102,7 @@
     digits = digits || 3;
     if (!unit) return fmtNum(v, digits);   // a bare prefix is unreadable: x/d = 0.25, not "250 m"
     // %, °C, 1/°C and units whose first symbol is squared (mm²) take no prefix: "2.6 k°C", "500 mmm²" are wrong
-    if (!/^[A-Za-zΩµμ]/.test(unit) || /^[^\/]*[²³]/.test(unit)) return fmtNum(v, digits) + ' ' + unit;
+    if (!/^[A-Za-zΩµμ]/.test(unit) || /^[^\/]*[²³]/.test(unit) || /^(kg|K|bar)(?![A-Za-z])/.test(unit)) return fmtNum(v, digits) + ' ' + unit;
     // an already prefixed unit is rescaled to its base: 1000 nΩ·m -> "1 µΩ·m", never "1 knΩ·m"
     var pu = /^([pnµμmkMG])(Ω·m|Ω|V|A|W|F|H|S|J|C|Wh|Hz|s|m)$/.exec(unit);
     if (pu) { v *= SIPRE[pu[1]]; unit = pu[2]; }

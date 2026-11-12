@@ -72,6 +72,25 @@ h1 { margin: .2em 0 .3em; font: 700 clamp(1.9rem, 3.2vw + 1rem, 2.9rem)/1.2 var(
   transition: transform .2s var(--ease), box-shadow .2s var(--ease), border-color .2s; cursor: pointer;
 }
 .card-ac { --accent: var(--t2); }
+.card-thermo { --accent: var(--t3); }
+/* Thermo: the piston compresses the gas; the molecules crowd into y 41…54 under it, jitter and turn red. */
+.card-thermo .art { --cold: #1f7fd6; --hot: #d6312b; }
+:root[data-theme="dark"] .card-thermo .art { --ink: #7fe0bf; --cold: #5cc8ff; --hot: #ff5f4d; }
+.art .head { fill: var(--surface); stroke: var(--ink); stroke-width: 2.2; }
+.art .piston, .art .m { transform-box: view-box; transition: transform .9s var(--ease); }
+.art .mol { fill: var(--cold); stroke: none; transition: fill .9s var(--ease); }
+.card.go .piston { transform: translateY(18px); }
+.card.go .mol { fill: var(--hot); animation: buzz .12s linear .4s infinite alternate; }
+.card.go .m1 { transform: translateY(15.9px); }
+.card.go .m2 { transform: translateY(12.5px); }
+.card.go .m3 { transform: translateY(17.0px); }
+.card.go .m4 { transform: translateY(5.7px); }
+.card.go .m5 { transform: translateY(3.4px); }
+.card.go .m6 { transform: translateY(7.9px); }
+.card.go .m7 { transform: translateY(0.0px); }
+.card.go .m8 { transform: translateY(0.0px); }
+.card.go .m9 { transform: translateY(11.3px); }
+@keyframes buzz { from { transform: translate(-1px, .6px); } to { transform: translate(1px, -.6px); } }
 .card::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 4px; background: var(--accent); }
 .card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: var(--accent); }
 .card h2 { margin: .2rem 0 0; font: 650 1.35rem/1.25 var(--font-head); overflow-wrap: anywhere; hyphens: auto; }

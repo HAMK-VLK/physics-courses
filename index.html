@@ -5,11 +5,11 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-cCzrmv+1ZCsikXsDIa3vxdvgiWqW33USmjHxiFGVEnU='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Electrical engineering courses · HAMK</title>
+<title>Physics and electrical engineering courses · HAMK</title>
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="favicon.svg?v=e45cb06618" type="image/svg+xml">
 <link rel="stylesheet" href="tokens.css?v=3f46a9041d">
-<link rel="stylesheet" href="landing.css?v=d6a4bba931">
+<link rel="stylesheet" href="landing.css?v=82939b29e1">
 <script>
   // Apply saved theme/language before first paint to avoid a flash of the wrong theme.
   (function () {
@@ -39,8 +39,8 @@
 <main>
   <section class="hero">
     <p class="eyebrow" data-i18n="eyebrow">HAMK · Self-study materials</p>
-    <h1 data-i18n="title">Electrical engineering courses</h1>
-    <p class="lead" data-i18n="intro">Interactive, bilingual self-study courses with live circuit diagrams and instantly checked exercises. Your work stays in your own browser.</p>
+    <h1 data-i18n="title">Physics and electrical engineering courses</h1>
+    <p class="lead" data-i18n="intro">Interactive, bilingual self-study courses with live diagrams and simulations and instantly checked exercises. Your work stays in your own browser.</p>
   </section>
 
   <ul class="grid">
@@ -69,11 +69,24 @@
       </div>
       <a class="btn" href="ac/index.html"></a>
     </li>
+    <li class="card card-thermo" data-key="fht.summary" data-topics="7">
+      <!-- Gas piston. Click: the piston compresses the gas, the molecules crowd together, jitter and turn from blue to red
+           (compression heats the gas). -->
+      <svg class="art" viewBox="0 0 120 64" aria-hidden="true"><path class="wire" d="M30 6V58H90V6"/><g class="piston"><path class="wire" d="M60 0V14"/><rect class="head" x="32" y="14" width="56" height="6" rx="1.5"/></g><g class="m m1"><circle class="mol" cx="40" cy="26" r="3"/></g><g class="m m2"><circle class="mol" cx="56" cy="32" r="3"/></g><g class="m m3"><circle class="mol" cx="76" cy="24" r="3"/></g><g class="m m4"><circle class="mol" cx="46" cy="44" r="3"/></g><g class="m m5"><circle class="mol" cx="66" cy="48" r="3"/></g><g class="m m6"><circle class="mol" cx="82" cy="40" r="3"/></g><g class="m m7"><circle class="mol" cx="38" cy="54" r="3"/></g><g class="m m8"><circle class="mol" cx="58" cy="54" r="3"/></g><g class="m m9"><circle class="mol" cx="72" cy="34" r="3"/></g></svg>
+      <h2 data-i18n="thermo.title">Fluids, Heat and Thermodynamics</h2>
+      <p class="sum" data-i18n="thermo.lead"></p>
+      <p class="topics" data-i18n="topics"></p>
+      <div class="foot">
+        <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"><span></span></div>
+        <p class="stat"></p>
+      </div>
+      <a class="btn" href="thermo/index.html"></a>
+    </li>
   </ul>
 </main>
 
 <footer class="foot-note"><p data-i18n="footer"></p></footer>
-<noscript><p class="noscript">Open the courses: <a href="dc/index.html">DC</a> · <a href="ac/index.html">AC</a></p></noscript>
-<script src="landing.js?v=964d4ce11c"></script>
+<noscript><p class="noscript">Open the courses: <a href="dc/index.html">DC</a> · <a href="ac/index.html">AC</a> · <a href="thermo/index.html">Thermo</a></p></noscript>
+<script src="landing.js?v=01f1bdc449"></script>
 </body>
 </html>

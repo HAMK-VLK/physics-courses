@@ -1,26 +1,30 @@
-/* Landing page: EN/FI + theme (phys.prefs), progress cards from tdc.summary / tac.summary. Classic script, no network. */
+/* Landing page: EN/FI + theme (phys.prefs), progress cards from tdc.summary / tac.summary / fht.summary. Classic script, no network. */
 (function () {
   'use strict';
   var T = {
     en: {
-      eyebrow: 'HAMK · Self-study materials', title: 'Electrical engineering courses',
-      intro: 'Interactive, bilingual self-study courses with live circuit diagrams and instantly checked exercises. Your work stays in your own browser.',
+      eyebrow: 'HAMK · Self-study materials', title: 'Physics and electrical engineering courses',
+      intro: 'Interactive, bilingual self-study courses with live diagrams and simulations and instantly checked exercises. Your work stays in your own browser.',
       'dc.title': 'Theoretical Electrical Engineering DC',
       'dc.lead': 'Learn DC circuits by doing: change values, draw wires, watch the current flow, take notes right on the page and test yourself.',
       'ac.title': 'Theoretical Electrical Engineering AC',
       'ac.lead': 'Learn AC circuits by doing: change values, turn the phasors, watch voltage and current shift in phase, take notes right on the page and test yourself.',
+      'thermo.title': 'Fluids, Heat and Thermodynamics',
+      'thermo.lead': 'Learn the physics of fluids and heat by doing: dive a submarine, squeeze a gas, narrow a pipe, cool a heat sink, take notes right on the page and test yourself.',
       topics: '{n} topics', notStarted: 'Not started', open: 'Open', cont: 'Continue',
       progress: '{v} of {s} sections visited · {p} / {m} points',
       footer: 'Course material CC BY 4.0 · code MIT · provided as is. No accounts, no tracking: progress is saved only in your browser.',
       lang: 'Language', theme: 'Light or dark theme', go: 'Open course: {t}', goc: 'Continue course: {t}'
     },
     fi: {
-      eyebrow: 'HAMK · Itseopiskelumateriaali', title: 'Sähkötekniikan kurssit',
-      intro: 'Interaktiiviset, kaksikieliset itseopiskelukurssit: eläviä piirikaavioita ja heti tarkistettavia tehtäviä. Työsi pysyy omassa selaimessasi.',
+      eyebrow: 'HAMK · Itseopiskelumateriaali', title: 'Fysiikan ja sähkötekniikan kurssit',
+      intro: 'Interaktiiviset, kaksikieliset itseopiskelukurssit: eläviä kaavioita ja simulaatioita sekä heti tarkistettavia tehtäviä. Työsi pysyy omassa selaimessasi.',
       'dc.title': 'Sähkötekniikan teoria: tasavirtapiirit',
       'dc.lead': 'Opi tasavirtapiirit tekemällä: muuta arvoja, piirrä johtimia, katso virran kulkua, tee muistiinpanoja suoraan sivulle ja testaa osaamisesi.',
       'ac.title': 'Sähkötekniikan teoria: vaihtovirtapiirit',
       'ac.lead': 'Opi vaihtovirtapiirit tekemällä: muuta arvoja, pyöritä osoittimia, katso jännitteen ja virran vaihe-eroa, tee muistiinpanoja suoraan sivulle ja testaa osaamisesi.',
+      'thermo.title': 'Fluidit, lämpö ja termodynamiikka',
+      'thermo.lead': 'Opi fluidien ja lämmön fysiikkaa tekemällä: sukella sukellusveneellä, purista kaasua, kavenna putkea, jäähdytä jäähdytyslevyä, tee muistiinpanoja suoraan sivulle ja testaa osaamisesi.',
       topics: '{n} aihetta', notStarted: 'Ei aloitettu', open: 'Avaa', cont: 'Jatka',
       progress: '{v} / {s} osiota käyty · {p} / {m} pistettä',
       footer: 'Kurssimateriaali CC BY 4.0 · koodi MIT · sellaisenaan. Ei tilejä eikä seurantaa: edistyminen tallentuu vain selaimeesi.',

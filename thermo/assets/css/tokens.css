@@ -1,0 +1,83 @@
+/* Design tokens. Light = "graph paper", dark = "oscilloscope". All colours used by CSS, SVG and
+ * canvas/three.js come from here (JS reads them with TDC.theme.color('--name')). */
+:root {
+  --font-body: "Segoe UI Variable Text", "Segoe UI", Inter, Roboto, "Helvetica Neue", Arial, system-ui, sans-serif;
+  --font-head: "Segoe UI Variable Display", "Segoe UI", Inter, Roboto, system-ui, sans-serif;
+  --font-math: "Cambria Math", Cambria, "STIX Two Math", "Latin Modern Math", "Times New Roman", serif;
+  --font-mono: "Cascadia Mono", Consolas, "SF Mono", Menlo, ui-monospace, monospace;
+  --radius: 10px;
+  --radius-sm: 6px;
+  --gap: 1rem;
+  --wide: 62rem;          /* one width for every section, box and table */
+  --header-h: 56px;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+  /* topic accents (same in both themes, tuned for AA on both surfaces) */
+  --t1: #2f6fd6; --t2: #d0571a; --t3: #12936f; --t4: #8250df; --t5: #c4317a; --t6: #1688a6; --t7: #a8750c;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f4f5f1;
+  --bg-grid: rgba(40, 80, 140, .06);
+  --surface: #ffffff;
+  --surface-2: #f0f2f5;
+  --fg: #19212b;
+  --muted: #566170;
+  --line: #d6dbe2;
+  --primary: #1f5fbf;
+  --primary-fg: #ffffff;
+  --focus: #1f5fbf;
+  --ok: #1e7f4f; --ok-bg: #e5f5ec;
+  --bad: #b42318; --bad-bg: #fdecea;
+  --warn: #8a5a00; --warn-bg: #fff4d6;
+  --info-bg: #eaf1fc;
+  --shadow: 0 1px 2px rgba(20, 30, 50, .06), 0 4px 16px rgba(20, 30, 50, .06);
+  --shadow-lg: 0 10px 40px rgba(20, 30, 50, .16);
+  /* circuit / plot */
+  --c-wire: #233142;
+  --c-wire-user: #d0571a;
+  --c-body-fill: #ffffff;
+  --c-grid-dot: #c3cad4;
+  --c-flow: #e89a00;
+  --c-electron: #1f8fd6;
+  --c-cold: #1f7fd6; --c-hot: #d6312b;   /* temperature scale: molecules, heated bodies */
+  --c-label: #19212b;
+  --c-value: #1f5fbf;
+  --c-display-bg: #0f1a12;
+  --c-display-fg: #6dff9e;
+  --c-1: #1f5fbf; --c-2: #d0571a; --c-3: #12936f; --c-4: #8250df; --c-5: #c4317a; --c-6: #8a6d00;
+  --mark-opacity: .35;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0d131a;
+  --bg-grid: rgba(110, 170, 255, .05);
+  --surface: #141c26;
+  --surface-2: #1b2532;
+  --fg: #e4ebf2;
+  --muted: #98a6b5;
+  --line: #2a3747;
+  --primary: #6ea8ff;
+  --primary-fg: #08121f;
+  --focus: #8dbbff;
+  --ok: #5fd39a; --ok-bg: #11291e;
+  --bad: #ff8a80; --bad-bg: #2d1514;
+  --warn: #ffcf66; --warn-bg: #2b230f;
+  --info-bg: #142338;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 4px 18px rgba(0, 0, 0, .3);
+  --shadow-lg: 0 10px 40px rgba(0, 0, 0, .55);
+  --c-wire: #c9d6e3;
+  --c-wire-user: #ff9b5c;
+  --c-body-fill: #141c26;
+  --c-grid-dot: #2f3d4e;
+  --c-flow: #ffc04d;
+  --c-electron: #5cc8ff;
+  --c-cold: #5cc8ff; --c-hot: #ff5f4d;
+  --c-label: #e4ebf2;
+  --c-value: #8dbbff;
+  --c-display-bg: #050b07;
+  --c-display-fg: #6dff9e;
+  --c-1: #6ea8ff; --c-2: #ff9b5c; --c-3: #4fd6a8; --c-4: #b99bff; --c-5: #ff7eb6; --c-6: #e6c84d;
+  --mark-opacity: .45;
+}
