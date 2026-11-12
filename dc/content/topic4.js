@@ -147,7 +147,7 @@
              "Alku: kuorma R on kytketty navoihin A ja B. Haluamme vain virran I vastuksessa R, joten muu verkko on R:lle \"musta laatikko\"."),
         o: { load: true } },
       { t: L("Step 1: remove the load. A voltmeter at the open terminals A–B shows the open-circuit voltage U_T. R₃ carries no current, so U_T = voltage across R₂.",
-             "Vaihe 1: poista kuorma. Avoimiin napoihin A–B kytketty volttimittari näyttää tyhjäkäyntijännitteen U_T. R₃:ssa ei kulje virtaa, joten U_T = R₂:n jännite."),
+             "Vaihe 1: poista kuorma. Avoimiin napoihin A–B kytketty volttimittari näyttää tyhjä\u00ADkäynti\u00ADjännitteen U_T. R₃:ssa ei kulje virtaa, joten U_T = R₂:n jännite."),
         o: { meter: "volt" } },
       { t: L("Step 2: replace the voltage source by a wire (short circuit). An ohmmeter at A–B now shows the Thévenin resistance R_T = R₃ + R₁∥R₂.",
              "Vaihe 2: korvaa jännitelähde johtimella (oikosulku). Ohmimittari navoissa A–B näyttää nyt Théveninin resistanssin R_T = R₃ + R₁∥R₂."),
@@ -494,7 +494,7 @@
             "<p>An <b>ideal voltage source</b> holds its voltage whatever current is drawn. An <b>ideal current source</b> pushes its current whatever voltage appears across it.</p><p>A <b>real voltage source</b> (a battery) has an <dfn data-term='internal_resistance'>internal resistance</dfn> <f>R_i</f> in series. The more current it supplies, the more voltage is lost inside it.</p>",
             "<p><b>Ideaalinen jännitelähde</b> pitää jännitteensä riippumatta otetusta virrasta. <b>Ideaalinen virtalähde</b> pakottaa virtansa riippumatta siihen muodostuvasta jännitteestä.</p><p><b>Todellisella jännitelähteellä</b> (paristolla) on sarjassa <dfn data-term='internal_resistance'>sisäresistanssi</dfn> <f>R_i</f>. Mitä suurempi virta otetaan, sitä enemmän jännitettä hukkuu lähteen sisälle.</p>") },
           { id: "t4-sources-f1", type: "formula", key: true, tex: "U = E − R_i · I", label: L("Terminal voltage of a real source (I,V-line)", "Todellisen lähteen napajännite (virta-jännitekäyrä)"),
-            legend: [["U", L("terminal voltage", "napajännite"), "V"], ["E", L("emf = open-circuit voltage U_oc", "lähdejännite = tyhjäkäyntijännite U_oc"), "V"], ["R_i", L("internal resistance", "sisäresistanssi"), "Ω"], ["I", L("load current", "kuormavirta"), "A"]] },
+            legend: [["U", L("terminal voltage", "napajännite"), "V"], ["E", L("emf = open-circuit voltage U_oc", "lähdejännite = tyhjä\u00ADkäynti\u00ADjännite U_oc"), "V"], ["R_i", L("internal resistance", "sisäresistanssi"), "Ω"], ["I", L("load current", "kuormavirta"), "A"]] },
           { id: "t4-sources-plot", type: "interactive", widget: "plot", title: L("The I,V-line of a real source", "Todellisen lähteen virta-jännitekäyrä"),
             caption: L("Change U_oc and R_i. The line meets the voltage axis at U_oc (open circuit, I = 0) and the current axis at I_sc = U_oc/R_i (short circuit, U = 0).",
                        "Muuta U_oc:ta ja R_i:tä. Suora leikkaa jänniteakselin pisteessä U_oc (tyhjäkäynti, I = 0) ja virta-akselin pisteessä I_sc = U_oc/R_i (oikosulku, U = 0)."),
@@ -514,11 +514,11 @@
             "<p><b>Thévenin's theorem.</b> In any <dfn data-term='linear_network'>linear</dfn> electrical network, any branch with two terminals is electrically equivalent to a single voltage source <f>U_T</f> in series with a single resistance <f>R_T</f>.</p><p>So no matter how complicated the network is (resistors, voltage sources, current sources), from the terminals A–B it behaves like a battery with an internal resistance.</p>",
             "<p><b>Théveninin teoreema.</b> Missä tahansa <dfn data-term='linear_network'>lineaarisessa</dfn> verkossa mikä tahansa kaksinapainen haara on sähköisesti ekvivalentti yhden jännitelähteen <f>U_T</f> ja sarjaan kytketyn yhden resistanssin <f>R_T</f> kanssa.</p><p>Verkon monimutkaisuudella (vastukset, jännitelähteet, virtalähteet) ei ole väliä: navoista A–B katsottuna se käyttäytyy kuin paristo, jolla on sisäresistanssi.</p>") },
           { id: "t4-th-f1", type: "formula", key: true, tex: "I = {U_T}/{R_T + R_L}", label: L("Load current from the Thévenin equivalent", "Kuormavirta Théveninin ekvivalentista"),
-            legend: [["U_T", L("Thévenin voltage = open-circuit voltage U_AB", "Théveninin jännite = tyhjäkäyntijännite U_AB"), "V"], ["R_T", L("Thévenin resistance seen from A–B", "Théveninin resistanssi navoista A–B nähtynä"), "Ω"], ["R_L", L("load resistance", "kuormaresistanssi"), "Ω"]] },
+            legend: [["U_T", L("Thévenin voltage = open-circuit voltage U_AB", "Théveninin jännite = tyhjä\u00ADkäynti\u00ADjännite U_AB"), "V"], ["R_T", L("Thévenin resistance seen from A–B", "Théveninin resistanssi navoista A–B nähtynä"), "Ω"], ["R_L", L("load resistance", "kuormaresistanssi"), "Ω"]] },
           { id: "t4-th-h1", type: "h", text: L("The procedure", "Menettely") },
           { id: "t4-th-l1", type: "list", ordered: true, items: [
             L("<b>Remove the load</b> <f>R_L</f> from the branch. The terminals A–B are now open.", "<b>Poista kuorma</b> <f>R_L</f> haarasta. Navat A–B jäävät avoimiksi."),
-            L("Find the <b>open-circuit voltage</b> across the break: <f>U_T = U_AB</f>.", "Määritä katkoksen yli oleva <b>tyhjäkäyntijännite</b>: <f>U_T = U_AB</f>."),
+            L("Find the <b>open-circuit voltage</b> across the break: <f>U_T = U_AB</f>.", "Määritä katkoksen yli oleva <b>tyhjä\u00ADkäynti\u00ADjännite</b>: <f>U_T = U_AB</f>."),
             L("<b>Deactivate every source</b>: replace each voltage source by a <b>short circuit</b> (a wire) and each current source by an <b>open circuit</b> (a gap). Find the resistance <f>R_T</f> looking into A–B.", "<b>Kytke kaikki lähteet pois</b>: korvaa jokainen jännitelähde <b>oikosululla</b> (johdin) ja jokainen virtalähde <b>katkoksella</b> (avoin piiri). Määritä navoista A–B nähty resistanssi <f>R_T</f>."),
             L("Connect the load to the equivalent source and compute <f>I = U_T/(R_T + R_L)</f>.", "Kytke kuorma ekvivalenttiin lähteeseen ja laske <f>I = U_T/(R_T + R_L)</f>.")
           ] },
@@ -530,7 +530,7 @@
             caption: L("Step through Example 4.1 with the arrow buttons.", "Käy esimerkki 4.1 läpi nuolipainikkeilla."), config: { mount: wizardMount } },
           { id: "t4-th-circ1", type: "interactive", widget: "circuit", title: L("Measure U_oc and I_sc in the simulator", "Mittaa U_oc ja I_sc simulaattorilla"),
             caption: L("Click the switch S1 to open the load branch: the voltmeter then shows the open-circuit voltage U_T = 8 V. Close S1 again and use the wire tool to short R (draw across it): the ammeter now shows the short-circuit current I_sc = U_T/R_T. Edit the source or resistors by clicking them.",
-                       "Napsauta kytkintä S1 avataksesi kuormahaaran: volttimittari näyttää tyhjäkäyntijännitteen U_T = 8 V. Sulje S1 ja oikosulje R johtimella (piirrä sen yli): virtamittari näyttää oikosulkuvirran I_sc = U_T/R_T. Muokkaa lähdettä ja vastuksia napsauttamalla niitä."),
+                       "Napsauta kytkintä S1 avataksesi kuormahaaran: volttimittari näyttää tyhjä\u00ADkäynti\u00ADjännitteen U_T = 8 V. Sulje S1 ja oikosulje R johtimella (piirrä sen yli): virtamittari näyttää oikosulkuvirran I_sc = U_T/R_T. Muokkaa lähdettä ja vastuksia napsauttamalla niitä."),
             config: {
               size: [11, 6],
               parts: [
@@ -553,7 +553,7 @@
             steps: [
               L("Remove the 10 Ω resistor. With A–B open, no current flows in R₃, so the only loop is U, R₁, R₂:", "Poista 10 Ω:n vastus. Navat A–B ovat avoimet, joten R₃:ssa ei kulje virtaa ja ainoa silmukka on U, R₁, R₂:"),
               { tex: "I_1 = {10 V}/{R_1 + R_2} = {10 V}/{(2 + 8) Ω} = 1,0 A" },
-              L("The open-circuit voltage is the voltage across R₂:", "Tyhjäkäyntijännite on R₂:n jännite:"),
+              L("The open-circuit voltage is the voltage across R₂:", "Tyhjä\u00ADkäynti\u00ADjännite on R₂:n jännite:"),
               { tex: "U_T = U_{AB} = I_1 · R_2 = 1,0 A · 8 Ω = 8,0 V" },
               L("Short the voltage source. Looking into A–B we see R₃ in series with R₁ ∥ R₂:", "Oikosulje jännitelähde. Navoista A–B nähdään R₃ sarjassa rinnankytkennän R₁ ∥ R₂ kanssa:"),
               { tex: "R_T = R_3 + {R_1 R_2}/{R_1 + R_2} = 5 + {2 · 8}/{2 + 8} = 6,6 Ω" },
@@ -608,7 +608,7 @@
         blocks: [
           { id: "t4-no-p1", type: "text", html: L(
             "<p><b>Norton's theorem.</b> In a linear network, any combination of voltage sources, current sources and resistors with two terminals is electrically equivalent to an ideal current source <f>I_N</f> in parallel with a single resistor <f>R_N</f>.</p><p>It is Thévenin's theorem seen from the other side: instead of the open-circuit voltage we measure the <dfn data-term='short_circuit_current'>short-circuit current</dfn>.</p>",
-            "<p><b>Nortonin teoreema.</b> Lineaarisessa verkossa mikä tahansa kaksinapainen jännitelähteiden, virtalähteiden ja vastusten yhdistelmä on sähköisesti ekvivalentti ideaalisen virtalähteen <f>I_N</f> ja sen rinnalle kytketyn yhden vastuksen <f>R_N</f> kanssa.</p><p>Se on Théveninin teoreema toiselta puolelta nähtynä: tyhjäkäyntijännitteen sijaan mitataan <dfn data-term='short_circuit_current'>oikosulkuvirta</dfn>.</p>") },
+            "<p><b>Nortonin teoreema.</b> Lineaarisessa verkossa mikä tahansa kaksinapainen jännitelähteiden, virtalähteiden ja vastusten yhdistelmä on sähköisesti ekvivalentti ideaalisen virtalähteen <f>I_N</f> ja sen rinnalle kytketyn yhden vastuksen <f>R_N</f> kanssa.</p><p>Se on Théveninin teoreema toiselta puolelta nähtynä: tyhjä\u00ADkäynti\u00ADjännitteen sijaan mitataan <dfn data-term='short_circuit_current'>oikosulkuvirta</dfn>.</p>") },
           { id: "t4-no-l1", type: "list", ordered: true, items: [
             L("<b>Short-circuit</b> the terminals A–B (replace the load by a wire).", "<b>Oikosulje</b> navat A–B (korvaa kuorma johtimella)."),
             L("Find the <b>short-circuit current</b> <f>I_N = I_sc</f> in the wire.", "Määritä johtimessa kulkeva <b>oikosulkuvirta</b> <f>I_N = I_sc</f>."),
@@ -913,7 +913,7 @@
         prompt: L("Which statements about a real voltage source with emf <f>E</f> and internal resistance <f>R_i</f> are true?", "Mitkä väitteet todellisesta jännitelähteestä, jonka lähdejännite on <f>E</f> ja sisäresistanssi <f>R_i</f>, pitävät paikkansa?"),
         options: [
           { id: "a", html: L("The terminal voltage drops when the load current increases.", "Napajännite pienenee, kun kuormavirta kasvaa.") },
-          { id: "b", html: L("The open-circuit voltage equals <f>E</f>.", "Tyhjäkäyntijännite on <f>E</f>.") },
+          { id: "b", html: L("The open-circuit voltage equals <f>E</f>.", "Tyhjä\u00ADkäynti\u00ADjännite on <f>E</f>.") },
           { id: "c", html: L("The short-circuit current is infinite.", "Oikosulkuvirta on ääretön.") },
           { id: "d", html: L("The short-circuit current is <f>E/R_i</f>.", "Oikosulkuvirta on <f>E/R_i</f>.") }
         ], shuffle: true },
@@ -921,7 +921,7 @@
         prompt: L("Which of these is NOT a step of finding the Thévenin equivalent?", "Mikä seuraavista EI kuulu Théveninin ekvivalentin määritykseen?"),
         options: [
           { id: "a", html: L("Remove the load from the terminals.", "Poistetaan kuorma navoilta.") },
-          { id: "b", html: L("Find the open-circuit voltage across the terminals.", "Määritetään napojen tyhjäkäyntijännite.") },
+          { id: "b", html: L("Find the open-circuit voltage across the terminals.", "Määritetään napojen tyhjä\u00ADkäynti\u00ADjännite.") },
           { id: "c", html: L("Find only the short-circuit current and stop.", "Määritetään pelkkä oikosulkuvirta ja lopetetaan.") },
           { id: "d", html: L("Find the resistance seen from the terminals with the sources deactivated.", "Määritetään navoista nähty resistanssi lähteet pois kytkettyinä.") }
         ], shuffle: true, hints: [{ en: "One of these belongs to the Norton procedure.", fi: "Yksi näistä kuuluu Nortonin menettelyyn." }] },
@@ -939,7 +939,7 @@
           { id: "z", html: L("Deactivate the sources and calculate <f>R_T</f> looking into the terminals.", "Kytke lähteet pois ja laske navoista nähty <f>R_T</f>.") },
           { id: "i", html: L("Connect the load to the equivalent source and calculate <f>I = U_T/(R_T+R_L)</f>.", "Kytke kuorma ekvivalenttiin lähteeseen ja laske <f>I = U_T/(R_T+R_L)</f>.") },
           { id: "r", html: L("Remove the load; the terminals A–B are open.", "Poista kuorma; navat A–B jäävät avoimiksi.") },
-          { id: "o", html: L("Calculate the open-circuit voltage <f>U_T = U_AB</f>.", "Laske tyhjäkäyntijännite <f>U_T = U_AB</f>.") }
+          { id: "o", html: L("Calculate the open-circuit voltage <f>U_T = U_AB</f>.", "Laske tyhjä\u00ADkäynti\u00ADjännite <f>U_T = U_AB</f>.") }
         ] },
       { id: "t4-q-th5", mode: "practice", type: "match", difficulty: 1,
         prompt: L("Match each quantity with how it is obtained.", "Yhdistä kukin suure siihen, miten se saadaan."),
@@ -948,7 +948,7 @@
           { id: "RT", html: L("<f>R_T = R_N</f>", "<f>R_T = R_N</f>") }, { id: "pr", html: L("<f>I_N · R_T</f>", "<f>I_N · R_T</f>") }
         ],
         right: [
-          { id: "A", html: L("open-circuit voltage", "tyhjäkäyntijännite") }, { id: "B", html: L("short-circuit current", "oikosulkuvirta") },
+          { id: "A", html: L("open-circuit voltage", "tyhjä\u00ADkäynti\u00ADjännite") }, { id: "B", html: L("short-circuit current", "oikosulkuvirta") },
           { id: "C", html: L("resistance seen with sources deactivated", "lähteet pois kytkettynä nähty resistanssi") }, { id: "D", html: L("the Thévenin voltage", "Théveninin jännite") }
         ] },
       { id: "t4-q-isc", mode: "practice", type: "circuit", tol: 0.02, difficulty: 3,
@@ -1020,7 +1020,7 @@
       /* ------------------------------ graded ------------------------------ */
       { id: "t4-g1", mode: "graded", type: "numeric", points: 3, tol: 0.02, difficulty: 3,
         hints: [
-          { en: "Thévenin: remove the load and look into the terminals A–B. You need an open-circuit voltage and a resistance.", fi: "Théveninin menetelmä: poista kuorma ja tarkastele piiriä napoihin A–B päin. Tarvitset tyhjäkäyntijännitteen ja resistanssin." },
+          { en: "Thévenin: remove the load and look into the terminals A–B. You need an open-circuit voltage and a resistance.", fi: "Théveninin menetelmä: poista kuorma ja tarkastele piiriä napoihin A–B päin. Tarvitset tyhjä\u00ADkäynti\u00ADjännitteen ja resistanssin." },
           { en: "U_T is the voltage across the 20 Ω resistor with nothing else connected (voltage divider). R_T: short the source, then the two resistors are in parallel.", fi: "U_T on 20 Ω:n vastuksen jännite, kun mitään muuta ei ole kytketty (jännitteenjako). R_T: oikosulje lähde, jolloin vastukset ovat rinnan." },
           { en: "Connect the load to the equivalent source: a single series loop, so I = U_T/(R_T + R_L).", fi: "Kytke kuorma ekvivalenttilähteeseen: yksi sarjasilmukka, joten I = U_T/(R_T + R_L)." }
         ],

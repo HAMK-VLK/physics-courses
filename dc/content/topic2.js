@@ -799,7 +799,7 @@
               T("Check: 36.6 + 75.4 = 112 mA. The slide prints 36.8 and 76.8 mA, which add up to 113.6 mA, so those are wrong.", "Tarkistus: 36,6 + 75,4 = 112 mA. Kalvolla on 36,8 ja 76,8 mA, jotka summautuvat arvoon 113,6 mA, eli ne ovat virheellisiä.")
             ],
             result: T("I₁ = 36.6 mA, I₂ = 75.4 mA, U_s ≈ 25 V", "I₁ = 36,6 mA, I₂ = 75,4 mA, U_s ≈ 25 V") },
-          { id: "t2-cd-ex2", type: "example", title: T("Parallel exercises", "Rinnankytkentäharjoituksia"),
+          { id: "t2-cd-ex2", type: "example", title: T("Parallel exercises", "Rinnan\u00ADkytkentä\u00ADharjoituksia"),
             problem: T("a) 10 V across three 33 kΩ resistors in parallel. b) 25 V across 1.0 kΩ, 3.9 kΩ and 560 Ω in parallel. Find the branch currents and R_eq.", "a) 10 V kolmen rinnankytketyn 33 kΩ:n vastuksen yli. b) 25 V rinnankytkettyjen 1,0 kΩ, 3,9 kΩ ja 560 Ω:n vastusten yli. Laske haaravirrat ja R_eq."),
             given: ["a) 3 × 33 kΩ, 10 V", "b) 1.0 kΩ, 3.9 kΩ, 560 Ω, 25 V"],
             steps: [

@@ -264,10 +264,10 @@
         blocks: [
           { id: "t7-conv-t1", type: "text", html: T(
             "<p>Liquids and gases carry energy with them when they move. The heat transferred depends on the specific heat and the mass flow rate. In a central heating system the water is warmed in the furnace and rises (<b>natural convection</b>), carrying heat to the radiators. A pump makes the transfer more efficient (<b>forced convection</b>).</p>",
-            "<p>Nesteet ja kaasut kuljettavat energiaa mukanaan liikkuessaan. Siirtyvä lämpö riippuu ominaislämpökapasiteetista ja massavirrasta. Keskuslämmityksessä vesi lämpenee kattilassa ja nousee ylös (<b>luonnollinen konvektio</b>) kuljettaen lämpöä pattereihin. Pumppu tehostaa siirtoa (<b>pakotettu konvektio</b>).</p>") },
+            "<p>Nesteet ja kaasut kuljettavat energiaa mukanaan liikkuessaan. Siirtyvä lämpö riippuu ominais\u00ADlämpö\u00ADkapasiteetista ja massavirrasta. Keskuslämmityksessä vesi lämpenee kattilassa ja nousee ylös (<b>luonnollinen konvektio</b>) kuljettaen lämpöä pattereihin. Pumppu tehostaa siirtoa (<b>pakotettu konvektio</b>).</p>") },
           { id: "t7-conv-f1", type: "formula", key: true, tex: "Φ = q_m·c·ΔT",
             label: T("Heat carried by a flowing fluid", "Virtaavan aineen kuljettama lämpö"),
-            legend: [["q_m", T("mass flow rate", "massavirta"), "kg/s"], ["c", T("specific heat", "ominaislämpökapasiteetti"), "J/(kg·K)"], ["ΔT", T("temperature change", "lämpötilan muutos"), "K"]] },
+            legend: [["q_m", T("mass flow rate", "massavirta"), "kg/s"], ["c", T("specific heat", "ominais\u00ADlämpö\u00ADkapasiteetti"), "J/(kg·K)"], ["ΔT", T("temperature change", "lämpötilan muutos"), "K"]] },
           { id: "t7-conv-ex1", type: "example", title: T("Radiator water flow", "Patterin vesivirta"),
             problem: T("(extra) Water cools by 15 K in a radiator circuit. The flow is 0.050 kg/s, c = 4190 J/(kg·K). What power does it deliver to the room?", "(lisä) Vesi jäähtyy pattereissa 15 K. Virtaus on 0,050 kg/s ja c = 4190 J/(kg·K). Kuinka suuren tehon vesi luovuttaa huoneeseen?"),
             given: ["q_m = 0.050 kg/s", "c = 4190 J/(kg·K)", "ΔT = 15 K"],

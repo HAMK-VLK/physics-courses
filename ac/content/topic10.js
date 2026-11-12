@@ -295,7 +295,7 @@ TDC.registerTopic({
         { id: 't10-tank-q1', type: 'question', q: 't10-q10' }
       ] },
     // ---------------- 10.7
-    { id: 't10-pfp', title: { en: '10.7 Power factor correction: parallel capacitor', fi: '10.7 Loistehon kompensointi: rinnakkaiskondensaattori' },
+    { id: 't10-pfp', title: { en: '10.7 Power factor correction: parallel capacitor', fi: '10.7 Loistehon kompensointi: rinnakkais\u00ADkondensaattori' },
       blocks: [
         { id: 't10-pfp-p1', type: 'text', html: {
           en: '<p>Inductive loads (motors, transformers, fluorescent lamps with a <dfn data-term="ballast">ballast</dfn>) draw reactive current. A capacitor connected <b>in parallel</b> with the load supplies that reactive current locally, so the line carries less current (<dfn data-term="pfcorr">power factor correction</dfn>). The active current <f>I_p = I cos φ</f> is unchanged, because the capacitor is lossless.</p>',
@@ -320,11 +320,11 @@ TDC.registerTopic({
               return [{ re: p.P, im: 0, label: 'P' }, { re: 0, im: q1, from: [p.P, 0], label: 'Q_1' }, { re: p.P, im: q1, label: 'S_1' }, { re: p.P, im: q2, label: 'S_2', color: '--c-5' }]; },
             arcs: function (p) { return [{ to: Math.acos(p.pf1) * D, label: 'φ₁' }, { to: Math.acos(p.pf2) * D, label: 'φ₂' }]; },
             readouts: function (p) { var qc = p.P * (tanAcos(p.pf1) - tanAcos(p.pf2)); return [{ tex: 'Q_C', value: qc, unit: 'kvar' }, { tex: 'C', value: qc * 1000 / (2 * PI * 50 * 160000) * 1e6, unit: 'µF' }]; } } },
-        { id: 't10-pfp-cir', type: 'interactive', widget: 'circuit', title: { en: 'Try it: R–L load on 230 V with a parallel capacitor', fi: 'Kokeile: R–L-kuorma 230 V:lla ja rinnakkaiskondensaattori' },
+        { id: 't10-pfp-cir', type: 'interactive', widget: 'circuit', title: { en: 'Try it: R–L load on 230 V with a parallel capacitor', fi: 'Kokeile: R–L-kuorma 230 V:lla ja rinnakkais\u00ADkondensaattori' },
           caption: { en: 'Change C1 and watch the ammeter. The current is smallest where the load is fully compensated.', fi: 'Muuta C1:tä ja seuraa virtamittaria. Virta on pienimmillään, kun kuorma on täysin kompensoitu.' },
           config: Object.assign(pfCircuit(5e-6), { table: true }) },
         { id: 't10-pfp-ex1', type: 'example', title: { en: 'Fluorescent lamp: cos φ from 0.50 to 0.90', fi: 'Loisteputkivalaisin: cos φ 0,50 → 0,90' },
-          problem: { en: 'A lamp installation draws I = 1.48 A at 230 V, 50 Hz and cos φ = 0.50 (inductive). Find the parallel capacitor for cos φ = 0.90.', fi: 'Valaisinryhmä ottaa virran I = 1,48 A, kun jännite on 230 V, 50 Hz ja cos φ = 0,50 (induktiivinen). Mitoita rinnakkaiskondensaattori arvolle cos φ = 0,90.' },
+          problem: { en: 'A lamp installation draws I = 1.48 A at 230 V, 50 Hz and cos φ = 0.50 (inductive). Find the parallel capacitor for cos φ = 0.90.', fi: 'Valaisinryhmä ottaa virran I = 1,48 A, kun jännite on 230 V, 50 Hz ja cos φ = 0,50 (induktiivinen). Mitoita rinnakkais\u00ADkondensaattori arvolle cos φ = 0,90.' },
           given: ['U = 230 V', 'f = 50 Hz', 'I = 1.48 A', 'cos φ = 0.50'],
           steps: [
             { tex: 'φ = 60°, I_p = 1.48 · 0.5 = 0.74 A, I_q = 1.48 · sin 60° = 1.28 A' },
@@ -353,12 +353,12 @@ TDC.registerTopic({
         { id: 't10-pfp-q2', type: 'question', q: 't10-q7' }
       ] },
     // ---------------- 10.8
-    { id: 't10-pfs', title: { en: '10.8 Power factor correction: series capacitor', fi: '10.8 Loistehon kompensointi: sarjakondensaattori' },
+    { id: 't10-pfs', title: { en: '10.8 Power factor correction: series capacitor', fi: '10.8 Loistehon kompensointi: sarja\u00ADkondensaattori' },
       blocks: [
         { id: 't10-pfs-p1', type: 'text', html: {
           en: '<p>A capacitor can also be connected <b>in series</b> with the device. It reduces the net reactance <f>X_L − X_C</f>, but it changes the voltage and current of the device, so it is not a good fix for a load with fixed voltage. Procedure: <f>Z = U/I</f>, <f>R = Z cos φ</f>, <f>X_L = Z sin φ</f>; then <f>tan φ_1 = (X_L − X_C)/R</f> gives <f>X_C</f> and <f>C = 1/(ωX_C)</f>.</p>',
           fi: '<p>Kondensaattori voidaan kytkeä myös laitteen kanssa <b>sarjaan</b>. Se pienentää nettoreaktanssia <f>X_L − X_C</f>, mutta muuttaa laitteen jännitettä ja virtaa, joten se ei sovi kuormille, joilla on vakiojännite. Menetelmä: <f>Z = U/I</f>, <f>R = Z cos φ</f>, <f>X_L = Z sin φ</f>; sitten <f>tan φ_1 = (X_L − X_C)/R</f> antaa <f>X_C</f>:n ja <f>C = 1/(ωX_C)</f>.</p>' } },
-        { id: 't10-pfs-cp', type: 'interactive', widget: 'cplane', title: { en: 'Impedance triangle with a series capacitor', fi: 'Impedanssikolmio sarjakondensaattorilla' },
+        { id: 't10-pfs-cp', type: 'interactive', widget: 'cplane', title: { en: 'Impedance triangle with a series capacitor', fi: 'Impedanssikolmio sarja\u00ADkondensaattorilla' },
           caption: { en: 'R = 15 Ω, X_L = 13.2 Ω. Increase X_C: the net reactance and φ fall, but |Z| falls too, so the current (at 240 V) rises.', fi: 'R = 15 Ω, X_L = 13,2 Ω. Kasvata X_C:tä: nettoreaktanssi ja φ pienenevät, mutta myös |Z| pienenee, joten virta (240 V:lla) kasvaa.' },
           config: { unit: 'Ω',
             params: [{ id: 'XC', tex: 'X_C', min: 0, max: 13, step: 0.1, value: 8.3, unit: 'Ω' }],
@@ -367,7 +367,7 @@ TDC.registerTopic({
             bounds: function () { return { re: [0, 20], im: [0, 15] }; },
             readouts: function (p) { var x = 13.23 - p.XC, z = Math.hypot(15, x); return [{ tex: 'cos φ', value: 15 / z, digits: 3 }, { tex: 'I', value: 240 / z, unit: 'A' }]; } } },
         { id: 't10-pfs-ex1', type: 'example', title: { en: 'Series compensation of an R–L device', fi: 'R–L-laitteen sarjakompensointi' },
-          problem: { en: 'U = 240 V, 50 Hz, I = 12 A, cos φ = 0.75 inductive. Improve to cos φ₁ = 0.95 with a series capacitor. Find C and the active powers before and after.', fi: 'U = 240 V, 50 Hz, I = 12 A, cos φ = 0,75 induktiivinen. Paranna arvoon cos φ₁ = 0,95 sarjakondensaattorilla. Laske C ja pätötehot ennen ja jälkeen.' },
+          problem: { en: 'U = 240 V, 50 Hz, I = 12 A, cos φ = 0.75 inductive. Improve to cos φ₁ = 0.95 with a series capacitor. Find C and the active powers before and after.', fi: 'U = 240 V, 50 Hz, I = 12 A, cos φ = 0,75 induktiivinen. Paranna arvoon cos φ₁ = 0,95 sarja\u00ADkondensaattorilla. Laske C ja pätötehot ennen ja jälkeen.' },
           given: ['U = 240 V', 'I = 12 A', 'cos φ = 0.75'],
           steps: [
             { tex: 'Z = 240/12 = 20 Ω, R = Z cos φ = 15.0 Ω, X_L = Z sin φ = 13.2 Ω' },
@@ -380,7 +380,7 @@ TDC.registerTopic({
           result: { en: 'C ≈ 385 µF; P rises from 2.16 kW to 3.47 kW and the current from 12 A to 15.2 A.', fi: 'C ≈ 385 µF; P kasvaa 2,16 kW:sta 3,47 kW:iin ja virta 12 A:sta 15,2 A:iin.' } },
         { id: 't10-pfs-c1', type: 'callout', kind: 'warn', title: { en: 'Common mistake', fi: 'Yleinen virhe' }, html: {
           en: 'A series capacitor does <em>not</em> reduce the line current; here it raised it from 12 A to 15.2 A. The load runs at a different operating point. With a parallel capacitor the same device keeps P = 2.16 kW and needs only C ≈ 66 µF (extra). [PDF issues: "arccos(0,70) = 41.4°" should be arccos(0.75); "capacitive inductance" means capacitive reactance.]',
-          fi: 'Sarjakondensaattori <em>ei</em> pienennä verkkovirtaa; tässä se kasvatti sen 12 A:sta 15,2 A:iin. Kuorma toimii eri toimintapisteessä. Rinnakkaiskondensaattorilla sama laite säilyttää tehon P = 2,16 kW ja tarvitsee vain C ≈ 66 µF (lisä). [PDF:n virheet: "arccos(0,70) = 41,4°" pitäisi olla arccos(0,75); "capacitive inductance" tarkoittaa kapasitiivista reaktanssia.]' } },
+          fi: 'Sarja\u00ADkondensaattori <em>ei</em> pienennä verkkovirtaa; tässä se kasvatti sen 12 A:sta 15,2 A:iin. Kuorma toimii eri toimintapisteessä. Rinnakkais\u00ADkondensaattorilla sama laite säilyttää tehon P = 2,16 kW ja tarvitsee vain C ≈ 66 µF (lisä). [PDF:n virheet: "arccos(0,70) = 41,4°" pitäisi olla arccos(0,75); "capacitive inductance" tarkoittaa kapasitiivista reaktanssia.]' } },
         { id: 't10-pfs-q1', type: 'question', q: 't10-q12' }
       ] },
     // ---------------- 10.9
@@ -501,7 +501,7 @@ TDC.registerTopic({
       prompt: { en: 'Find the resonant frequency of a parallel circuit with L = 10 mH and C = 1 µF.', fi: 'Laske rinnakkaispiirin resonanssitaajuus, kun L = 10 mH ja C = 1 µF.' },
       fields: [{ id: 'f0', tex: 'f_0', unit: 'Hz' }] },
     { id: 't10-q12', mode: 'practice', type: 'numeric', difficulty: 3, hints: [{ en: 'Parallel compensation does not change P; it only reduces the reactive power Q. Use the power triangle.', fi: 'Rinnakkaiskompensointi ei muuta pätötehoa P, vaan pienentää loistehoa Q. Käytä tehokolmiota.' }, { en: 'Find the reactive power before and after: Q = P·tan φ with φ = arccos(cos φ) for both power factors. The capacitor must supply the difference Q_C = Q₁ − Q₂.', fi: 'Laske loisteho ennen ja jälkeen: Q = P·tan φ, missä φ = arccos(cos φ) molemmille tehokertoimille. Kondensaattorin on tuotettava erotus Q_C = Q₁ − Q₂.' }, { en: 'A capacitor at voltage U has Q_C = ωC·U², so C = Q_C/(ωU²) with ω = 2πf.', fi: 'Kondensaattorin loisteho jännitteellä U on Q_C = ωC·U², joten C = Q_C/(ωU²), missä ω = 2πf.' }], tol: 0.03,
-      prompt: { en: 'The device of 10.8 (240 V, 50 Hz, P = 2.16 kW, cos φ = 0.75) is instead compensated with a PARALLEL capacitor to cos φ = 0.95. Find C.', fi: 'Kohdan 10.8 laite (240 V, 50 Hz, P = 2,16 kW, cos φ = 0,75) kompensoidaan sen sijaan RINNAKKAISKONDENSAATTORILLA arvoon cos φ = 0,95. Laske C.' },
+      prompt: { en: 'The device of 10.8 (240 V, 50 Hz, P = 2.16 kW, cos φ = 0.75) is instead compensated with a PARALLEL capacitor to cos φ = 0.95. Find C.', fi: 'Kohdan 10.8 laite (240 V, 50 Hz, P = 2,16 kW, cos φ = 0,75) kompensoidaan sen sijaan RINNAKKAIS\u00ADKONDENSAATTORILLA arvoon cos φ = 0,95. Laske C.' },
       fields: [{ id: 'C', tex: 'C', unit: 'F' }] },
     { id: 't10-q13', mode: 'practice', type: 'mc', difficulty: 1,
       prompt: { en: 'A motor draws P = 10 kW and Q = 6 kvar for 8 hours. How much reactive energy is that?', fi: 'Moottori ottaa tehon P = 10 kW ja Q = 6 kvar 8 tunnin ajan. Kuinka suuri loisenergia on?' },
@@ -521,7 +521,7 @@ TDC.registerTopic({
       prompt: { en: 'An ideal parallel L–C circuit (no loss) at its resonant frequency draws from the source:', fi: 'Ideaalinen LC-rinnakkaispiiri (ei häviöitä) ottaa resonanssitaajuudellaan lähteestä:' },
       options: [{ id: 'a', html: { en: 'maximum current', fi: 'suurimman virran' } }, { id: 'b', html: { en: 'zero current', fi: 'nollavirran' } }, { id: 'c', html: { en: 'the current U/R', fi: 'virran U/R' } }, { id: 'd', html: { en: 'infinite current', fi: 'äärettömän virran' } }] },
     { id: 't10-g4', mode: 'graded', type: 'numeric', difficulty: 3, hints: [{ en: 'Parallel compensation leaves the active power P unchanged and reduces only the reactive power. Use the power triangle before and after.', fi: 'Rinnakkaiskompensointi ei muuta pätötehoa P, vaan pienentää vain loistehoa. Käytä tehokolmiota ennen ja jälkeen.' }, { en: 'Compute φ₁ = arccos(0.70) and φ₂ = arccos(0.95), then the capacitor must supply Q_C = P(tan φ₁ − tan φ₂).', fi: 'Laske φ₁ = arccos(0,70) ja φ₂ = arccos(0,95). Kondensaattorin on tuotettava Q_C = P(tan φ₁ − tan φ₂).' }, { en: 'Use Q_C = ωC·U² with ω = 2πf and the line voltage given, and solve C = Q_C/(ωU²).', fi: 'Käytä relaatiota Q_C = ωC·U², missä ω = 2πf ja U on annettu jännite, ja ratkaise C = Q_C/(ωU²).' }], points: 3, tol: 0.03,
-      prompt: { en: 'A 400 V, 50 Hz load takes P = 10 kW at cos φ = 0.70 (inductive). Find the parallel capacitor that raises the power factor to 0.95.', fi: '400 V:n, 50 Hz:n kuorma ottaa tehon P = 10 kW, kun cos φ = 0,70 (induktiivinen). Laske rinnakkaiskondensaattori, joka nostaa tehokertoimen arvoon 0,95.' },
+      prompt: { en: 'A 400 V, 50 Hz load takes P = 10 kW at cos φ = 0.70 (inductive). Find the parallel capacitor that raises the power factor to 0.95.', fi: '400 V:n, 50 Hz:n kuorma ottaa tehon P = 10 kW, kun cos φ = 0,70 (induktiivinen). Laske rinnakkais\u00ADkondensaattori, joka nostaa tehokertoimen arvoon 0,95.' },
       fields: [{ id: 'C', tex: 'C', unit: 'F' }] },
     { id: 't10-g5', mode: 'graded', type: 'numeric', difficulty: 1, points: 2, tol: 0.02,
       prompt: { en: 'An RC low pass has R = 850 Ω and C = 1.0 µF. Find the cut-off frequency f_c in hertz.', fi: 'RC-alipäästösuodattimessa R = 850 Ω ja C = 1,0 µF. Laske rajataajuus f_c hertseinä.' },

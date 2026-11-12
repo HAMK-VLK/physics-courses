@@ -178,7 +178,7 @@
     id: "t6", num: 6,
     title: T("Heat and latent heat", "Lämpö ja olomuodon muutokset"),
     subtitle: T("Joule's experiment, specific heat, calorimetry, water heaters, heating a house, and the energy of melting and boiling.",
-                "Joulen koe, ominaislämpökapasiteetti, kalorimetria, vedenlämmittimet, talon lämmitys sekä sulamisen ja kiehumisen energia."),
+                "Joulen koe, ominais\u00ADlämpö\u00ADkapasiteetti, kalorimetria, vedenlämmittimet, talon lämmitys sekä sulamisen ja kiehumisen energia."),
     objectives: [
       T("explain heat as energy transferred because of a temperature difference, and convert between J, cal and kWh",
         "selittää lämpö lämpötilaeron vuoksi siirtyväksi energiaksi sekä muuntaa yksiköt J, cal ja kWh"),
@@ -256,7 +256,7 @@
       },
       // ------------------------------------------------------------------ 2
       {
-        id: "t6-capacity", title: T("Heat capacity and specific heat", "Lämpökapasiteetti ja ominaislämpökapasiteetti"),
+        id: "t6-capacity", title: T("Heat capacity and specific heat", "Lämpökapasiteetti ja ominais\u00ADlämpö\u00ADkapasiteetti"),
         blocks: [
           { id: "t6-cap-p1", type: "text", html: T(
             "<p>When heat flows into an object, its temperature rises. How much depends on its <dfn data-term=\"heatcapacity\">heat capacity</dfn> <em>C</em>.</p>",
@@ -265,10 +265,10 @@
             legend: [["Q", T("heat flowed into the object", "kappaleeseen virrannut lämpö"), "J"], ["ΔT", T("change of temperature", "lämpötilan muutos"), "K"]] },
           { id: "t6-cap-p2", type: "text", html: T(
             "<p>Heat capacity ignores size, mass and substance, so it is not very useful. The <dfn data-term=\"specificheat\">specific heat capacity</dfn> <em>c</em> describes the material, per kilogram. The values of solids and liquids depend only slightly on temperature and pressure, so for small temperature changes <em>c</em> is treated as constant.</p>",
-            "<p>Lämpökapasiteetti ei ota huomioon kappaleen kokoa, massaa tai ainetta, joten se ei ole kovin käyttökelpoinen. <dfn data-term=\"specificheat\">Ominaislämpökapasiteetti</dfn> <em>c</em> kuvaa ainetta kilogrammaa kohti. Kiinteiden aineiden ja nesteiden arvot riippuvat lämpötilasta ja paineesta vain vähän, joten pienillä lämpötilan muutoksilla <em>c</em> on vakio.</p>") },
-          { id: "t6-cap-f2", type: "formula", key: true, tex: "c = {Q}/{m ΔT},   Q = c·m·ΔT", label: T("Specific heat", "Ominaislämpökapasiteetti"),
-            legend: [["c", T("specific heat", "ominaislämpökapasiteetti"), "J/(kg·K)"], ["m", T("mass", "massa"), "kg"]] },
-          { id: "t6-cap-t1", type: "table", caption: T("Specific heats (1 atm, 20 °C unless stated)", "Ominaislämpökapasiteetteja (1 atm, 20 °C ellei toisin mainita)"),
+            "<p>Lämpökapasiteetti ei ota huomioon kappaleen kokoa, massaa tai ainetta, joten se ei ole kovin käyttökelpoinen. <dfn data-term=\"specificheat\">Ominais\u00ADlämpö\u00ADkapasiteetti</dfn> <em>c</em> kuvaa ainetta kilogrammaa kohti. Kiinteiden aineiden ja nesteiden arvot riippuvat lämpötilasta ja paineesta vain vähän, joten pienillä lämpötilan muutoksilla <em>c</em> on vakio.</p>") },
+          { id: "t6-cap-f2", type: "formula", key: true, tex: "c = {Q}/{m ΔT},   Q = c·m·ΔT", label: T("Specific heat", "Ominais\u00ADlämpö\u00ADkapasiteetti"),
+            legend: [["c", T("specific heat", "ominais\u00ADlämpö\u00ADkapasiteetti"), "J/(kg·K)"], ["m", T("mass", "massa"), "kg"]] },
+          { id: "t6-cap-t1", type: "table", caption: T("Specific heats (1 atm, 20 °C unless stated)", "Ominais\u00ADlämpö\u00ADkapasiteetteja (1 atm, 20 °C ellei toisin mainita)"),
             head: [T("Substance", "Aine"), "c (kcal/(kg·K))", "c (J/(kg·K))"],
             rows: [
               [T("Aluminium", "Alumiini"), "0.22", "900"], [T("Alcohol (ethyl)", "Etanoli"), "0.58", "2400"], [T("Copper", "Kupari"), "0.093", "390"],
@@ -278,7 +278,7 @@
               [T("Steam (110 °C)", "Vesihöyry (110 °C)"), "0.48", "2010"], [T("Human body (average)", "Ihmiskeho (keskiarvo)"), "0.83", "3470"], [T("Protein", "Proteiini"), "0.4", "1700"]] },
           { id: "t6-cap-c1", type: "callout", kind: "tip", html: T(
             "Water has an unusually large specific heat. That is why it stores so much heat, and why heating water consumes so much energy.",
-            "Vedellä on poikkeuksellisen suuri ominaislämpökapasiteetti. Siksi vesi varastoi paljon lämpöä ja veden lämmittäminen kuluttaa paljon energiaa.") },
+            "Vedellä on poikkeuksellisen suuri ominais\u00ADlämpö\u00ADkapasiteetti. Siksi vesi varastoi paljon lämpöä ja veden lämmittäminen kuluttaa paljon energiaa.") },
           { id: "t6-cap-ex1", type: "example", title: T("Electric water heater", "Sähköinen vedenlämmitin"),
             problem: T("A water heater holds 450 L. What energy is needed to raise the temperature from 4.0 °C to 75 °C, and what average electrical power does it take to do it in 8.0 h?",
                        "Vedenlämmittimen tilavuus on 450 L. Kuinka paljon energiaa tarvitaan lämpötilan nostamiseen 4,0 °C:sta 75 °C:seen ja mikä keskimääräinen sähköteho vaaditaan, kun lämmitys kestää 8,0 h?"),
@@ -312,9 +312,9 @@
           { id: "t6-cal-c1", type: "callout", kind: "warn", html: T(
             "Take each ΔT as a positive difference (initial minus final for the body that cools, final minus initial for the bodies that warm up).",
             "Käytä jokaisessa ΔT:ssa positiivista erotusta (jäähtyvällä kappaleella alkulämpötila miinus loppulämpötila, lämpenevillä loppulämpötila miinus alkulämpötila).") },
-          { id: "t6-cal-ex1", type: "example", title: T("Specific heat of an alloy", "Seoksen ominaislämpökapasiteetti"),
+          { id: "t6-cal-ex1", type: "example", title: T("Specific heat of an alloy", "Seoksen ominais\u00ADlämpö\u00ADkapasiteetti"),
             problem: T("A 0.150 kg alloy sample is heated to 540 °C and placed in 0.400 kg of water at 10.0 °C in a 0.200 kg aluminium calorimeter cup. The final temperature is 30.5 °C. Find the specific heat of the alloy.",
-                       "0,150 kg:n seosnäyte kuumennetaan 540 °C:seen ja pudotetaan 0,400 kg:aan 10,0 °C:n vettä, joka on 0,200 kg:n alumiinisessa kalorimetrin kupissa. Loppulämpötila on 30,5 °C. Laske seoksen ominaislämpökapasiteetti."),
+                       "0,150 kg:n seosnäyte kuumennetaan 540 °C:seen ja pudotetaan 0,400 kg:aan 10,0 °C:n vettä, joka on 0,200 kg:n alumiinisessa kalorimetrin kupissa. Loppulämpötila on 30,5 °C. Laske seoksen ominais\u00ADlämpö\u00ADkapasiteetti."),
             given: ["m_a = 0.150 kg, t_a = 540 °C", "m_w = 0.400 kg, c_w = 4186 J/(kg·K), t_w = 10.0 °C", "m_cal = 0.200 kg, c_cal = 900 J/(kg·K)", "t_l = 30.5 °C"],
             steps: [
               T("Heat lost by the alloy equals heat gained by water and cup. Solve for c_a:", "Seoksen luovuttama lämpö on yhtä suuri kuin veden ja kupin vastaanottama lämpö. Ratkaistaan c_a:"),
@@ -341,7 +341,7 @@
           { id: "t6-cp-f2", type: "formula", key: true, tex: "P_V = {Q_V}/{t} = {c_V m ΔT}/{t},   P_p = {Q_p}/{t} = {c_p m ΔT}/{t}", label: T("Power equations", "Tehoyhtälöt") },
           { id: "t6-cp-p2", type: "text", html: T(
             "<p>Two equations are needed because the specific heats at constant pressure and at constant volume differ. The difference is given by the ratio of specific heats, the <dfn data-term=\"gamma\">adiabatic index</dfn>. It comes from thermal expansion. When a gas is heated at constant pressure it expands and does work, so it needs more heat than at constant volume.</p>",
-            "<p>Tarvitaan kaksi yhtälöä, koska ominaislämpökapasiteetit vakiopaineessa ja vakiotilavuudessa poikkeavat toisistaan. Ero kuvataan ominaislämpöjen suhteella, <dfn data-term=\"gamma\">adiabaattivakiolla</dfn>. Ero johtuu lämpölaajenemisesta: kun kaasua lämmitetään vakiopaineessa, se laajenee ja tekee työtä, joten se tarvitsee enemmän lämpöä kuin vakiotilavuudessa.</p>") },
+            "<p>Tarvitaan kaksi yhtälöä, koska ominais\u00ADlämpö\u00ADkapasiteetit vakiopaineessa ja vakiotilavuudessa poikkeavat toisistaan. Ero kuvataan ominaislämpöjen suhteella, <dfn data-term=\"gamma\">adiabaattivakiolla</dfn>. Ero johtuu lämpö\u00ADlaajenemisesta: kun kaasua lämmitetään vakiopaineessa, se laajenee ja tekee työtä, joten se tarvitsee enemmän lämpöä kuin vakiotilavuudessa.</p>") },
           { id: "t6-cp-f3", type: "formula", key: true, tex: "γ = {c_p}/{c_V}", label: T("Ratio of specific heats", "Ominaislämpöjen suhde") },
           { id: "t6-cp-t1", type: "table", caption: T("Typical values of γ", "γ:n tyypillisiä arvoja"),
             head: [T("Substance", "Aine"), "γ"],
@@ -380,7 +380,7 @@
           { id: "t6-lat-q1", type: "question", q: "t6-q11" },
           { id: "t6-lat-p2", type: "text", html: T(
             "<p>The widget below shows the temperature of 1.0 kg of ice at −40 °C as heat is added (the slide figure, in kcal: 20 for the ice, 80 for melting, 100 for the water, about 540 for boiling). The sloped parts follow the specific heats. The flat steps are the phase changes: the long one at 100 °C is boiling, which costs far more than melting.</p>",
-            "<p>Alla oleva komponentti näyttää 1,0 kg:n −40 °C:n jään lämpötilan lisätyn lämmön funktiona (dian kuvaaja kilokaloreina: 20 jäälle, 80 sulamiselle, 100 vedelle, noin 540 kiehumiselle). Kaltevat osat noudattavat ominaislämpökapasiteetteja. Vaakasuorat osat ovat olomuodon muutokset: pitkä 100 °C:n kohdalla on kiehuminen, joka vaatii paljon enemmän energiaa kuin sulaminen.</p>") },
+            "<p>Alla oleva komponentti näyttää 1,0 kg:n −40 °C:n jään lämpötilan lisätyn lämmön funktiona (dian kuvaaja kilokaloreina: 20 jäälle, 80 sulamiselle, 100 vedelle, noin 540 kiehumiselle). Kaltevat osat noudattavat ominais\u00ADlämpö\u00ADkapasiteetteja. Vaakasuorat osat ovat olomuodon muutokset: pitkä 100 °C:n kohdalla on kiehuminen, joka vaatii paljon enemmän energiaa kuin sulaminen.</p>") },
           { id: "t6-lat-curve", type: "interactive", widget: "heating", title: T("Heating curve: ice → water → steam", "Lämmityskäyrä: jää → vesi → höyry"),
             caption: T("Drag Q or press Play to heat 1 kg at power P. The temperature stays at 0 °C while the ice melts and at 100 °C while the water boils (1 kcal = 4.186 kJ).",
                        "Vedä Q:ta tai paina Play, niin 1 kg lämpenee teholla P. Lämpötila pysyy 0 °C:ssa jään sulaessa ja 100 °C:ssa veden kiehuessa (1 kcal = 4,186 kJ)."),
@@ -455,8 +455,8 @@
       { id: "t6-q4", mode: "practice", type: "mc", difficulty: 1,
         prompt: T("Equal masses of water and copper receive the same heat. Which warms up more, and why?", "Yhtä suuret vesi- ja kuparimassat saavat saman lämmön. Kumpi lämpenee enemmän ja miksi?"),
         options: [
-          { id: "a", html: T("Copper: its specific heat is much smaller", "Kupari: sen ominaislämpökapasiteetti on paljon pienempi") },
-          { id: "b", html: T("Water: its specific heat is much smaller", "Vesi: sen ominaislämpökapasiteetti on paljon pienempi") },
+          { id: "a", html: T("Copper: its specific heat is much smaller", "Kupari: sen ominais\u00ADlämpö\u00ADkapasiteetti on paljon pienempi") },
+          { id: "b", html: T("Water: its specific heat is much smaller", "Vesi: sen ominais\u00ADlämpö\u00ADkapasiteetti on paljon pienempi") },
           { id: "c", html: T("Both the same: same mass, same heat", "Yhtä paljon: sama massa, sama lämpö") },
           { id: "d", html: T("Copper: its density is larger", "Kupari: sen tiheys on suurempi") }],
         hints: [T("ΔT = Q/(c·m). Compare the c values in the table.", "ΔT = Q/(c·m). Vertaa taulukon c-arvoja.")] },
@@ -482,7 +482,7 @@
         options: [
           { id: "a", html: T("So that almost no heat is exchanged with the surroundings, and heat lost = heat gained holds", "Jotta lämpöä ei vaihdu juuri lainkaan ympäristön kanssa ja luovutettu lämpö = vastaanotettu lämpö pätee") },
           { id: "b", html: T("So that the water can reach a higher temperature than the sample", "Jotta vesi voi saavuttaa näytettä korkeamman lämpötilan") },
-          { id: "c", html: T("To keep the specific heat of water constant", "Jotta veden ominaislämpökapasiteetti pysyy vakiona") },
+          { id: "c", html: T("To keep the specific heat of water constant", "Jotta veden ominais\u00ADlämpö\u00ADkapasiteetti pysyy vakiona") },
           { id: "d", html: T("To make the final temperature equal to zero", "Jotta loppulämpötila olisi nolla") }],
         hints: [T("Think about what the equation assumes about losses.", "Mieti, mitä yhtälö olettaa häviöistä.")] },
       { id: "t6-q9", mode: "practice", type: "numeric", difficulty: 2, tol: 0.02,
@@ -563,14 +563,14 @@
         prompt: T("0.30 kg of water at 80 °C is mixed with 0.50 kg of water at 20 °C in an ideal calorimeter. What is the final temperature?",
                   "0,30 kg 80 °C:n vettä sekoitetaan 0,50 kg:aan 20 °C:n vettä ideaalisessa kalorimetrissä. Mikä on loppulämpötila?"),
         fields: [{ id: "t", tex: "t_l", unit: "°C" }],
-        hints: [T("The specific heat of both parts is the same and cancels.", "Molempien osien ominaislämpökapasiteetti on sama ja supistuu pois.")] },
+        hints: [T("The specific heat of both parts is the same and cancels.", "Molempien osien ominais\u00ADlämpö\u00ADkapasiteetti on sama ja supistuu pois.")] },
       { id: "t6-g6", mode: "graded", type: "mc", difficulty: 2,
         prompt: T("Which statement about the heating curve of water at 1 atm is correct?", "Mikä väite veden lämmityskäyrästä 1 atm:n paineessa on oikea?"),
         options: [
           { id: "a", html: T("Boiling takes about seven times more energy than melting the same mass of ice", "Kiehuminen vaatii noin seitsemän kertaa enemmän energiaa kuin saman jäämassan sulaminen") },
           { id: "b", html: T("Melting takes more energy than boiling", "Sulaminen vaatii enemmän energiaa kuin kiehuminen") },
           { id: "c", html: T("The temperature rises during boiling", "Lämpötila nousee kiehumisen aikana") },
-          { id: "d", html: T("Ice and steam have the same specific heat", "Jäällä ja höyryllä on sama ominaislämpökapasiteetti") }],
+          { id: "d", html: T("Ice and steam have the same specific heat", "Jäällä ja höyryllä on sama ominais\u00ADlämpö\u00ADkapasiteetti") }],
         hints: [T("Compare L_V = 2260 kJ/kg with L_F = 333 kJ/kg.", "Vertaa arvoja L_V = 2260 kJ/kg ja L_F = 333 kJ/kg.")] }
     ]
   });

@@ -527,7 +527,7 @@
   /* ================================================================== */
   TDC.registerTopic({
     id: 't1', num: 1,
-    title: { en: 'Introduction to electrical engineering', fi: 'Johdatus sähkötekniikkaan' },
+    title: { en: 'Introduction to electrical engineering', fi: 'Johdatus sähkö\u00ADtekniikkaan' },
     subtitle: { en: 'Units, charge, electric field, voltage, power, DC-circuit basics and measurements.', fi: 'Yksiköt, varaus, sähkökenttä, jännite, teho, tasasähköpiirin perusteet ja mittaukset.' },
     objectives: [
       { en: 'use SI units, prefixes and standard quantity symbols correctly', fi: 'käyttää SI-yksiköitä, etuliitteitä ja suuresymboleja oikein' },
@@ -600,9 +600,9 @@
         blocks: [
           { id: 't1-units-p1', type: 'text', html: {
             en: '<p>Electrical engineering relies on agreed <b>quantities, symbols and units</b>. They are defined by standardization organisations, so that a "volt" means the same in Helsinki and in Houston.</p>',
-            fi: '<p>Sähkötekniikka perustuu sovittuihin <b>suureisiin, tunnuksiin ja yksiköihin</b>. Niistä sopivat standardointijärjestöt, jotta voltti tarkoittaa samaa Helsingissä ja Houstonissa.</p>' } },
+            fi: '<p>Sähkö\u00ADtekniikka perustuu sovittuihin <b>suureisiin, tunnuksiin ja yksiköihin</b>. Niistä sopivat standardointijärjestöt, jotta voltti tarkoittaa samaa Helsingissä ja Houstonissa.</p>' } },
           { id: 't1-units-t1', type: 'table', caption: { en: 'Standardization organisations', fi: 'Standardointijärjestöt' },
-            head: ['', { en: 'General', fi: 'Yleinen' }, { en: 'Electrotechnical', fi: 'Sähkötekniikka' }],
+            head: ['', { en: 'General', fi: 'Yleinen' }, { en: 'Electrotechnical', fi: 'Sähkö\u00ADtekniikka' }],
             rows: [
               [{ en: 'World wide', fi: 'Maailmanlaajuinen' }, 'ISO (International Organization for Standardization)', 'IEC (International Electrotechnical Commission)'],
               [{ en: 'European', fi: 'Eurooppalainen' }, 'CEN (European Committee for Standardization)', 'CENELEC (European Committee for Electrotechnical Standardization)'],
@@ -1147,7 +1147,7 @@
           { id: 't1-pr-p2', type: 'text', html: {
             en: '<p>A <dfn data-term="gfci">GFCI</dfn> (RCD) protects humans and animals. An iron ring with a sensing coil measures the <b>difference</b> between the currents in the hot and the neutral line. Normally it is zero. If the difference reaches <b>30 mA</b> (some current flows through a person or the ground), the induced voltage trips a solenoid breaker which cuts the current very quickly. AC currents above about 50 mA can cause severe damage or death. Press the test button T now and then.</p>',
             fi: '<p><dfn data-term="gfci">Vikavirtasuoja</dfn> suojaa ihmisiä ja eläimiä. Rautarengas ja mittauskäämi mittaavat vaihe- ja nollajohtimen virtojen <b>erotusta</b>. Normaalisti se on nolla. Jos erotus saavuttaa <b>30 mA</b> (osa virrasta kulkee ihmisen tai maan kautta), indusoitunut jännite laukaisee solenoidikatkaisijan, joka katkaisee virran erittäin nopeasti. Yli noin 50 mA:n vaihtovirta voi aiheuttaa vakavia vammoja tai kuoleman. Paina testipainiketta T silloin tällöin.</p>' } },
-          { id: 't1-pr-w1', type: 'interactive', widget: 'custom', title: { en: 'Fuse and GFCI simulator', fi: 'Sulake- ja vikavirtasuojasimulaattori' },
+          { id: 't1-pr-w1', type: 'interactive', widget: 'custom', title: { en: 'Fuse and GFCI simulator', fi: 'Sulake- ja vika\u00ADvirta\u00ADsuoja\u00ADsimulaattori' },
             caption: { en: 'Raise the load current above 10 A: the ribbon heats and melts after a time that shrinks with I². Then raise the leakage current: the GFCI trips at 30 mA, a current the fuse would never notice. (The melting-time curve is an illustrative model.)', fi: 'Nosta kuormavirta yli 10 A:n: lanka kuumenee ja palaa poikki ajassa, joka lyhenee I²:n mukana. Nosta sitten vuotovirtaa: vikavirtasuoja laukeaa 30 mA:ssa, jota sulake ei huomaisi lainkaan. (Sulamisaikakäyrä on havainnollistava malli.)' },
             config: { mount: mountFuse } },
           { id: 't1-pr-q1', type: 'question', q: 't1-q16' }
@@ -1199,7 +1199,7 @@
             ] }],
             [{ id: 't1-me-l2', type: 'list', ordered: true, items: [
               { en: '<b>Resistance:</b> disconnect the resistor from the circuit', fi: '<b>Resistanssi:</b> irrota vastus piiristä' },
-              { en: 'select the ohmmeter function', fi: 'valitse ohmimittaritoiminto' },
+              { en: 'select the ohmmeter function', fi: 'valitse ohmi\u00ADmittari\u00ADtoiminto' },
               { en: 'connect the leads (polarity is unimportant) and select the range', fi: 'kytke johtimet (napaisuudella ei ole väliä) ja valitse alue' },
               { en: 'read; change the range if needed', fi: 'lue; vaihda aluetta tarvittaessa' }
             ] }]
@@ -1293,7 +1293,7 @@
         prompt: { en: 'Put the steps of measuring the resistance of a resistor in the correct order.', fi: 'Aseta vastuksen resistanssin mittauksen vaiheet oikeaan järjestykseen.' },
         items: [
           { id: 'e', html: { en: 'Read the value; change the range and repeat if necessary', fi: 'Lue arvo; vaihda tarvittaessa aluetta ja toista' } },
-          { id: 'c', html: { en: 'Select the ohmmeter function', fi: 'Valitse ohmimittaritoiminto' } },
+          { id: 'c', html: { en: 'Select the ohmmeter function', fi: 'Valitse ohmi\u00ADmittari\u00ADtoiminto' } },
           { id: 'a', html: { en: 'Disconnect the resistor from the circuit', fi: 'Irrota vastus piiristä' } },
           { id: 'd', html: { en: 'Connect the leads across the resistor and select the range', fi: 'Kytke mittajohtimet vastuksen yli ja valitse alue' } },
           { id: 'b', html: { en: 'Check that the reading is reasonable', fi: 'Tarkista, että lukema on järkevä' } }

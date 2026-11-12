@@ -6,7 +6,7 @@
   TDC.topicList = [
     { id: 't6', num: 6, color: 'var(--t1)',
       title: { en: 'Capacitance and capacitors', fi: 'Kapasitanssi ja kondensaattorit' },
-      summary: { en: 'Storing charge in an electric field: the plate capacitor, dielectrics, capacitor types, connections, energy and RC charging.', fi: 'Varauksen varastointi sähkökenttään: levykondensaattori, eristeet, kondensaattorityypit, kytkennät, energia ja RC-piirin varautuminen.' },
+      summary: { en: 'Storing charge in an electric field: the plate capacitor, dielectrics, capacitor types, connections, energy and RC charging.', fi: 'Varauksen varastointi sähkökenttään: levy\u00ADkondensaattori, eristeet, kondensaattorityypit, kytkennät, energia ja RC-piirin varautuminen.' },
       icon: '<svg viewBox="0 0 64 64"><path ' + S + ' d="M4 32h22M38 32h22M26 14v36M38 14v36"/><path ' + S + ' d="M16 22h6M19 19v6M42 22h6" opacity=".55"/></svg>' },
     { id: 't7', num: 7, color: 'var(--t2)',
       title: { en: 'Coils and inductance', fi: 'Kelat ja induktanssi' },
@@ -17,7 +17,7 @@
       summary: { en: 'Magnetic fields of currents, forces on wires, Faraday’s and Lenz’s laws, generators, transformers and power transmission.', fi: 'Virran magneettikenttä, johtimeen kohdistuva voima, Faradayn ja Lenzin lait, generaattorit, muuntajat ja sähkönsiirto.' },
       icon: '<svg viewBox="0 0 64 64"><circle ' + S + ' cx="32" cy="32" r="24"/><path ' + S + ' d="M14 32c4-12 8-12 12 0s8 12 12 0 8-12 12 0"/><path ' + S + ' d="M32 8v6M32 50v6" opacity=".55"/></svg>' },
     { id: 't9', num: 9, color: 'var(--t4)',
-      title: { en: 'AC quantities and series circuits', fi: 'Vaihtosähkösuureet ja sarjapiirit' },
+      title: { en: 'AC quantities and series circuits', fi: 'Vaihto\u00ADsähkö\u00ADsuureet ja sarjapiirit' },
       summary: { en: 'Sine waves, frequency, phasors and complex numbers, RMS values, reactance and impedance of series RL, RC and RLC circuits, power and resonance.', fi: 'Siniaallot, taajuus, osoittimet ja kompleksiluvut, tehollisarvot, reaktanssi ja impedanssi RL-, RC- ja RLC-sarjapiireissä, teho ja resonanssi.' },
       icon: '<svg viewBox="0 0 64 64"><path ' + S + ' d="M6 32h52M14 32V12"/><path ' + S + ' d="M14 32l26-14" /><path ' + S + ' d="M40 18l-1 6M40 18l-6 0" opacity=".7"/><path ' + S + ' d="M6 46c6-10 12-10 18 0s12 10 18 0 12-10 18 0" opacity=".55"/></svg>' },
     { id: 't10', num: 10, color: 'var(--t5)',

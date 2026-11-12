@@ -20,7 +20,7 @@
       summary: { en: 'Replace any linear network by one source and one resistor; source transformations and maximum power transfer.', fi: 'Korvaa mikä tahansa lineaarinen verkko yhdellä lähteellä ja vastuksella; lähdemuunnokset ja maksimitehon siirto.' },
       icon: '<svg viewBox="0 0 64 64"><rect ' + S + ' x="4" y="14" width="22" height="36" rx="3"/><path ' + S + ' d="M26 32h6M42 24v16M32 32h4M52 32h8"/><circle ' + S + ' cx="42" cy="32" r="8"/><path ' + S + ' d="M11 26h8M11 38h8M15 22v8" opacity=".6"/></svg>' },
     { id: 't5', num: 5, color: 'var(--t5)',
-      title: { en: 'Loop (mesh) current method', fi: 'Silmukkavirtamenetelmä' },
+      title: { en: 'Loop (mesh) current method', fi: 'Silmukka\u00ADvirta\u00ADmenetelmä' },
       summary: { en: 'Systematic analysis with loop currents: writing the equations, the resistance matrix and solving larger networks.', fi: 'Järjestelmällinen analyysi silmukkavirroilla: yhtälöiden kirjoittaminen, resistanssimatriisi ja suurempien verkkojen ratkaisu.' },
       icon: '<svg viewBox="0 0 64 64"><rect ' + S + ' x="6" y="12" width="52" height="40" rx="2"/><path ' + S + ' d="M32 12v40"/><path ' + S + ' d="M14 26a8 8 0 1 1 3 10M50 38a8 8 0 1 1-3-10"/><path ' + S + ' d="M14 22v5h5M50 42v-5h-5"/></svg>' }
   ];

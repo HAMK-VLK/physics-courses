@@ -82,7 +82,7 @@
 
   TDC.registerTopic({
     id: 't9', num: 9,
-    title: { en: 'AC quantities and series circuits', fi: 'Vaihtosähkösuureet ja sarjapiirit' },
+    title: { en: 'AC quantities and series circuits', fi: 'Vaihto\u00ADsähkö\u00ADsuureet ja sarjapiirit' },
     subtitle: { en: 'Sine waves, phasors, rms values, reactance, impedance, power and series resonance.', fi: 'Siniaallot, osoittimet, tehollisarvot, reaktanssi, impedanssi, teho ja sarjaresonanssi.' },
     objectives: [
       { en: 'describe ac waveforms with period, frequency, angular frequency and wavelength', fi: 'kuvata vaihtosähköaaltomuotoja jaksonajan, taajuuden, kulmataajuuden ja aallonpituuden avulla' },

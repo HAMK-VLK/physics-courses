@@ -121,13 +121,16 @@
   }
   // Character offset of a boundary point within root's text. The point may sit in an element (drag from a margin,
   // triple-click): then it counts the text nodes that end before it.
+  // Offsets count visible characters only: soft hyphens (U+00AD) added to the content later must not move saved highlights.
+  function vis(s, upto) { var c = 0; for (var i = 0; i < upto; i++) if (s.charCodeAt(i) !== 173) c++; return c; }
+  function rawIdx(s, k) { var c = 0, i = 0; while (i < s.length && c < k) { if (s.charCodeAt(i) !== 173) c++; i++; } return i; }
   function offsetOf(root, node, off) {
     var total = 0, list = textNodes(root), r = document.createRange();
     r.setStart(node, off);
     for (var i = 0; i < list.length; i++) {
-      if (list[i] === node) return total + off;
+      if (list[i] === node) return total + vis(node.data, off);
       if (r.comparePoint(list[i], list[i].length) > 0) return total;   // this text node ends after the point
-      total += list[i].length;
+      total += vis(list[i].data, list[i].length);
     }
     return total;
   }
@@ -135,9 +138,9 @@
   function wrapRange(root, start, end, hl) {
     var pos = 0;
     textNodes(root).forEach(function (n) {
-      var s = pos, e = pos + n.length; pos = e;
+      var s = pos, e = pos + vis(n.data, n.length); pos = e;
       if (e <= start || s >= end) return;
-      var a = Math.max(start, s) - s, b = Math.min(end, e) - s;
+      var a = rawIdx(n.data, Math.max(start, s) - s), b = rawIdx(n.data, Math.min(end, e) - s);
       var target = n;
       if (a > 0) target = target.splitText(a);
       if (b - a < target.length) target.splitText(b - a);

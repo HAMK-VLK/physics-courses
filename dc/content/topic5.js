@@ -543,7 +543,7 @@
   // ---------------------------------------------------------------------------------------------
   TDC.registerTopic({
     id: 't5', num: 5,
-    title: { en: 'Loop method (mesh current method)', fi: 'Silmukkavirtamenetelmä' },
+    title: { en: 'Loop method (mesh current method)', fi: 'Silmukka\u00ADvirta\u00ADmenetelmä' },
     subtitle: { en: 'Solve a network with loop currents and the matrix equation R·I = E.', fi: 'Verkon ratkaisu silmukkavirroilla ja matriisiyhtälöllä R·I = E.' },
     objectives: [
       { en: 'explain why a network needs only b − n + 1 voltage equations', fi: 'selittää, miksi verkon ratkaisuun riittää b − n + 1 jänniteyhtälöä' },
@@ -551,7 +551,7 @@
       { en: 'write R·I = E directly from the circuit with the sign rules', fi: 'kirjoittaa yhtälö R·I = E suoraan piiristä merkkisääntöjen avulla' },
       { en: 'solve the loop currents and recover the branch currents', fi: 'ratkaista silmukkavirrat ja johtaa niistä haaravirrat' },
       { en: 'handle current sources by source conversion (and a supermesh)', fi: 'käsitellä virtalähteet lähteen muunnoksella (ja supersilmukalla)' },
-      { en: 'compare the loop method with the Kirchhoff branch-current method', fi: 'vertailla silmukkavirtamenetelmää Kirchhoffin haaravirtamenetelmään' }
+      { en: 'compare the loop method with the Kirchhoff branch-current method', fi: 'vertailla silmukka\u00ADvirta\u00ADmenetelmää Kirchhoffin haaravirtamenetelmään' }
     ],
     glossary: {
       loopMethod: { en: 'loop method (mesh current method)', fi: 'silmukkavirtamenetelmä', def: { en: 'Systematic analysis method whose unknowns are loop currents; the equations are KVL equations written in matrix form R·I = E.', fi: 'Systemaattinen analyysimenetelmä, jonka tuntemattomat ovat silmukkavirtoja; yhtälöt ovat jännitelain yhtälöitä matriisimuodossa R·I = E.' } },
@@ -591,7 +591,7 @@
         blocks: [
           { id: 't5-idea-p1', type: 'text', html: {
             en: '<p>The <dfn data-term="loopMethod">loop method</dfn> (also called the mesh current method) is a systematic way to analyse a network. Its basic unknowns are the <dfn data-term="loopCurrent">loop currents</dfn>: imaginary currents that circulate around the loops of the circuit. The equations are collected into one matrix equation <f>R · I = E</f>, where <f>R</f> is the <dfn data-term="resistanceMatrix">resistance matrix</dfn>, <f>I</f> is the vector of unknown loop currents and <f>E</f> is the vector of electromotive forces (<dfn data-term="emf">emfs</dfn>).</p>',
-            fi: '<p><dfn data-term="loopMethod">Silmukkavirtamenetelmä</dfn> on systemaattinen tapa analysoida verkko. Sen perustuntemattomat ovat <dfn data-term="loopCurrent">silmukkavirrat</dfn>: kuvitteelliset virrat, jotka kiertävät piirin silmukoita. Yhtälöt kootaan yhdeksi matriisiyhtälöksi <f>R · I = E</f>, jossa <f>R</f> on <dfn data-term="resistanceMatrix">resistanssimatriisi</dfn>, <f>I</f> on tuntemattomien silmukkavirtojen vektori ja <f>E</f> on lähdejännitteiden (<dfn data-term="emf">emf</dfn>) vektori.</p>' } },
+            fi: '<p><dfn data-term="loopMethod">Silmukka\u00ADvirta\u00ADmenetelmä</dfn> on systemaattinen tapa analysoida verkko. Sen perustuntemattomat ovat <dfn data-term="loopCurrent">silmukkavirrat</dfn>: kuvitteelliset virrat, jotka kiertävät piirin silmukoita. Yhtälöt kootaan yhdeksi matriisiyhtälöksi <f>R · I = E</f>, jossa <f>R</f> on <dfn data-term="resistanceMatrix">resistanssimatriisi</dfn>, <f>I</f> on tuntemattomien silmukkavirtojen vektori ja <f>E</f> on lähdejännitteiden (<dfn data-term="emf">emf</dfn>) vektori.</p>' } },
           { id: 't5-idea-h1', type: 'h', text: { en: 'How many unknowns does a network have?', fi: 'Kuinka monta tuntematonta verkossa on?' } },
           { id: 't5-idea-p2', type: 'text', html: {
             en: '<p>A network with <f>b</f> branches and <f>n</f> nodes has <f>2b</f> unknowns: one voltage and one current per branch. The figure shows a network with <f>b = 6</f> branches (A–F) and <f>n = 4</f> nodes, so there are 12 unknowns.</p>',
@@ -607,7 +607,7 @@
             legend: [['b', B('number of branches', 'haarojen lukumäärä'), ''], ['n', B('number of nodes', 'solmujen lukumäärä'), '']] },
           { id: 't5-idea-c1', type: 'callout', kind: 'key', title: B('Why this is a good deal', 'Miksi tämä kannattaa'),
             html: B('Instead of solving <f>2b = 12</f> unknowns, the loop method solves only <f>b − n + 1 = 3</f> loop currents. Everything else (branch currents, voltages) follows from them by simple sums and Ohm’s law.',
-                    'Ratkaisemalla <f>2b = 12</f> tuntemattoman sijaan silmukkavirtamenetelmässä ratkaistaan vain <f>b − n + 1 = 3</f> silmukkavirtaa. Kaikki muu (haaravirrat, jännitteet) seuraa niistä summilla ja Ohmin lailla.') },
+                    'Ratkaisemalla <f>2b = 12</f> tuntemattoman sijaan silmukka\u00ADvirta\u00ADmenetelmässä ratkaistaan vain <f>b − n + 1 = 3</f> silmukkavirtaa. Kaikki muu (haaravirrat, jännitteet) seuraa niistä summilla ja Ohmin lailla.') },
           { id: 't5-idea-w1', type: 'interactive', widget: 'readout', title: B('Count the equations', 'Laske yhtälöt'),
             caption: B('Choose the number of branches and nodes of a connected network. Check that (n − 1) + (b − n + 1) = b.', 'Valitse yhtenäisen verkon haarojen ja solmujen lukumäärä. Tarkista, että (n − 1) + (b − n + 1) = b.'),
             config: {
@@ -750,7 +750,7 @@
         blocks: [
           { id: 't5-src-p1', type: 'text', html: {
             en: '<p>The loop method is built on <em>voltage</em> equations, so <dfn data-term="currentSource">current sources</dfn> are first converted to voltage sources. A current source <f>J</f> with a parallel resistance <f>R</f> is equivalent to an emf <f>E = R · J</f> in series with the same <f>R</f> (<dfn data-term="sourceConversion">source conversion</dfn>).</p>',
-            fi: '<p>Silmukkavirtamenetelmä perustuu <em>jänniteyhtälöihin</em>, joten <dfn data-term="currentSource">virtalähteet</dfn> muunnetaan ensin jännitelähteiksi. Virtalähde <f>J</f> ja sen rinnalla oleva resistanssi <f>R</f> vastaavat lähdejännitettä <f>E = R · J</f> ja samaa resistanssia <f>R</f> sarjassa (<dfn data-term="sourceConversion">lähteen muunnos</dfn>).</p>' } },
+            fi: '<p>Silmukka\u00ADvirta\u00ADmenetelmä perustuu <em>jänniteyhtälöihin</em>, joten <dfn data-term="currentSource">virtalähteet</dfn> muunnetaan ensin jännitelähteiksi. Virtalähde <f>J</f> ja sen rinnalla oleva resistanssi <f>R</f> vastaavat lähdejännitettä <f>E = R · J</f> ja samaa resistanssia <f>R</f> sarjassa (<dfn data-term="sourceConversion">lähteen muunnos</dfn>).</p>' } },
           { id: 't5-src-f1', type: 'formula', key: true, tex: 'E = R · J', label: B('Current source → voltage source', 'Virtalähteestä jännitelähteeksi'),
             legend: [['J', B('source current (arrow = emf direction)', 'lähdevirta (nuoli = lähdejännitteen suunta)'), 'A'], ['R', B('parallel (internal) resistance', 'rinnakkainen (sisäinen) resistanssi'), 'Ω'], ['E', B('equivalent emf', 'ekvivalentti lähdejännite'), 'V']] },
           { id: 't5-src-w1', type: 'interactive', widget: 'readout', title: B('Source conversion', 'Lähteen muunnos'),
@@ -802,7 +802,7 @@
         blocks: [
           { id: 't5-proc-p1', type: 'text', html: {
             en: '<p>The loop method is easy to apply to circuits with two or more loops. Combine parallel resistors into one branch first: this removes unnecessary branches and equations. The six steps:</p>',
-            fi: '<p>Silmukkavirtamenetelmää on helppo soveltaa piireihin, joissa on kaksi tai useampi silmukka. Yhdistä ensin rinnakkaiset vastukset yhdeksi haaraksi: näin poistuu turhia haaroja ja yhtälöitä. Kuusi vaihetta:</p>' } },
+            fi: '<p>Silmukka\u00ADvirta\u00ADmenetelmää on helppo soveltaa piireihin, joissa on kaksi tai useampi silmukka. Yhdistä ensin rinnakkaiset vastukset yhdeksi haaraksi: näin poistuu turhia haaroja ja yhtälöitä. Kuusi vaihetta:</p>' } },
           { id: 't5-proc-list', type: 'list', ordered: true, items: [
             B('Transform current sources to voltage sources.', 'Muunna virtalähteet jännitelähteiksi.'),
             B('Remove parallel connections of resistors (combine them).', 'Poista vastusten rinnankytkennät (yhdistä ne).'),
@@ -829,8 +829,8 @@
             fi: '<p>Joskus virtalähdettä ei voi muuntaa, esimerkiksi kun se on kahden silmukan yhteisen haaran ainoa komponentti. Silloin kirjoitetaan:</p><ol><li>lähteen antama <b>rajoite</b>: kahden silmukkavirran erotus on <f>J</f>;</li><li>yksi jänniteyhtälö <dfn data-term="supermesh">supersilmukan</dfn> ympäri, eli molempien silmukoiden ympäri kulkevan ulkosilmukan, joka ohittaa lähdehaaran.</li></ol>' } },
           { id: 't5-proc-fig1', type: 'figure', svg: SVG_SUPER,
             caption: B('Left branch: E = 20 V with R₁ = 2 Ω. Middle branch: ideal current source J = 3 A pointing down. Right branch: R₂ = 4 Ω. Both loop currents clockwise.', 'Vasen haara: E = 20 V ja R₁ = 2 Ω. Keskihaara: ideaalinen virtalähde J = 3 A alaspäin. Oikea haara: R₂ = 4 Ω. Molemmat silmukkavirrat myötäpäivään.'),
-            alt: { en: 'Supermesh example circuit', fi: 'Supersilmukkaesimerkin piiri' } },
-          { id: 't5-proc-ex1', type: 'example', title: B('(extra) Supermesh example', '(lisä) Supersilmukkaesimerkki'),
+            alt: { en: 'Supermesh example circuit', fi: 'Super\u00ADsilmukka\u00ADesimerkin piiri' } },
+          { id: 't5-proc-ex1', type: 'example', title: B('(extra) Supermesh example', '(lisä) Super\u00ADsilmukka\u00ADesimerkki'),
             problem: B('Find both loop currents of the circuit in the figure.', 'Määritä kuvan piirin molemmat silmukkavirrat.'),
             given: ['E = 20 V', 'R_1 = 2 Ω, R_2 = 4 Ω', 'J = 3 A'],
             steps: [
@@ -849,13 +849,13 @@
 
       // ================================================================= 7. COMPARISON (extra)
       {
-        id: 't5-compare', title: { en: '(extra) Loop method vs. branch-current method', fi: '(lisä) Silmukkavirtamenetelmä ja haaravirtamenetelmä' },
+        id: 't5-compare', title: { en: '(extra) Loop method vs. branch-current method', fi: '(lisä) Silmukka\u00ADvirta\u00ADmenetelmä ja haaravirtamenetelmä' },
         blocks: [
           { id: 't5-cmp-p1', type: 'text', html: {
             en: '<p>The Kirchhoff <em>branch-current</em> method uses the <f>b</f> branch currents as unknowns: write <f>n − 1</f> KCL equations and <f>b − n + 1</f> KVL equations, then solve a <f>b × b</f> system. The loop method hides the KCL equations: choosing loop currents makes KCL true automatically, so only the <f>b − n + 1</f> KVL equations remain.</p>',
-            fi: '<p>Kirchhoffin <em>haaravirtamenetelmässä</em> tuntemattomina ovat <f>b</f> haaravirtaa: kirjoitetaan <f>n − 1</f> solmuyhtälöä ja <f>b − n + 1</f> silmukkayhtälöä ja ratkaistaan <f>b × b</f> -yhtälöryhmä. Silmukkavirtamenetelmässä solmuyhtälöt piiloutuvat: silmukkavirtojen valinta toteuttaa solmulain automaattisesti, joten jäljelle jäävät vain <f>b − n + 1</f> jänniteyhtälöä.</p>' } },
+            fi: '<p>Kirchhoffin <em>haaravirtamenetelmässä</em> tuntemattomina ovat <f>b</f> haaravirtaa: kirjoitetaan <f>n − 1</f> solmuyhtälöä ja <f>b − n + 1</f> silmukkayhtälöä ja ratkaistaan <f>b × b</f> -yhtälöryhmä. Silmukka\u00ADvirta\u00ADmenetelmässä solmuyhtälöt piiloutuvat: silmukkavirtojen valinta toteuttaa solmulain automaattisesti, joten jäljelle jäävät vain <f>b − n + 1</f> jänniteyhtälöä.</p>' } },
           { id: 't5-cmp-t1', type: 'table', caption: B('Example 1 (b = 6, n = 4)', 'Esimerkki 1 (b = 6, n = 4)'),
-            head: [B('', ''), B('Branch-current method', 'Haaravirtamenetelmä'), B('Loop method', 'Silmukkavirtamenetelmä')],
+            head: [B('', ''), B('Branch-current method', 'Haaravirtamenetelmä'), B('Loop method', 'Silmukka\u00ADvirta\u00ADmenetelmä')],
             rows: [
               [B('Unknowns', 'Tuntemattomat'), B('6 branch currents', '6 haaravirtaa'), B('3 loop currents', '3 silmukkavirtaa')],
               [B('KCL equations', 'Solmuyhtälöt'), { tex: 'n − 1 = 3' }, B('0 (automatic)', '0 (automaattisesti)')],
@@ -865,7 +865,7 @@
             ] },
           { id: 't5-cmp-c1', type: 'callout', kind: 'tip', title: B('When to choose which', 'Kumpi kannattaa valita'),
             html: B('The loop method is best for planar circuits with many branches in parallel with few loops and mostly voltage sources. If a circuit has many nodes but few branches per node, a nodal (node-voltage) method may need fewer equations. Both give identical physical results.',
-                    'Silmukkavirtamenetelmä sopii tasopiireille, joissa on vähän silmukoita ja pääasiassa jännitelähteitä. Jos piirissä on paljon solmuja mutta vähän haaroja, solmupistemenetelmä voi vaatia vähemmän yhtälöitä. Molemmat antavat saman fysikaalisen tuloksen.') },
+                    'Silmukka\u00ADvirta\u00ADmenetelmä sopii tasopiireille, joissa on vähän silmukoita ja pääasiassa jännitelähteitä. Jos piirissä on paljon solmuja mutta vähän haaroja, solmupistemenetelmä voi vaatia vähemmän yhtälöitä. Molemmat antavat saman fysikaalisen tuloksen.') },
           { id: 't5-cmp-q1', type: 'question', q: 't5-q15' },
           { id: 't5-cmp-h1', type: 'h', text: B('Adjust the circuit: when does a loop current vanish?', 'Säädä piiriä: milloin silmukkavirta häviää?') },
           { id: 't5-cmp-circ', type: 'interactive', widget: 'circuit', title: B('Right-hand branch current', 'Oikean haaran virta'),
@@ -969,7 +969,7 @@
           B('The current source gives I_a − I_b = J, so write I_a in terms of I_b.', 'Virtalähde antaa I_a − I_b = J, joten kirjoita I_a muuttujan I_b avulla.'),
           B('Substitute that into R_1 I_a + R_2 I_b = E with the new E and solve I_b first, then I_a.', 'Sijoita se yhtälöön R_1 I_a + R_2 I_b = E uudella E:n arvolla ja ratkaise ensin I_b, sitten I_a.')] },
       { id: 't5-q15', mode: 'practice', type: 'mc', difficulty: 2,
-        prompt: B('For Example 1 (<f>b = 6</f>, <f>n = 4</f>), how many equations must be solved simultaneously with (i) the branch-current method and (ii) the loop method?', 'Montako yhtälöä esimerkissä 1 (<f>b = 6</f>, <f>n = 4</f>) on ratkaistava yhtä aikaa (i) haaravirtamenetelmällä ja (ii) silmukkavirtamenetelmällä?'),
+        prompt: B('For Example 1 (<f>b = 6</f>, <f>n = 4</f>), how many equations must be solved simultaneously with (i) the branch-current method and (ii) the loop method?', 'Montako yhtälöä esimerkissä 1 (<f>b = 6</f>, <f>n = 4</f>) on ratkaistava yhtä aikaa (i) haaravirtamenetelmällä ja (ii) silmukka\u00ADvirta\u00ADmenetelmällä?'),
         options: [{ id: 'a', html: B('(i) 3 and (ii) 3', '(i) 3 ja (ii) 3') }, { id: 'b', html: B('(i) 6 and (ii) 3', '(i) 6 ja (ii) 3') }, { id: 'c', html: B('(i) 12 and (ii) 6', '(i) 12 ja (ii) 6') }, { id: 'd', html: B('(i) 4 and (ii) 3', '(i) 4 ja (ii) 3') }] },
       { id: 't5-q16', mode: 'practice', type: 'circuit', difficulty: 3, tol: 0.02,
         prompt: B('Adjust the source <f>E_1</f> (click it) so that the right-hand branch current (loop current <f>I_b</f>) becomes zero. Give the value of <f>E_1</f> that you set.', 'Säädä lähdettä <f>E_1</f> (napsauta sitä) niin, että oikean haaran virta (silmukkavirta <f>I_b</f>) on nolla. Anna asettamasi <f>E_1</f>:n arvo.'),
@@ -982,7 +982,7 @@
       { id: 't5-g1', mode: 'graded', type: 'numeric', difficulty: 3, points: 3, tol: 0.02,
         prompt: B('Two-window circuit, both loop currents clockwise: <f>R_1 = 2 Ω</f> (loop a only), <f>R_2 = 4 Ω</f> (shared), <f>R_3 = 6 Ω</f> (loop b only). <f>E_1 = 12 V</f> drives <f>I_a</f>; <f>E_2 = 6 V</f> opposes <f>I_b</f>. Find the loop currents <f>I_a</f> and <f>I_b</f>.', 'Kahden ikkunan piiri, molemmat silmukkavirrat myötäpäivään: <f>R_1 = 2 Ω</f> (vain silmukka a), <f>R_2 = 4 Ω</f> (yhteinen), <f>R_3 = 6 Ω</f> (vain silmukka b). <f>E_1 = 12 V</f> ajaa virtaa <f>I_a</f>; <f>E_2 = 6 V</f> vastustaa virtaa <f>I_b</f>. Laske silmukkavirrat <f>I_a</f> ja <f>I_b</f>.'),
         fields: [{ id: 'Ia', tex: 'I_a', unit: 'A' }, { id: 'Ib', tex: 'I_b', unit: 'A' }],
-        hints: [B('Use the loop method: one loop current per window, both clockwise, and write R·I = E.', 'Käytä silmukkavirtamenetelmää: yksi silmukkavirta per ikkuna, molemmat myötäpäivään, ja kirjoita R·I = E.'),
+        hints: [B('Use the loop method: one loop current per window, both clockwise, and write R·I = E.', 'Käytä silmukka\u00ADvirta\u00ADmenetelmää: yksi silmukkavirta per ikkuna, molemmat myötäpäivään, ja kirjoita R·I = E.'),
           B('Diagonal entries are the sums of the resistances in each loop. The shared resistor appears off-diagonal, with a sign set by whether the loop currents oppose there.', 'Lävistäjän alkiot ovat kunkin silmukan vastusten summia. Yhteinen vastus esiintyy lävistäjän ulkopuolella, ja sen etumerkki riippuu siitä, ovatko silmukkavirrat siinä vastakkaiset.'),
           B('E_i is the signed sum of the emfs in loop i: plus if the emf helps the loop current, minus if it opposes. Then solve the 2 × 2 system.', 'E_i on silmukan i lähdejännitteiden etumerkillinen summa: plus, jos lähde auttaa silmukkavirtaa, miinus, jos vastustaa. Ratkaise sitten 2 × 2 -yhtälöryhmä.')] },
       { id: 't5-g2', mode: 'graded', type: 'numeric', difficulty: 3, points: 4, tol: 0.02,
@@ -992,7 +992,7 @@
           B('Recompute each E_i that contains E_D (with its sign in that loop) and solve the 3 × 3 system.', 'Laske uudelleen jokainen E_i, jossa on E_D (silmukan mukaisella etumerkillä), ja ratkaise 3 × 3 -yhtälöryhmä.'),
           B('U_F follows from Ohm’s law for branch F: find the branch current from the loop currents that pass through F first.', 'U_F saadaan haaran F Ohmin laista: määritä ensin haaran virta niistä silmukkavirroista, jotka kulkevat haaran F kautta.')] },
       { id: 't5-g3', mode: 'graded', type: 'order', difficulty: 2, points: 2,
-        prompt: B('Put the six steps of the loop method in the correct order.', 'Laita silmukkavirtamenetelmän kuusi vaihetta oikeaan järjestykseen.'),
+        prompt: B('Put the six steps of the loop method in the correct order.', 'Laita silmukka\u00ADvirta\u00ADmenetelmän kuusi vaihetta oikeaan järjestykseen.'),
         items: [
           { id: 's5', html: B('Solve <f>I = R^{-1} E</f>', 'Ratkaise <f>I = R^{-1} E</f>') },
           { id: 's2', html: B('Remove parallel connections of resistors', 'Poista vastusten rinnankytkennät') },

@@ -64,7 +64,7 @@
     title: { en: 'Capacitance and capacitors', fi: 'Kapasitanssi ja kondensaattorit' },
     subtitle: { en: 'Charge, field energy, networks and RC transients.', fi: 'Varaus, kentän energia, kytkennät ja RC-transientit.' },
     objectives: [
-      { en: 'define capacitance C = Q/U and calculate it for plate, coaxial and parallel-wire geometries', fi: 'määritellä kapasitanssi C = Q/U ja laskea se levykondensaattorille, koaksiaalikaapelille ja rinnakkaisille johtimille' },
+      { en: 'define capacitance C = Q/U and calculate it for plate, coaxial and parallel-wire geometries', fi: 'määritellä kapasitanssi C = Q/U ja laskea se levy\u00ADkondensaattorille, koaksiaalikaapelille ja rinnakkaisille johtimille' },
       { en: 'explain the role of the dielectric, relative permittivity and dielectric strength', fi: 'selittää eristeen, suhteellisen permittiivisyyden ja läpilyöntilujuuden merkitys' },
       { en: 'use i = C·du/dt and recognise the main capacitor types and their polarity', fi: 'käyttää kaavaa i = C·du/dt ja tunnistaa tärkeimmät kondensaattorityypit ja niiden napaisuuden' },
       { en: 'combine capacitors in series and in parallel and find charges and voltages', fi: 'kytkeä kondensaattoreita sarjaan ja rinnan sekä laskea varaukset ja jännitteet' },
@@ -117,17 +117,17 @@
           fi: '<p><dfn data-term="capacitor">Kondensaattori</dfn> on mikä tahansa pari johtimia, jotka ovat lähellä toisiaan ja eristetyt toisistaan. Se varastoi sähkövarausta, ja energia on johtimien välisessä sähkökentässä. Käyttökohteita ovat esimerkiksi kameran salama, tietokoneen varmistusenergia ja anturit.</p><p>Toisessa johtimessa on +Q ja toisessa −Q, joten nettovaraus on nolla. <dfn data-term="capacitance">Kapasitanssi</dfn> kertoo, kuinka paljon varausta varastoituu volttia kohti.</p>' } },
         { id: 't6-cap-f1', type: 'formula', key: true, tex: 'C = {Q}/{U}', label: { en: 'Definition of capacitance', fi: 'Kapasitanssin määritelmä' },
           legend: [['C', { en: 'capacitance', fi: 'kapasitanssi' }, 'F = C/V'], ['Q', { en: 'charge on one conductor', fi: 'varaus yhdellä johtimella' }, 'C'], ['U', { en: 'voltage between conductors', fi: 'johtimien välinen jännite' }, 'V']] },
-        { id: 't6-cap-f2', type: 'formula', key: true, tex: 'C = {ε_0 ε_r A}/{d}', label: { en: 'Parallel plate capacitor', fi: 'Levykondensaattori' }, // (extra) the PDF never prints it explicitly
+        { id: 't6-cap-f2', type: 'formula', key: true, tex: 'C = {ε_0 ε_r A}/{d}', label: { en: 'Parallel plate capacitor', fi: 'Levy\u00ADkondensaattori' }, // (extra) the PDF never prints it explicitly
           legend: [['ε_0', { en: 'permittivity of vacuum', fi: 'tyhjiön permittiivisyys' }, '8,854·10⁻¹² F/m'], ['ε_r', { en: 'relative permittivity', fi: 'suhteellinen permittiivisyys' }, ''], ['A', { en: 'plate area', fi: 'levyn pinta-ala' }, 'm²'], ['d', { en: 'plate distance', fi: 'levyjen etäisyys' }, 'm']] },
-        { id: 't6-cap-fig1', type: 'figure', svg: figPlates, caption: { en: 'Plate capacitor: charges +Q and −Q, field lines run from + to −.', fi: 'Levykondensaattori: varaukset +Q ja −Q, kenttäviivat kulkevat +:sta −:een.' }, alt: { en: 'Two parallel plates with field lines', fi: 'Kaksi yhdensuuntaista levyä ja kenttäviivoja' } },
-        { id: 't6-cap-i1', type: 'interactive', widget: 'custom', title: { en: 'Plate capacitor explorer', fi: 'Levykondensaattorin tutkija' },
+        { id: 't6-cap-fig1', type: 'figure', svg: figPlates, caption: { en: 'Plate capacitor: charges +Q and −Q, field lines run from + to −.', fi: 'Levy\u00ADkondensaattori: varaukset +Q ja −Q, kenttäviivat kulkevat +:sta −:een.' }, alt: { en: 'Two parallel plates with field lines', fi: 'Kaksi yhdensuuntaista levyä ja kenttäviivoja' } },
+        { id: 't6-cap-i1', type: 'interactive', widget: 'custom', title: { en: 'Plate capacitor explorer', fi: 'Levy\u00ADkondensaattorin tutkija' },
           caption: { en: 'Slide the area, distance and permittivity. C grows with A and ε_r and falls with d, whatever the voltage is.', fi: 'Säädä pinta-alaa, etäisyyttä ja permittiivisyyttä. C kasvaa A:n ja ε_r:n kasvaessa ja pienenee d:n kasvaessa jännitteestä riippumatta.' },
           config: { mount: plateMount } },
         { id: 't6-cap-t1', type: 'text', html: {
           en: '<p>C depends only on size, shape, the material between the conductors and their relative position, not on Q or U. Every pair of conductors has some capacitance; in wires and cables it is unwanted (<dfn data-term="stray">stray capacitance</dfn>). Charged plates attract each other strongly, so the insulator needs both a high dielectric strength and a high relative permittivity.</p>',
           fi: '<p>C riippuu vain koosta, muodosta, johtimien välisestä aineesta ja johtimien keskinäisestä asennosta, ei varauksesta Q eikä jännitteestä U. Jokaisella johdinparilla on jokin kapasitanssi; johtimissa ja kaapeleissa se on haitallinen (<dfn data-term="stray">hajakapasitanssi</dfn>). Varatut levyt vetävät toisiaan voimakkaasti puoleensa, joten eristeen on oltava sekä läpilyöntilujuudeltaan että permittiivisyydeltään hyvä.</p>' } },
-        { id: 't6-cap-ex1', type: 'example', title: { en: 'Plate capacitor with mica', fi: 'Levykondensaattori kiilteellä' }, // (extra)
-          problem: { en: 'A plate capacitor has A = 0.010 m² (10 cm × 10 cm) and d = 1.0 mm. Find C with air and with mica (ε_r = 7). Then find the charge of a 470 µF capacitor at 12 V.', fi: 'Levykondensaattorin A = 0,010 m² (10 cm × 10 cm) ja d = 1,0 mm. Laske C ilmalla ja kiilteellä (ε_r = 7). Laske sitten 470 µF:n kondensaattorin varaus 12 V:lla.' },
+        { id: 't6-cap-ex1', type: 'example', title: { en: 'Plate capacitor with mica', fi: 'Levy\u00ADkondensaattori kiilteellä' }, // (extra)
+          problem: { en: 'A plate capacitor has A = 0.010 m² (10 cm × 10 cm) and d = 1.0 mm. Find C with air and with mica (ε_r = 7). Then find the charge of a 470 µF capacitor at 12 V.', fi: 'Levy\u00ADkondensaattorin A = 0,010 m² (10 cm × 10 cm) ja d = 1,0 mm. Laske C ilmalla ja kiilteellä (ε_r = 7). Laske sitten 470 µF:n kondensaattorin varaus 12 V:lla.' },
           given: ['A = 0.010 m²', 'd = 1.0 mm', 'ε_r = 1 / 7'],
           steps: [{ tex: { en: 'C_{air} = {8,854·10^{-12} · 0,010}/{1,0·10^{-3}} ≈ 88,5 pF', fi: 'C_{ilma} = {8,854·10^{-12} · 0,010}/{1,0·10^{-3}} ≈ 88,5 pF' } }, { tex: { en: 'C_{mica} = 7 · 88,5 pF ≈ 620 pF', fi: 'C_{kiille} = 7 · 88,5 pF ≈ 620 pF' } }, { tex: 'Q = C U = 470 µF · 12 V = 5,64 mC' }],
           result: { en: 'C_air ≈ 88.5 pF, C_mica ≈ 620 pF, Q = 5.64 mC', fi: 'C_ilma ≈ 88,5 pF, C_kiille ≈ 620 pF, Q = 5,64 mC' } },
@@ -153,7 +153,7 @@
           config: { params: [{ id: 'Es', tex: 'E_{max}', min: 3, max: 150, value: 3, unit: 'MV/m' }, { id: 'd', tex: 'd', min: 1e-4, max: 5e-3, value: 1e-3, unit: 'm', log: true }, { id: 'U', tex: 'U', min: 10, max: 200000, value: 1000, unit: 'V', log: true }],
             outputs: function (v) { var Um = v.Es * 1e6 * v.d, E = v.U / v.d / 1e6; return [{ tex: 'U_{max}', value: Um, unit: 'V' }, { tex: 'E = U/d', value: TDC.util.fmtNum(E, 3) + ' MV/m' }, { label: { en: 'Breakdown?', fi: 'Läpilyönti?' }, value: v.U > Um ? { en: '⚠ YES', fi: '⚠ KYLLÄ' } : { en: 'no', fi: 'ei' } }]; } } },
         { id: 't6-diel-ex1', type: 'example', title: { en: 'Maximum voltage of a mica and an air capacitor', fi: 'Kiille- ja ilmakondensaattorin suurin jännite' },
-          problem: { en: 'Two plate capacitors have d = 1.0 mm; one has mica, the other air. Find the maximum voltage of each.', fi: 'Kahden levykondensaattorin etäisyys on d = 1,0 mm; toisessa on kiille, toisessa ilma. Laske kummankin suurin jännite.' },
+          problem: { en: 'Two plate capacitors have d = 1.0 mm; one has mica, the other air. Find the maximum voltage of each.', fi: 'Kahden levy\u00ADkondensaattorin etäisyys on d = 1,0 mm; toisessa on kiille, toisessa ilma. Laske kummankin suurin jännite.' },
           given: ['d = 1.0 mm', { tex: { en: 'E_{max,mica} = 150 MV/m', fi: 'E_{max,kiille} = 150 MV/m' } }, { tex: { en: 'E_{max,air} = 3 MV/m', fi: 'E_{max,ilma} = 3 MV/m' } }],
           steps: [{ en: 'U_max = E_max · d.', fi: 'U_max = E_max · d.' }, { tex: { en: 'U_{mica} = 150·10^6 · 1,0·10^{-3} = 150 kV', fi: 'U_{kiille} = 150·10^6 · 1,0·10^{-3} = 150 kV' } }, { tex: { en: 'U_{air} = 3·10^6 · 1,0·10^{-3} = 3,0 kV', fi: 'U_{ilma} = 3·10^6 · 1,0·10^{-3} = 3,0 kV' } }],
           result: { en: 'Mica 150 kV, air 3.0 kV', fi: 'Kiille 150 kV, ilma 3,0 kV' } },
@@ -227,7 +227,7 @@
           [{ id: 't6-netw-p', type: 'figure', svg: figPar, caption: { en: 'Parallel: same U, Q = Q₁ + Q₂ + Q₃', fi: 'Rinnan: sama U, Q = Q₁ + Q₂ + Q₃' }, alt: { en: 'Parallel capacitors', fi: 'Rinnan kytketyt kondensaattorit' } },
            { id: 't6-netw-fp', type: 'formula', key: true, tex: 'C_{eq} = C_1 + C_2 + C_3' }]
         ] },
-        { id: 't6-netw-i1', type: 'interactive', widget: 'readout', title: { en: 'Series and parallel calculator', fi: 'Sarja- ja rinnankytkentälaskuri' },
+        { id: 't6-netw-i1', type: 'interactive', widget: 'readout', title: { en: 'Series and parallel calculator', fi: 'Sarja- ja rinnan\u00ADkytkentä\u00ADlaskuri' },
           caption: { en: 'In series the smallest capacitor gets the largest voltage. Defaults: 4, 6, 12 µF on 24 V.', fi: 'Sarjassa pienin kondensaattori saa suurimman jännitteen. Oletukset: 4, 6, 12 µF 24 V:lla.' },
           config: { params: [{ id: 'C1', tex: 'C_1', min: 1e-6, max: 100e-6, value: 4e-6, unit: 'F', log: true }, { id: 'C2', tex: 'C_2', min: 1e-6, max: 100e-6, value: 6e-6, unit: 'F', log: true }, { id: 'C3', tex: 'C_3', min: 1e-6, max: 100e-6, value: 12e-6, unit: 'F', log: true }, { id: 'U', tex: 'U_s', min: 1, max: 50, value: 24, unit: 'V' }],
             outputs: function (v) { var CT = 1 / (1 / v.C1 + 1 / v.C2 + 1 / v.C3), Q = CT * v.U, Ce = v.C1 + v.C2 + v.C3; return [{ tex: 'C_T', value: CT, unit: 'F' }, { tex: 'Q', value: Q, unit: 'C' }, { tex: 'U_1', value: Q / v.C1, unit: 'V' }, { tex: 'U_2', value: Q / v.C2, unit: 'V' }, { tex: 'U_3', value: Q / v.C3, unit: 'V' }, { tex: 'C_{eq}', value: Ce, unit: 'F' }, { tex: 'Q_{tot}', value: Ce * v.U, unit: 'C' }]; } } },
@@ -259,7 +259,7 @@
             points: function (p) { return [{ x: p.C * p.U / 1000, y: p.U, label: 'Q' }]; },
             readouts: function (p) { return [{ tex: 'W', value: 0.5 * p.C * 1e-6 * p.U * p.U, unit: 'J' }, { tex: 'Q', value: p.C * 1e-6 * p.U, unit: 'C' }]; } } },
         { id: 't6-energy-ex1', type: 'example', title: { en: 'Energy of two capacitors', fi: 'Kahden kondensaattorin energia' },
-          problem: { en: 'a) C = 470 µF at 12 V. b) Air plate capacitor A = 0.01 m², d = 1 mm at 100 V; check with the field formula. c) Air breaks down at 3 MV/m: find the energy density there.', fi: 'a) C = 470 µF, jännite 12 V. b) Ilmaeristeisen levykondensaattorin A = 0,01 m², d = 1 mm ja jännite 100 V; tarkista kenttäkaavalla. c) Ilman läpilyöntikenttä on 3 MV/m: laske energiatiheys tässä kentässä.' },
+          problem: { en: 'a) C = 470 µF at 12 V. b) Air plate capacitor A = 0.01 m², d = 1 mm at 100 V; check with the field formula. c) Air breaks down at 3 MV/m: find the energy density there.', fi: 'a) C = 470 µF, jännite 12 V. b) Ilmaeristeisen levy\u00ADkondensaattorin A = 0,01 m², d = 1 mm ja jännite 100 V; tarkista kenttäkaavalla. c) Ilman läpilyöntikenttä on 3 MV/m: laske energiatiheys tässä kentässä.' },
           given: ['470 µF, 12 V', 'A = 0.01 m², d = 1 mm', 'E = 3 MV/m'],
           steps: [{ tex: 'W = {1}/{2} · 470·10^{-6} · 12^2 = 33,8 mJ' }, { tex: 'C = 88,5 pF,  W = {1}/{2} C U^2 = 0,443 µJ;  E = 100 kV/m,  {1}/{2} ε_0 E^2 A d = 0,443 µJ' }, { tex: 'w = {1}/{2} · 8,854·10^{-12} · (3·10^6)^2 = 39,8 J/m³' }],
           result: { en: '33.8 mJ; 0.443 µJ; 39.8 J/m³', fi: '33,8 mJ; 0,443 µJ; 39,8 J/m³' } },
@@ -321,7 +321,7 @@
         text: { en: 'C = [[a]] / [[b]], so the unit farad equals [[c]] per volt.', fi: 'C = [[a]] / [[b]], joten yksikkö faradi on [[c]] jaettuna voltilla.' },
         fields: [{ id: 'a', kind: 'text' }, { id: 'b', kind: 'text' }, { id: 'c', kind: 'text' }] },
       { id: 't6-q2', mode: 'practice', type: 'numeric', difficulty: 1, tol: 0.02,
-        prompt: { en: 'A plate capacitor has A = 0.010 m², d = 1.0 mm and a mica dielectric (<f>ε_r = 7</f>). Find C.', fi: 'Levykondensaattorin A = 0,010 m², d = 1,0 mm ja eristeenä kiille (<f>ε_r = 7</f>). Laske C.' },
+        prompt: { en: 'A plate capacitor has A = 0.010 m², d = 1.0 mm and a mica dielectric (<f>ε_r = 7</f>). Find C.', fi: 'Levy\u00ADkondensaattorin A = 0,010 m², d = 1,0 mm ja eristeenä kiille (<f>ε_r = 7</f>). Laske C.' },
         fields: [{ id: 'C', tex: 'C', unit: 'F' }] },
       { id: 't6-q3', mode: 'practice', type: 'mc', difficulty: 2, shuffle: true,
         prompt: { en: 'A charged capacitor is isolated (Q constant) and a dielectric with K = 4 is inserted. What happens?', fi: 'Varattu kondensaattori eristetään (Q vakio) ja siihen työnnetään eriste, jolla K = 4. Mitä tapahtuu?' },

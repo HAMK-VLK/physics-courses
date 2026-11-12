@@ -76,7 +76,7 @@
     if (b.label) box.appendChild(txs('div', b.label, { class: 'formula-label' }));
     box.appendChild(TDC.formula.el(b.tex, true));
     if (b.legend) box.appendChild(el('dl', { class: 'formula-legend' }, b.legend.map(function (row) {
-      return el('div', {}, [el('dt', { html: TDC.formula.html(row[0]) }), txs('dd', row[1]), row[2] ? el('dd', { class: 'unit' }, '[' + row[2] + ']') : null]);
+      return el('div', {}, [el('dt', { html: TDC.formula.html(row[0]) }), txs('dd', row[1]), row[2] ? I.bind(el('dd', { class: 'unit' }), '[' + row[2] + ']', true) : null]);
     })));
     return box;
   };
@@ -90,7 +90,7 @@
   function cell(c, tag) {
     if (c && typeof c === 'object' && !Array.isArray(c) && (c.en != null || c.fi != null)) return txs(tag, c);
     if (c && typeof c === 'object' && c.tex) return el(tag, {}, TDC.formula.el(c.tex));
-    return el(tag, { html: c == null ? '' : String(c) });
+    return txs(tag, c == null ? '' : String(c));   // bound, so a decimal point follows the language
   }
   // Optional b.rowColors: one '#rrggbb' (or 'none') per row, tinting the row; the tone class keeps the text readable.
   function rowTint(hex) {
@@ -113,7 +113,7 @@
   TDC.on('langchange', function () { document.querySelectorAll('[data-alti]').forEach(setAlt); });
   B.figure = function (b) {
     // svg: markup string, or {en, fi} when the drawing contains words (re-bound on language change)
-    var media = b.svg ? (typeof b.svg === 'object' ? I.bind(el('div', { class: 'fig-svg' }), b.svg) : el('div', { class: 'fig-svg', html: b.svg }))
+    var media = b.svg ? I.bind(el('div', { class: 'fig-svg' }), b.svg)   // a string is bound too: its numbers follow the language
       : el('img', { src: b.img, alt: '', loading: 'lazy' });
     if (b.svg) upgradeRawMath(media);     // "I_s" labels -> real subscripts
     // alt -> <img alt> or, for inline SVG, role=img + aria-label (hides the SVG's own single-language labels)

@@ -160,7 +160,7 @@
             ["1 mmHg = 1 torr = 133 N/m²", "1 atm = 760 mmHg"],
             ["1 mmH₂O (4 °C) = 9.80 N/m²", "1 atm = 1.03·10⁴ mmH₂O"]] },
         { id: "t1-pr-w1", type: "interactive", widget: "readout",
-          title: T("Pressure unit converter", "Paineyksikkömuunnin"),
+          title: T("Pressure unit converter", "Paine\u00ADyksikkö\u00ADmuunnin"),
           caption: T("Slide the absolute pressure and read it in every unit. At 101.325 kPa you get exactly 1 atm and 760 mmHg.", "Säädä absoluuttista painetta ja lue se kaikissa yksiköissä. Arvolla 101,325 kPa saat tasan 1 atm ja 760 mmHg."),
           config: { params: [{ id: "p", tex: "p", min: 1, max: 250, step: 0.5, value: 101.325, unit: "kPa" }],
             outputs: function (v) {
@@ -238,7 +238,7 @@
           "<p>Säiliön pohjalla oleva <dfn data-term='transmitter'>painelähetin</dfn> mittaa ylipaineen <f>p_e = ρgh</f>, joka on verrannollinen nesteen pinnankorkeuteen <f>h</f>. Automaatiojärjestelmät käyttävät standardivirtaviestiä: 4 mA = mittausalueen alku, 20 mA = alueen loppu, välillä lineaarisesti. Nollapisteen \"elävä nolla\" 4 mA kertoo säätimelle myös, ettei johto ole poikki.</p>") },
         { id: "t1-hy-f2", type: "formula", tex: "I = 4 mA + 16 mA·{ρgh}/{p_{range}}", key: true, label: T("Transmitter current", "Lähettimen virta") },
         { id: "t1-hy-w2", type: "interactive", widget: "tank",
-          title: T("Tank level transmitter", "Säiliön pinnankorkeuslähetin"),
+          title: T("Tank level transmitter", "Säiliön pinnan\u00ADkorkeus\u00ADlähetin"),
           caption: T("Change the liquid level and density. The transmitter (range 0–50 kPa) sends 4–20 mA. A denser liquid at the same level gives a higher current.", "Muuta nestepinnan korkeutta ja tiheyttä. Lähetin (alue 0–50 kPa) lähettää 4–20 mA. Tiheämpi neste samalla korkeudella antaa suuremman virran."),
           config: { mode: "level" } },
         { id: "t1-hy-ex2", type: "example", title: T("Water tank transmitter", "Vesisäiliön lähetin"),

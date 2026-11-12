@@ -112,7 +112,7 @@ TDC.registerTopic({
       blocks: [
         { id: 't0-sub', type: 'interactive', widget: 'submarine', title: { en: 'Submarine: drag it deeper, fill or blow the ballast tanks', fi: 'Sukellusvene: vedä syvemmälle, täytä tai tyhjennä painolastisäiliöt' }, config: {} },
         { id: 't0-sub-depth', type: 'interactive', widget: 'submarine', title: { en: 'Submarine (depth only)', fi: 'Sukellusvene (vain syvyys)' }, config: { mode: 'depth', depthMax: 400 } },
-        { id: 't0-tank-level', type: 'interactive', widget: 'tank', title: { en: 'Tank level transmitter', fi: 'Säiliön pinnankorkeuslähetin' }, config: { mode: 'level' } },
+        { id: 't0-tank-level', type: 'interactive', widget: 'tank', title: { en: 'Tank level transmitter', fi: 'Säiliön pinnan\u00ADkorkeus\u00ADlähetin' }, config: { mode: 'level' } },
         { id: 't0-tank-mano', type: 'interactive', widget: 'tank', title: { en: 'U-tube manometer', fi: 'U-putkimanometri' }, config: { mode: 'manometer' } },
         { id: 't0-tank-press', type: 'interactive', widget: 'tank', title: { en: 'Hydraulic lift', fi: 'Hydraulinen nostin' }, config: { mode: 'press' } },
         { id: 't0-pipe-venturi', type: 'interactive', widget: 'pipeflow', title: { en: 'Venturi tube', fi: 'Venturiputki' }, config: { mode: 'venturi' } },

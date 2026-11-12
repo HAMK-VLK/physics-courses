@@ -176,7 +176,7 @@
         { id: 't7-sp-f1', type: 'formula', key: true, tex: 'L_T = L_1 + L_2 + L_3 + … + L_n', label: { en: 'Series', fi: 'Sarjaankytkentä' } },
         { id: 't7-sp-f2', type: 'formula', key: true, tex: '{1}/{L_T} = {1}/{L_1} + {1}/{L_2} + {1}/{L_3} + … + {1}/{L_n}', label: { en: 'Parallel', fi: 'Rinnankytkentä' } },
         { id: 't7-sp-f3', type: 'formula', tex: 'L_T = {L_1 · L_2}/{L_1 + L_2}', label: { en: 'Two in parallel (extra)', fi: 'Kaksi rinnan (lisä)' } },
-        { id: 't7-sp-int1', type: 'interactive', widget: 'readout', title: { en: 'Series and parallel inductance', fi: 'Sarja- ja rinnakkaisinduktanssi' },
+        { id: 't7-sp-int1', type: 'interactive', widget: 'readout', title: { en: 'Series and parallel inductance', fi: 'Sarja- ja rinnakkais\u00ADinduktanssi' },
           caption: { en: 'Set the three inductances. Try 10 mH, 5 mH, 2 mH: the parallel total is 1.25 mH, below the smallest.', fi: 'Aseta kolme induktanssia. Kokeile 10 mH, 5 mH, 2 mH: rinnankytkennän kokonaisarvo on 1,25 mH eli pienintä pienempi.' },
           config: { params: [{ id: 'L1', tex: 'L_1', min: 0.0001, max: 1, value: 0.01, unit: 'H', log: true }, { id: 'L2', tex: 'L_2', min: 0.0001, max: 1, value: 0.005, unit: 'H', log: true }, { id: 'L3', tex: 'L_3', min: 0.0001, max: 1, value: 0.002, unit: 'H', log: true }],
             outputs: function (v) { return [{ label: { en: 'L_T (series)', fi: 'L_T (sarja)' }, value: v.L1 + v.L2 + v.L3, unit: 'H' }, { label: { en: 'L_T (parallel)', fi: 'L_T (rinnan)' }, value: 1 / (1 / v.L1 + 1 / v.L2 + 1 / v.L3), unit: 'H' }]; } } },

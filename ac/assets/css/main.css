@@ -115,7 +115,8 @@ input[type=checkbox], input[type=radio] { accent-color: var(--primary); }
 .progress > span { display: block; height: 100%; background: var(--accent, var(--primary)); border-radius: inherit; transition: width .6s var(--ease); }
 
 /* ---------- home ---------- */
-main { min-height: calc(100vh - var(--header-h)); outline: none; }
+main { min-height: calc(100vh - var(--header-h)); outline: none; overflow-wrap: break-word; }   /* a long Finnish compound breaks only when it does not fit */
+main table { overflow-wrap: normal; }   /* Blink would split "34,1 mW" in auto-width cells; a wide table scrolls in its .table-wrap instead */
 .view-home, .page { max-width: 1180px; margin: 0 auto; padding: 1rem clamp(1rem, 3vw, 2rem) 4rem; }
 .hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 2rem; align-items: center; padding: clamp(1rem, 4vw, 3rem) 0 1rem; }
 .hero h1 { margin: .2em 0 .3em; }
@@ -198,6 +199,7 @@ main { min-height: calc(100vh - var(--header-h)); outline: none; }
 .toc a:hover { background: var(--surface-2); color: var(--fg); }
 .toc a.current { background: var(--info-bg); color: var(--fg); font-weight: 600; }
 .toc-head strong { flex: 1; }
+.toc-head strong, .toc a { min-width: 0; overflow-wrap: anywhere; hyphens: auto; }   /* long Finnish compounds must not make the sidebar scroll sideways */
 .toc-min { flex: none; width: 30px; height: 30px; }
 .toc-min span { display: inline-block; transition: transform .2s; }
 /* minimised: only the header stays, so margin annotations under the list are visible and drawable */
@@ -241,6 +243,7 @@ math { font-family: var(--font-math); math-style: normal; }
 .formula { white-space: nowrap; }
 .formula:has(> math + math) { white-space: normal; }   /* long inline formula split at "=" may wrap there */
 .formula math { font-size: 1.12em; }
+@media (max-width: 600px) { .formula:not(.formula-display) { display: inline-block; max-width: 100%; overflow-x: auto; overflow-y: hidden; vertical-align: middle; } }   /* MathML cannot wrap: a too-long inline formula scrolls in place, not the page */
 .formula-display { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: .35rem 2.2rem; font-size: 1.3rem; padding: .6rem 0; overflow-x: auto; overflow-y: hidden; }
 .formula-display math { font-size: inherit; }
 .blk-formula { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: .6rem 1rem;
@@ -288,6 +291,7 @@ figcaption { font-size: .88rem; color: var(--muted); margin-top: .4rem; }
 dfn.term { font-style: normal; border-bottom: 1.5px dotted var(--primary); cursor: help; }
 .blk-example { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: 1rem 1.1rem; }
 .ex-head { display: flex; gap: .6rem; align-items: center; }
+.ex-head > strong, .blk-callout > div { min-width: 0; }   /* flex text may shrink below its longest word or formula (phones) */
 .ex-badge { font-size: .75rem; font-weight: 700; padding: .15rem .55rem; border-radius: 99px; background: var(--accent, var(--primary)); color: #fff; }
 .ex-problem { margin: .5rem 0; }
 .ex-given { display: flex; gap: .4rem; flex-wrap: wrap; margin: .4rem 0; }

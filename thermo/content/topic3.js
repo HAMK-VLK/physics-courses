@@ -276,7 +276,7 @@
 
   TDC.registerTopic({
     id: 't3', num: 3,
-    title: T('Temperature and thermal expansion', 'Lämpötila ja lämpölaajeneminen'),
+    title: T('Temperature and thermal expansion', 'Lämpötila ja lämpö\u00ADlaajeneminen'),
     subtitle: T('From the thermometer to the sagging power line: how temperature is measured and why everything grows when it warms.',
                 'Lämpömittarista roikkuvaan voimajohtoon: miten lämpötila mitataan ja miksi kaikki laajenee lämmetessään.'),
     objectives: [
@@ -404,20 +404,20 @@
       },
       // ================= 4. expansion of solids =================
       {
-        id: 't3-solids', title: T('Thermal expansion of solids', 'Kiinteiden aineiden lämpölaajeneminen'),
+        id: 't3-solids', title: T('Thermal expansion of solids', 'Kiinteiden aineiden lämpö\u00ADlaajeneminen'),
         blocks: [
           { id: 't3-s-p1', type: 'text', html: T(
             '<p>In a <b>solid</b> the atoms are tightly bound and sit close to their neighbours. When the temperature rises, every atom vibrates with a larger amplitude and needs more room, so the volume of the object grows. In a <b>liquid</b> only weak cohesive forces act and the molecules have no fixed order; hotter molecules move faster and the volume grows. In a <b>gas</b> the molecules are independent apart from collisions: when it is heated the gas expands, or, in a closed container, its pressure rises.</p>' +
             '<p>Consider a cube of solid material. At <em>T</em><sub>0</sub> its edge is <em>l</em><sub>0</sub>, one face has the area <em>A</em><sub>0</sub> and the volume is <em>V</em><sub>0</sub>. When the temperature rises by Δ<em>T</em>, the edge grows to <em>l</em> = <em>l</em><sub>0</sub> + Δ<em>l</em>:</p>',
             '<p><b>Kiinteässä aineessa</b> atomit ovat tiukasti sidottuja ja lähellä naapureitaan. Lämpötilan noustessa jokainen atomi värähtelee suuremmalla amplitudilla ja tarvitsee enemmän tilaa, joten kappaleen tilavuus kasvaa. <b>Nesteessä</b> vaikuttavat vain heikot koheesiovoimat eikä molekyyleillä ole kiinteää järjestystä; kuumemmat molekyylit liikkuvat nopeammin ja tilavuus kasvaa. <b>Kaasussa</b> molekyylit ovat törmäyksiä lukuun ottamatta toisistaan riippumattomia: lämmitettäessä kaasu laajenee tai suljetussa astiassa sen paine kasvaa.</p>' +
             '<p>Tarkastellaan kiinteästä aineesta tehtyä kuutiota. Lämpötilassa <em>T</em><sub>0</sub> sen särmä on <em>l</em><sub>0</sub>, yhden sivun pinta-ala <em>A</em><sub>0</sub> ja tilavuus <em>V</em><sub>0</sub>. Kun lämpötila nousee ΔT:n verran, särmä kasvaa arvoon <em>l</em> = <em>l</em><sub>0</sub> + Δ<em>l</em>:</p>') },
-          { id: 't3-s-f1', type: 'formula', key: true, tex: 'Δl = α · l_0 · ΔT,  l = l_0 + Δl', label: T('Linear expansion', 'Pituuden lämpölaajeneminen'),
+          { id: 't3-s-f1', type: 'formula', key: true, tex: 'Δl = α · l_0 · ΔT,  l = l_0 + Δl', label: T('Linear expansion', 'Pituuden lämpö\u00ADlaajeneminen'),
             legend: [['α', T('coefficient of linear expansion', 'pituuden lämpötilakerroin'), '1/K'], ['l_0', T('original length', 'alkuperäinen pituus'), 'm'], ['ΔT', T('temperature change', 'lämpötilan muutos'), 'K']] },
           { id: 't3-s-p2', type: 'text', html: T(
             '<p>Area growth is linear growth in two directions: <f>A = l² = l_0²(1 + αΔT)²</f> <f>= A_0[1 + 2αΔT + (αΔT)²]</f> <f>≈ A_0(1 + 2αΔT)</f>, because <f>(αΔT)²</f> is negligible (α is tiny). Likewise for volume, where the second and third order terms are neglected:</p>',
             '<p>Pinta-alan kasvu on pituuden kasvu kahdessa suunnassa: <f>A = l² = l_0²(1 + αΔT)²</f> <f>= A_0[1 + 2αΔT + (αΔT)²]</f> <f>≈ A_0(1 + 2αΔT)</f>, koska <f>(αΔT)²</f> on mitätön (α on pieni). Samoin tilavuudelle, jossa toisen ja kolmannen asteen termit jätetään pois:</p>') },
-          { id: 't3-s-f2', type: 'formula', key: true, tex: 'ΔA = α_A · A_0 · ΔT,  α_A = 2α', label: T('Area expansion', 'Pinta-alan lämpölaajeneminen') },
-          { id: 't3-s-f3', type: 'formula', key: true, tex: 'ΔV = α_V · V_0 · ΔT,  α_V = 3α', label: T('Volume expansion', 'Tilavuuden lämpölaajeneminen') },
+          { id: 't3-s-f2', type: 'formula', key: true, tex: 'ΔA = α_A · A_0 · ΔT,  α_A = 2α', label: T('Area expansion', 'Pinta-alan lämpö\u00ADlaajeneminen') },
+          { id: 't3-s-f3', type: 'formula', key: true, tex: 'ΔV = α_V · V_0 · ΔT,  α_V = 3α', label: T('Volume expansion', 'Tilavuuden lämpö\u00ADlaajeneminen') },
           { id: 't3-s-tab', type: 'table', caption: T('Coefficients of expansion near 20 °C, unit 1/K (the slide writes (C°)⁻¹, the same thing)', 'Lämpötilakertoimet 20 °C:n lähellä, yksikkö 1/K (kalvossa (C°)⁻¹, sama asia)'),
             head: [T('Material', 'Aine'), { tex: 'α' }, { tex: 'β' }],
             rows: [
@@ -466,11 +466,11 @@
             caption: T('Change the span and the temperature. A tiny change of length (millimetres per metre) changes the sag a lot, because the sag depends on the square root of the extra length.', 'Muuta jänneväliä ja lämpötilaa. Pieni pituuden muutos (millimetrejä metriä kohti) muuttaa roikkumaa paljon, koska roikkuma riippuu lisäpituuden neliöjuuresta.'),
             config: dev(SAG) },
           { id: 't3-q10-blk', type: 'question', q: 't3-q10' },
-          { id: 't3-s-h2', type: 'h', text: T('Device example: bimetal thermostat', 'Laiteesimerkki: bimetallitermostaatti') },
+          { id: 't3-s-h2', type: 'h', text: T('Device example: bimetal thermostat', 'Laiteesimerkki: bimetalli\u00ADtermostaatti') },
           { id: 't3-s-p4', type: 'text', html: T(
             '<p>Two metals with different <em>α</em> are bonded into a strip. When it warms, the metal with the larger α (brass, 19·10<sup>-6</sup> 1/K) wants to be longer than the one with the smaller α (steel, 12·10<sup>-6</sup> 1/K), so the strip bends <b>towards the steel side</b>. The strip is a switch with no electronics: an adjustable screw sets the contact gap <em>g</em>, and the contact opens when the tip has moved <em>g</em>. For a strip of length <em>l</em> and thickness <em>h</em> the tip moves <f>δ = {3(α_1 − α_2) l² ΔT}/{4h}</f> (a simplification that assumes equal layer thickness and stiffness).</p>',
             '<p>Kaksi eri <em>α</em>:n metallia liitetään nauhaksi. Lämmetessään suuremman α:n metalli (messinki, 19·10<sup>-6</sup> 1/K) haluaa olla pidempi kuin pienemmän α:n metalli (teräs, 12·10<sup>-6</sup> 1/K), joten nauha taipuu <b>teräspuolelle päin</b>. Nauha on kytkin ilman elektroniikkaa: säädettävä ruuvi asettaa koskettimen välyksen <em>g</em>, ja kosketin aukeaa, kun kärki on liikkunut <em>g</em>:n verran. Pituudeltaan <em>l</em> ja paksuudeltaan <em>h</em> olevan nauhan kärki liikkuu <f>δ = {3(α_1 − α_2) l² ΔT}/{4h}</f> (yksinkertaistus, joka olettaa kerrosten paksuuden ja jäykkyyden yhtä suuriksi).</p>') },
-          { id: 't3-s-bi', type: 'interactive', widget: 'custom', title: T('Bimetal thermostat of a heater', 'Lämmittimen bimetallitermostaatti'),
+          { id: 't3-s-bi', type: 'interactive', widget: 'custom', title: T('Bimetal thermostat of a heater', 'Lämmittimen bimetalli\u00ADtermostaatti'),
             caption: T('Raise the temperature: the strip bends, the contact opens and the heater switches off. Turn the screw (slider g) to change the switch-off temperature. Strip: 50 mm × 1 mm, straight at 20 °C.', 'Nosta lämpötilaa: nauha taipuu, kosketin aukeaa ja lämmitin kytkeytyy pois. Käännä ruuvia (liukusäädin g) katkaisulämpötilan muuttamiseksi. Nauha: 50 mm × 1 mm, suora 20 °C:ssa.'),
             config: dev(BIMETAL) },
           { id: 't3-q11-blk', type: 'question', q: 't3-q11' },
@@ -517,7 +517,7 @@
       },
       // ================= 6. liquids =================
       {
-        id: 't3-liquids', title: T('Thermal expansion of liquids', 'Nesteiden lämpölaajeneminen'),
+        id: 't3-liquids', title: T('Thermal expansion of liquids', 'Nesteiden lämpö\u00ADlaajeneminen'),
         blocks: [
           { id: 't3-l-p1', type: 'text', html: T(
             '<p>The expansion of liquids is quite different from that of solids: it is <b>non-linear</b> and <b>larger</b> than that of solids. For a small temperature change we can approximate it as linear, with the <dfn data-term="beta">coefficient of volume expansion</dfn> β:</p>',
@@ -726,7 +726,7 @@
         fields: [{ id: 'dl', tex: 'Δl', unit: 'm' }],
         hints: [T('ΔT = 140 K.', 'ΔT = 140 K.')] },
       { id: 't3-g5', mode: 'graded', type: 'slider', difficulty: 2, tol: 0.03,
-        prompt: T('The bimetal thermostat of a heater must switch off at 70 °C. Adjust the contact gap g with the screw slider. (The strip is straight at 20 °C and bends 0.013125 mm per kelvin.)', 'Lämmittimen bimetallitermostaatin on katkaistava 70 °C:ssa. Säädä koskettimen välystä g ruuvin liukusäätimellä. (Nauha on suora 20 °C:ssa ja taipuu 0,013125 mm kelviniä kohti.)'),
+        prompt: T('The bimetal thermostat of a heater must switch off at 70 °C. Adjust the contact gap g with the screw slider. (The strip is straight at 20 °C and bends 0.013125 mm per kelvin.)', 'Lämmittimen bimetalli\u00ADtermostaatin on katkaistava 70 °C:ssa. Säädä koskettimen välystä g ruuvin liukusäätimellä. (Nauha on suora 20 °C:ssa ja taipuu 0,013125 mm kelviniä kohti.)'),
         widget: { name: 'custom', config: dev(BIMETAL, { t: 20, g: 0.3 }) },
         hints: [T('The contact opens when the free tip has moved g.', 'Kosketin aukeaa, kun vapaa kärki on liikkunut g:n verran.'), T('g = 0.013125 mm/K · (70 − 20) K.', 'g = 0,013125 mm/K · (70 − 20) K.')] },
       { id: 't3-g6', mode: 'graded', type: 'numeric', difficulty: 3, tol: 0.02, points: 2,
@@ -734,7 +734,7 @@
         fields: [{ id: 's', tex: 'σ', unit: 'Pa' }],
         hints: [T('σ = α·E·ΔT, with |ΔT| = 30 K.', 'σ = α·E·ΔT, missä |ΔT| = 30 K.'), T('Cooling gives a tensile stress.', 'Jäähtyminen aiheuttaa vetojännityksen.')] },
       { id: 't3-g7', mode: 'graded', type: 'multi', difficulty: 2,
-        prompt: T('Which of these statements about thermal expansion are true?', 'Mitkä seuraavista väitteistä lämpölaajenemisesta ovat tosia?'),
+        prompt: T('Which of these statements about thermal expansion are true?', 'Mitkä seuraavista väitteistä lämpö\u00ADlaajenemisesta ovat tosia?'),
         options: [
           { id: 'a', html: T('For a solid, β ≈ 3α.', 'Kiinteälle aineelle β ≈ 3α.') },
           { id: 'b', html: T('Water is densest at 0 °C.', 'Vesi on tiheintä 0 °C:ssa.') },

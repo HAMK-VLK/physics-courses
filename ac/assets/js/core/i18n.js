@@ -28,7 +28,7 @@
     /** Set element content from a bilingual object and keep it updated on language change. */
     bind: function (el, obj, asText) {
       bound.set(el, { obj: obj, text: !!asText });
-      if (asText) el.textContent = plain(I.tx(obj)); else el.innerHTML = I.tx(obj);
+      if (asText) el.textContent = plain(shown(obj)); else el.innerHTML = shown(obj);
       return el;
     },
     resetBindings: function () { bound.clear(); },
@@ -49,12 +49,22 @@
       I.applyStatic(document);
       bound.forEach(function (b, el) {
         if (!el.isConnected) { bound.delete(el); return; }
-        if (b.text) el.textContent = plain(I.tx(b.obj)); else el.innerHTML = I.tx(b.obj);
+        if (b.text) el.textContent = plain(shown(b.obj)); else el.innerHTML = shown(b.obj);
       });
       TDC.emit('langchange', { lang: lang });
     }
   };
   TDC.t = I.t; TDC.tx = I.tx;
+  // A language-neutral string ("4.7 kΩ", a table cell, an SVG label) still shows the reader's decimal separator:
+  // in fi a number with one decimal point gets a comma, in the text only (never inside tags or <style>).
+  function localNum(s) {
+    return I.lang !== 'fi' || s.indexOf('.') < 0 ? s : s.replace(/(<style[\s\S]*?<\/style>|<[^>]*>)|\d+(?:\.\d+)+/g, function (m, tag) {
+      return tag || (m.split('.').length === 2 ? m.replace('.', ',') : m);
+    });
+  }
+  // a plain string, or a pair with the same text in both languages (numbers and unit symbols only), is language-neutral
+  function shown(obj) { return typeof obj === 'string' || (obj && obj.en != null && obj.en === obj.fi) ? localNum(I.tx(obj)) : I.tx(obj); }
+  I.localNum = localNum;
 
   // Small preference store (language/theme) kept apart from the notes document so a restored or
   // imported notes file never changes them.

@@ -270,7 +270,7 @@
     function draw() {
       var f = q.value.toLowerCase(); list.innerHTML = '';
       groups.forEach(function (g) {
-        var items = g.items.filter(function (it) { return !f || (I.tx(it.name) + ' ' + I.tx(it.tex)).toLowerCase().indexOf(f) >= 0; });
+        var items = g.items.filter(function (it) { return !f || (I.tx(it.name) + ' ' + I.tx(it.tex)).replace(/\u00AD/g, '').toLowerCase().indexOf(f) >= 0; });
         if (!items.length) return;
         list.appendChild(el('h4', {}, I.tx(g.title)));
         items.forEach(function (it) {
@@ -287,7 +287,7 @@
       var f = q.value.toLowerCase(); list.innerHTML = '';
       Object.keys(TDC.GLOSSARY || {}).sort(function (a, b) { return TDC.GLOSSARY[a].en.localeCompare(TDC.GLOSSARY[b].en); }).forEach(function (k) {
         var g = TDC.GLOSSARY[k];
-        if (f && (g.en + g.fi + (g.def ? I.tx(g.def) : '')).toLowerCase().indexOf(f) < 0) return;
+        if (f && (g.en + g.fi + (g.def ? I.tx(g.def) : '')).replace(/\u00AD/g, '').toLowerCase().indexOf(f) < 0) return;
         list.append(el('dt', {}, [el('span', { lang: 'en' }, g.en), el('span', { class: 'gl-sep' }, ' · '), el('span', { lang: 'fi' }, g.fi), g.sym ? el('span', { class: 'gl-sym' }, TDC.formula.el(g.sym)) : null]),
           el('dd', {}, g.def ? I.tx(g.def) : ''));
       });
