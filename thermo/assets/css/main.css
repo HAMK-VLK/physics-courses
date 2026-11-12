@@ -32,6 +32,7 @@ code, kbd { font-family: var(--font-mono); font-size: .9em; background: var(--su
 .brand { display: flex; align-items: center; gap: .5rem; color: var(--fg); text-decoration: none; font-family: var(--font-head); white-space: nowrap; }
 .brand-mark { width: 30px; height: 30px; color: var(--primary); }
 .brand-text b { color: var(--primary); }
+.brand { min-width: 0; } .brand-text { overflow: hidden; text-overflow: ellipsis; }   /* the full course name is long: shorten it with … before it pushes the header actions off screen */
 .crumbs { flex: 1; min-width: 0; display: flex; gap: .4rem; align-items: center; font-size: .92rem; color: var(--muted); overflow: hidden; white-space: nowrap; }
 .crumbs a { color: var(--muted); text-decoration: none; }
 .crumbs a:hover { color: var(--fg); }
