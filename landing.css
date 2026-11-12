@@ -15,7 +15,11 @@ a { color: var(--primary); text-underline-offset: 3px; }
   backdrop-filter: saturate(1.4) blur(10px); border-bottom: 1px solid var(--line);
 }
 .brand { display: flex; align-items: center; gap: .5rem; font: 700 1.1rem var(--font-head); color: var(--primary); }
-.brand svg { width: 30px; height: 30px; }
+.brand svg { width: 24px; height: 36px; flex: none; }
+.brand-text { display: flex; flex-direction: column; line-height: 1.15; font-size: .95rem; min-width: 0; }
+.brand-text small { font: 600 .75rem var(--font-body); color: var(--muted); }
+.bar { gap: .75rem; }
+@media (max-width: 420px) { .brand-text { font-size: .74rem; } .brand-text small { font-size: .66rem; } }
 .actions { display: flex; align-items: center; gap: .35rem; }
 .icon-btn { width: 40px; height: 40px; display: grid; place-items: center; border: 1px solid transparent; border-radius: 9px; background: transparent; color: var(--fg); cursor: pointer; }
 .icon-btn:hover { background: var(--surface-2); border-color: var(--line); }
@@ -74,8 +78,9 @@ h1 { margin: .2em 0 .3em; font: 700 clamp(1.9rem, 3.2vw + 1rem, 2.9rem)/1.2 var(
 .card-ac { --accent: var(--t2); }
 .card-thermo { --accent: var(--t3); }
 /* Thermo: the piston compresses the gas; the molecules crowd into y 41…54 under it, jitter and turn red. */
-.card-thermo .art { --cold: #1f7fd6; --hot: #d6312b; }
-:root[data-theme="dark"] .card-thermo .art { --ink: #7fe0bf; --cold: #5cc8ff; --hot: #ff5f4d; }
+.card-thermo .art { --cold: #1f7fd6; --hot: #d6312b; --cyl: var(--t4); }
+:root[data-theme="dark"] .card-thermo .art { --ink: #7fe0bf; --cold: #5cc8ff; --hot: #ff5f4d; --cyl: #b99cff; }
+.card-thermo .art > .wire { stroke: var(--cyl); }   /* cylinder purple; the piston rod (inside .piston) stays --ink green */
 .art .head { fill: var(--surface); stroke: var(--ink); stroke-width: 2.2; }
 .art .piston, .art .m { transform-box: view-box; transition: transform .9s var(--ease); }
 .art .mol { fill: var(--cold); stroke: none; transition: fill .9s var(--ease); }

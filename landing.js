@@ -3,6 +3,7 @@
   'use strict';
   var T = {
     en: {
+      brand: 'Häme University of Applied Sciences',
       eyebrow: 'HAMK · Self-study materials', title: 'Physics and electrical engineering courses',
       intro: 'Interactive, bilingual self-study courses with live diagrams and simulations and instantly checked exercises. Your work stays in your own browser.',
       'dc.title': 'Theoretical Electrical Engineering DC',
@@ -17,6 +18,7 @@
       lang: 'Language', theme: 'Light or dark theme', go: 'Open course: {t}', goc: 'Continue course: {t}'
     },
     fi: {
+      brand: 'Hämeen ammattikorkeakoulu',
       eyebrow: 'HAMK · Itseopiskelumateriaali', title: 'Fysiikan ja sähkötekniikan kurssit',
       intro: 'Interaktiiviset, kaksikieliset itseopiskelukurssit: eläviä kaavioita ja simulaatioita sekä heti tarkistettavia tehtäviä. Työsi pysyy omassa selaimessasi.',
       'dc.title': 'Sähkötekniikan teoria: tasavirtapiirit',

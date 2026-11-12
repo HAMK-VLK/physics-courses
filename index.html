@@ -9,7 +9,7 @@
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="favicon.svg?v=e45cb06618" type="image/svg+xml">
 <link rel="stylesheet" href="tokens.css?v=3f46a9041d">
-<link rel="stylesheet" href="landing.css?v=82939b29e1">
+<link rel="stylesheet" href="landing.css?v=78cbed7cfd">
 <script>
   // Apply saved theme/language before first paint to avoid a flash of the wrong theme.
   (function () {
@@ -24,8 +24,9 @@
 <body>
 <header class="bar">
   <span class="brand">
-    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 16h5l2-6 4 12 4-12 4 12 2-6h3" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/></svg>
-    HAMK
+    <!-- HAMK logo mark, redrawn as strokes so it follows the theme colour. -->
+    <svg viewBox="112 50 222 346" aria-hidden="true"><path d="M128 66V200M128 246V380M318 66V200M318 246V380M185 66H262M185 380H262M128 223H210M236 223H318M158 68L212 194M288 68L234 194M212 252L158 378M234 252L288 378" fill="none" stroke="currentColor" stroke-width="15" stroke-linecap="round"/></svg>
+    <span class="brand-text"><span data-i18n="brand">Häme University of Applied Sciences</span><small>HAMK Valkeakoski</small></span>
   </span>
   <div class="actions">
     <button type="button" class="lang-btn" id="btn-lang"><span lang="en">EN</span><span lang="fi">FI</span></button>
@@ -87,6 +88,6 @@
 
 <footer class="foot-note"><p data-i18n="footer"></p></footer>
 <noscript><p class="noscript">Open the courses: <a href="dc/index.html">DC</a> · <a href="ac/index.html">AC</a> · <a href="thermo/index.html">Thermo</a></p></noscript>
-<script src="landing.js?v=01f1bdc449"></script>
+<script src="landing.js?v=ea6fca44ea"></script>
 </body>
 </html>
