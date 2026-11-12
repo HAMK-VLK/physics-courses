@@ -5,6 +5,158 @@
   function T(en, fi) { return { en: en, fi: fi }; }
   var AIR_CV = 714, AIR_RHO = 1.29;
 
+  function fsz(w) { return Math.max(11, Math.min(14, Math.round(w / 48))); }
+  // device widget (thermo-common.js TV.device), looked up at mount: the tools load content without the viz scripts
+  function dev(def, vals) { return { mount: function (h, c) { return TDC.thermoViz.device(def, vals).mount(h, c); } }; }
+  function nf(v, d) { return TDC.util.fmtNum(v, d); }
+  function line(g, x1, y1, x2, y2) { g.beginPath(); g.moveTo(x1, y1); g.lineTo(x2, y2); g.stroke(); }
+  function thermoHit(x, y, tx, top, bot) { return Math.abs(x - tx) < 16 && y > top - 8 && y < bot + 10; }
+  function thermoVal(y, top, bot, tmin, tmax) { return tmin + (bot - 7 - y) / (bot - 11 - top) * (tmax - tmin); }   // inverse of TV.thermometer
+
+  // ---------- device: Joule's apparatus, falling weight turns paddles in insulated water (t6-heat-joule) ----------
+  function jLay(w, h, p, drop) {
+    var floor = h * 0.92, pulX = w * 0.68, pulY = h * 0.1, bs = 14 + 22 * Math.cbrt(p.m / 100), sc = (floor - pulY - 26 - 36) / 5;
+    var bot = floor - p.h * (1 - (drop || 0)) * sc;
+    return { floor: floor, pulX: pulX, pulY: pulY, bs: bs, sc: sc, wx: pulX + 10, wb: bot, vx0: w * 0.06, vx1: w * 0.46, vtop: h * 0.42 };
+  }
+  var JOULE = {
+    animate: true,
+    aspect: function (w) { return w < 520 ? 0.95 : 0.55; },
+    params: [
+      { id: "m", tex: "m", min: 1, max: 100, step: 1, value: 20, unit: "kg" },
+      { id: "h", tex: "h", min: 0.5, max: 5, step: 0.1, value: 1.5, unit: "m" },
+      { id: "N", tex: "N", min: 0, max: 200, step: 1, value: 40, unit: "" },
+      { id: "M", tex: "M", min: 0.5, max: 10, step: 0.5, value: 1, unit: "kg" }],
+    buttons: [
+      { label: T("Drop the weight", "Pudota paino"), click: function (p, D) { if (D.motion) { if (D.S.drop == null) D.S.drop = 0; } else D.set({ N: p.N + 1 }); } },
+      { label: T("Fresh water (N = 0)", "Uusi vesi (N = 0)"), click: function (p, D) { D.S.drop = null; D.set({ N: 0 }); } }
+    ],
+    drag: {   // lift or lower the weight: sets the drop height h
+      hit: function (x, y, p, D) { var L = jLay(D.w, D.h, p, D.S.drop); return D.S.drop == null && Math.abs(x - L.wx) < L.bs / 2 + 6 && y > L.wb - L.bs - 6 && y < L.wb + 6 ? 'h' : null; },
+      move: function (k, x, y, p, D) { var L = jLay(D.w, D.h, p); return { h: (L.floor - y - L.bs / 2) / L.sc }; }
+    },
+    draw: function (g, w, h, p, ctx, TV, D) {
+      var S = D.S;
+      if (S.drop != null) { S.drop += D.dt / 1.6; S.a = (S.a || 0) + D.dt * 7; if (S.drop >= 1) { S.drop = null; D.set({ N: p.N + 1 }); } }
+      var L = jLay(w, h, p, S.drop), fg = ctx.color('--fg'), mu = ctx.color('--muted'), wire = ctx.color('--c-wire'), body = ctx.color('--c-body-fill'), fs = fsz(w);
+      var dT = (p.N + (S.drop || 0)) * p.m * 9.81 * p.h / (p.M * 4186);
+      var top = [2, 5, 10, 20, 50, 100, 200, 500].filter(function (s) { return s >= dT * 1.05; })[0] || 500;
+      g.clearRect(0, 0, w, h); g.lineJoin = 'round';
+      g.strokeStyle = wire; g.lineWidth = 2; line(g, 0, L.floor, w, L.floor);
+      // insulated vessel (double wall) with water warmed by the paddles
+      var ax = (L.vx0 + L.vx1) / 2, wy = L.vtop + 16;
+      g.fillStyle = TV.alpha(mu, 0.15); TV.rr(g, L.vx0, L.vtop, L.vx1 - L.vx0, L.floor - L.vtop, 6); g.fill();
+      g.fillStyle = TV.heat(Math.min(1, dT / 60), 0.35); g.fillRect(L.vx0 + 8, wy, L.vx1 - L.vx0 - 16, L.floor - 8 - wy);
+      g.strokeStyle = wire; g.lineWidth = 2.5; TV.rr(g, L.vx0, L.vtop, L.vx1 - L.vx0, L.floor - L.vtop, 6); g.stroke();
+      g.lineWidth = 1.5; g.strokeRect(L.vx0 + 8, L.vtop + 8, L.vx1 - L.vx0 - 16, L.floor - L.vtop - 16);
+      TV.waterLine(g, L.vx0 + 8, L.vx1 - 8, wy, D.t, ctx.color('--c-electron'));
+      // paddle wheel: two rows of four blades on the axle, fixed vanes on the walls
+      var R = (L.vx1 - L.vx0) * 0.3, a = S.a || 0;
+      g.strokeStyle = wire; g.lineWidth = 3; line(g, ax, L.pulY, ax, L.floor - 14);
+      [0.4, 0.75].forEach(function (f) {
+        var y = wy + (L.floor - 8 - wy) * f;
+        for (var k = 0; k < 4; k++) {
+          var c = Math.cos(a + k * Math.PI / 2), s = Math.sin(a + k * Math.PI / 2);
+          g.fillStyle = TV.alpha(wire, s > 0 ? 0.9 : 0.45); g.fillRect(Math.min(ax, ax + R * c), y - 6, Math.abs(R * c), 12);
+        }
+        g.fillStyle = wire; g.fillRect(L.vx0 + 8, y - 14, 8, 8); g.fillRect(L.vx1 - 16, y - 14, 8, 8);
+      });
+      // drum, rope over the pulley, weight
+      g.fillStyle = body; g.strokeStyle = wire; g.lineWidth = 2; g.fillRect(ax - 12, L.pulY - 10, 24, 20); g.strokeRect(ax - 12, L.pulY - 10, 24, 20);
+      g.lineWidth = 1.5; line(g, ax + 12, L.pulY - 10, L.pulX, L.pulY - 10);
+      g.beginPath(); g.arc(L.pulX, L.pulY, 10, -Math.PI / 2, 0); g.stroke(); line(g, L.wx, L.pulY, L.wx, L.wb - L.bs);
+      g.lineWidth = 2.5; g.beginPath(); g.arc(L.pulX, L.pulY, 10, 0, 2 * Math.PI); g.stroke();
+      g.lineWidth = 3; line(g, L.pulX, L.pulY, L.pulX + 34, L.pulY); line(g, L.pulX + 34, L.pulY, L.pulX + 34, L.floor);
+      g.fillStyle = TV.alpha(ctx.color('--c-6'), 0.75); g.strokeStyle = wire; g.lineWidth = 2;
+      g.fillRect(L.wx - L.bs / 2, L.wb - L.bs, L.bs, L.bs); g.strokeRect(L.wx - L.bs / 2, L.wb - L.bs, L.bs, L.bs);
+      TV.font(g, fs, 700); TV.text(g, nf(p.m, 3) + ' kg', L.wx, L.wb - L.bs - 12, fg, 'center', ctx.color('--surface'));
+      // drop height
+      var x = L.wx + 48, y0 = L.floor - p.h * L.sc;
+      if (S.drop != null) { g.setLineDash([4, 4]); g.strokeStyle = mu; g.strokeRect(L.wx - L.bs / 2, y0 - L.bs, L.bs, L.bs); g.setLineDash([]); }
+      TV.arrow(g, x, y0, x, L.floor, mu, 1.5); TV.arrow(g, x, L.floor, x, y0, mu, 1.5);
+      TV.font(g, fs, 600); var hl = 'h = ' + nf(p.h, 3) + ' m'; TV.text(g, hl, Math.min(x + 6, w - g.measureText(hl).width - 6), (y0 + L.floor) / 2, fg, 'left', ctx.color('--surface'));
+      // thermometer in the water (scale grows with ΔT), drop counter
+      var tx = L.vx1 - 22;
+      TV.thermometer(g, ctx, tx, L.vtop - 46, L.floor - 18, 20 + dT, 20, 20 + top, 'right');
+      TV.font(g, fs - 2, 500); TV.text(g, '20…' + (20 + top) + ' °C', tx, L.vtop - 56, mu, 'center');
+      TV.lcd(g, ctx, (L.vx0 + ax) / 2, (L.pulY + L.vtop) / 2 + 6, 'N = ' + (p.N + (S.drop != null ? 1 : 0)), fs);
+      TV.font(g, fs - 1, 500); TV.text(g, ctx.tx(T("water ", "vettä ")) + nf(p.M, 3) + ' kg', ax, L.floor - 22, fg, 'center', ctx.color('--surface'));
+    },
+    outputs: function (v) {
+      var W = v.N * v.m * 9.81 * v.h;
+      return [{ tex: "W = N·m·g·h", value: W, unit: "J" }, { tex: "ΔT", value: W / (v.M * 4186), unit: "K", digits: 3 }];
+    }
+  };
+
+  // ---------- device: house with a ventilation heater, air flows through (t6-cp-house) ----------
+  function hLay(w, h, p) {
+    var ground = h * 0.86, k = w < 520 ? 0.62 : 0.5, bw = Math.max(w * 0.3, w * k * Math.cbrt(p.V / 600)), hx0 = w * 0.58 - bw / 2, wh = Math.min(bw * 0.6, h * 0.5);
+    var wallTop = ground - wh;
+    return { ground: ground, bw: bw, hx0: hx0, hx1: hx0 + bw, wallTop: wallTop, roof: Math.min(bw * 0.28, wallTop - h * 0.05),
+      ox: w * 0.07, oTop: h * 0.18, iX: hx0 + bw - 18, iTop: wallTop + 34 };
+  }
+  function houseP(v) { return 1.4 * AIR_CV * AIR_RHO * v.V * (v.ti - v.to) / (v.th * 3600); }
+  var HOUSE = {
+    animate: true,
+    aspect: function (w) { return w < 520 ? 0.85 : 0.5; },
+    params: [
+      { id: "V", tex: "V", min: 100, max: 600, step: 10, value: 290, unit: "m³" },
+      { id: "to", tex: "t_{out}", min: -40, max: 10, step: 1, value: -22, unit: "°C" },
+      { id: "ti", tex: "t_{in}", min: 15, max: 25, step: 1, value: 21, unit: "°C" },
+      { id: "th", tex: "t", min: 0.5, max: 6, step: 0.5, value: 2, unit: "h" }],
+    drag: {   // drag the outdoor or indoor thermometer column
+      hit: function (x, y, p, D) {
+        var L = hLay(D.w, D.h, p);
+        return thermoHit(x, y, L.ox, L.oTop, L.ground - 6) ? 'to' : thermoHit(x, y, L.iX, L.iTop, L.ground - 8) ? 'ti' : null;
+      },
+      move: function (k, x, y, p, D) {
+        var L = hLay(D.w, D.h, p);
+        return k === 'to' ? { to: thermoVal(y, L.oTop, L.ground - 6, -40, 10) } : { ti: thermoVal(y, L.iTop, L.ground - 8, 15, 25) };
+      }
+    },
+    draw: function (g, w, h, p, ctx, TV, D) {
+      var L = hLay(w, h, p), S = D.S, fg = ctx.color('--fg'), mu = ctx.color('--muted'), wire = ctx.color('--c-wire'), fs = fsz(w);
+      var fOut = (p.to + 40) / 80, fIn = (p.ti + 40) / 80, P = houseP(p), surf = ctx.color('--surface');
+      g.clearRect(0, 0, w, h); g.lineJoin = 'round';
+      g.fillStyle = TV.alpha(ctx.color(p.to < 0 ? '--c-cold' : '--c-3'), 0.15); g.fillRect(0, L.ground, w, h - L.ground);
+      g.strokeStyle = wire; g.lineWidth = 2; line(g, 0, L.ground, w, L.ground);
+      // house: warm room, walls, roof
+      g.fillStyle = TV.heat(fIn, 0.14); g.fillRect(L.hx0, L.wallTop, L.bw, L.ground - L.wallTop);
+      g.strokeStyle = wire; g.lineWidth = 5; g.strokeRect(L.hx0, L.wallTop, L.bw, L.ground - L.wallTop);
+      g.lineWidth = 3; g.beginPath(); g.moveTo(L.hx0 - 12, L.wallTop); g.lineTo((L.hx0 + L.hx1) / 2, L.wallTop - L.roof); g.lineTo(L.hx1 + 12, L.wallTop); g.stroke();
+      // air path: outdoors → intake → heater → room → exhaust → outdoors
+      var yi = L.ground - 20, ye = L.wallTop + 18, hb0 = L.hx0 + 6, hbw = Math.max(36, L.bw * 0.18), xm = L.hx0 + L.bw * 0.5;
+      var pts = [[0, yi], [hb0 + hbw, yi], [xm, yi], [xm, ye], [w, ye]], seg = [], tot = 0, heatAt;
+      for (var i = 1; i < pts.length; i++) { var d = Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]); seg.push(d); tot += d; if (i === 1) heatAt = tot; }
+      S.off = ((S.off || 0) + D.dt * 0.08 * 2 / p.th) % 1;
+      for (i = 0; i < 22; i++) {
+        var s = ((i / 22 + S.off) % 1) * tot, k = 0; while (k < seg.length - 1 && s > seg[k]) { s -= seg[k]; k++; }
+        var u = Math.min(1, s / seg[k]), x = pts[k][0] + (pts[k + 1][0] - pts[k][0]) * u, y = pts[k][1] + (pts[k + 1][1] - pts[k][1]) * u;
+        var warm = k > 0 || x > hb0 + hbw * 0.5;
+        g.fillStyle = TV.heat(warm ? fIn : fOut, 0.9); g.beginPath(); g.arc(x, y + 3 * Math.sin(i * 1.7 + D.t * 3), 3.5, 0, 2 * Math.PI); g.fill();
+      }
+      // grilles in the walls, the heater box with its power display
+      g.fillStyle = surf; g.fillRect(L.hx0 - 4, yi - 9, 8, 18); g.fillRect(L.hx1 - 4, ye - 9, 8, 18);
+      g.strokeStyle = wire; g.lineWidth = 1.5; [yi - 5, yi, yi + 5].forEach(function (y) { line(g, L.hx0 - 4, y, L.hx0 + 4, y); });
+      [ye - 5, ye, ye + 5].forEach(function (y) { line(g, L.hx1 - 4, y, L.hx1 + 4, y); });
+      g.fillStyle = TV.alpha(ctx.color('--c-hot'), 0.25); g.lineWidth = 2; g.fillRect(hb0, yi - 12, hbw, 24); g.strokeRect(hb0, yi - 12, hbw, 24);
+      g.strokeStyle = ctx.color('--c-hot'); g.beginPath();
+      for (var zx = hb0 + 4; zx <= hb0 + hbw - 4; zx += 3) g.lineTo(zx, yi + ((zx - hb0) % 6 < 3 ? -6 : 6));
+      g.stroke();
+      TV.lcd(g, ctx, Math.max(hb0 + hbw / 2, L.hx0 + 48), (L.ground + h) / 2, 'P = ' + TV.fmt(P, 'W', 3), fs);
+      TV.font(g, fs, 600); TV.text(g, 'V = ' + nf(p.V, 3) + ' m³', xm, L.wallTop + (L.ground - L.wallTop) * 0.22, fg, 'center', surf);
+      TV.font(g, fs - 1, 500);
+      TV.text(g, ctx.tx(T("1 air change / ", "1 ilmanvaihto / ")) + nf(p.th, 2) + ' h', xm, L.wallTop + (L.ground - L.wallTop) * 0.22 + fs + 6, mu, 'center', surf);
+      // thermometers (drag them)
+      TV.thermometer(g, ctx, L.ox, L.oTop, L.ground - 6, p.to, -40, 10, 'right');
+      TV.thermometer(g, ctx, L.iX, L.iTop, L.ground - 8, p.ti, 15, 25, 'left');
+    },
+    outputs: function (v) {
+      var P = houseP(v);
+      return [{ tex: "c_p = γ c_V", value: 1.4 * AIR_CV, unit: "J/(kg·K)" }, { tex: "P_p", value: P, unit: "W" }, { tex: "E (24 h)", value: P * 86400 / 3.6e6, unit: "kWh" }];
+    }
+  };
+
   var EN_L = { solid: 'solid', liquid: 'liquid', gas: 'gas', melting: 'melting', freezing: 'freezing', vaporization: 'vaporization', condensation: 'condensation', sublimation: 'sublimation', deposition: 'deposition', need: 'energy is needed (heat in)', rel: 'energy is released (heat out)' };
   var FI_L = { solid: 'kiinteä', liquid: 'neste', gas: 'kaasu', melting: 'sulaminen', freezing: 'jähmettyminen', vaporization: 'höyrystyminen', condensation: 'tiivistyminen', sublimation: 'sublimoituminen', deposition: 'härmistyminen', need: 'energiaa tarvitaan (lämpö sisään)', rel: 'energiaa vapautuu (lämpö ulos)' };
   // Phase-change diagram (slide p08): energy needed to the right, released to the left.
@@ -94,18 +246,10 @@
             "<p>On electricity bills and for water heaters the energy unit is the <dfn data-term=\"kwh\">kilowatt-hour</dfn>: 1 kWh = 1000 W · 3600 s = 3.6 MJ.</p>",
             "<p>Sähkölaskuissa ja vedenlämmittimissä energian yksikkö on <dfn data-term=\"kwh\">kilowattitunti</dfn>: 1 kWh = 1000 W · 3600 s = 3,6 MJ.</p>") },
           // (extra) Joule's paddle wheel as a readout
-          { id: "t6-heat-joule", type: "interactive", widget: "readout", title: T("Joule's paddle wheel", "Joulen siipipyörä"),
-            caption: T("A falling weight does work m·g·h each time it drops. All of it ends up as heat in the water: ΔT = N·m·g·h/(M·c). Drop a heavier weight, or more times, and see how little the water warms.",
-                       "Putoava paino tekee joka putoamiskerralla työn m·g·h. Kaikki päätyy veden lämmöksi: ΔT = N·m·g·h/(M·c). Kokeile raskaampaa painoa tai useampaa putoamista ja katso, kuinka vähän vesi lämpenee."),
-            config: { params: [
-              { id: "m", tex: "m", min: 1, max: 100, step: 1, value: 20, unit: "kg" },
-              { id: "h", tex: "h", min: 0.5, max: 5, step: 0.1, value: 1.5, unit: "m" },
-              { id: "N", tex: "N", min: 1, max: 200, step: 1, value: 40, unit: "" },
-              { id: "M", tex: "M", min: 0.5, max: 10, step: 0.5, value: 1, unit: "kg" }],
-              outputs: function (v) {
-                var W = v.N * v.m * 9.81 * v.h;
-                return [{ tex: "W = N·m·g·h", value: W, unit: "J" }, { tex: "ΔT", value: W / (v.M * 4186), unit: "K", digits: 3 }];
-              } } },
+          { id: "t6-heat-joule", type: "interactive", widget: "custom", title: T("Joule's paddle wheel", "Joulen siipipyörä"),
+            caption: { en: "Drop the weight: it turns the paddles, and its work m·g·h ends up as heat in the insulated water, ΔT = N·m·g·h/(M·c). Drag the weight up or down to change the height h, or use the sliders, and see how little the water warms.",
+            fi: "Pudota paino: se pyörittää siipiä, ja sen tekemä työ m·g·h muuttuu eristetyn veden lämmöksi, ΔT = N·m·g·h/(M·c). Vedä painoa ylös tai alas muuttaaksesi korkeutta h tai käytä liukusäätimiä ja katso, kuinka vähän vesi lämpenee." },
+          config: dev(JOULE) },
           { id: "t6-heat-q1", type: "question", q: "t6-q1" },
           { id: "t6-heat-q2", type: "question", q: "t6-q2" }
         ]
@@ -214,18 +358,10 @@
               { tex: "c_p = γ·c_V = 1.40 · 714 J/(kg·K) ≈ 1.0 kJ/(kg·K)" },
               { tex: "P_p = {c_p ρ V ΔT}/{t} = 1000·1.29·{290}/{7200}·43 W ≈ 2.23 kW" }],
             result: T("P ≈ 2.23 kW", "P ≈ 2,23 kW") },
-          { id: "t6-cp-house", type: "interactive", widget: "readout", title: T("House heating", "Talon lämmitys"),
-            caption: T("Heat the incoming air at constant pressure. Make the house leakier (shorter air-change time) or the winter colder and watch the power. The defaults are the slide example.",
-                       "Lämmitä tuleva ilma vakiopaineessa. Tee talosta vuotavampi (lyhyempi ilmanvaihtoaika) tai talvesta kylmempi ja seuraa tehoa. Oletusarvot ovat dian esimerkki."),
-            config: { params: [
-              { id: "V", tex: "V", min: 100, max: 600, step: 10, value: 290, unit: "m³" },
-              { id: "to", tex: "t_{out}", min: -40, max: 10, step: 1, value: -22, unit: "°C" },
-              { id: "ti", tex: "t_{in}", min: 15, max: 25, step: 1, value: 21, unit: "°C" },
-              { id: "th", tex: "t", min: 0.5, max: 6, step: 0.5, value: 2, unit: "h" }],
-              outputs: function (v) {
-                var cp = 1.4 * AIR_CV, P = cp * AIR_RHO * v.V * (v.ti - v.to) / (v.th * 3600);
-                return [{ tex: "c_p = γ c_V", value: cp, unit: "J/(kg·K)" }, { tex: "P_p", value: P, unit: "W" }, { tex: "E (24 h)", value: P * 86400 / 3.6e6, unit: "kWh" }];
-              } } },
+          { id: "t6-cp-house", type: "interactive", widget: "custom", title: T("House heating", "Talon lämmitys"),
+            caption: { en: "The heater of the ventilation unit warms the incoming outdoor air at constant pressure. Drag the outdoor or indoor thermometer, make the house bigger or leakier (shorter air-change time) and watch the heater power. The defaults are the slide example.",
+            fi: "Ilmanvaihtokoneen lämmitin lämmittää sisään tulevan ulkoilman vakiopaineessa. Vedä ulko- tai sisälämpömittaria, tee talosta suurempi tai vuotavampi (lyhyempi ilmanvaihtoaika) ja seuraa lämmittimen tehoa. Oletusarvot ovat dian esimerkki." },
+          config: dev(HOUSE) },
           { id: "t6-cp-q1", type: "question", q: "t6-q9" },
           { id: "t6-cp-q2", type: "question", q: "t6-q10" }
         ]

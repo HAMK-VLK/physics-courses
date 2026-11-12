@@ -138,6 +138,90 @@
     draw(); F.controls.appendChild(btn); ctx.onLang(draw);
     return { playing: function () { return playing; }, set: function (v) { playing = v; draw(); }, el: btn };
   };
+  /** Rounded rectangle path (never a negative size or radius). */
+  TV.rr = function (g, x, y, w, h, r) {
+    w = Math.max(0, w); h = Math.max(0, h); g.beginPath();
+    if (g.roundRect) g.roundRect(x, y, w, h, Math.max(0, Math.min(r, w / 2, h / 2))); else g.rect(x, y, w, h);
+  };
+  /** Liquid-in-glass thermometer from yTop to yBot at x: t on tmin…tmax, value text beside it (side 'left'|'right'). */
+  TV.thermometer = function (g, ctx, x, yTop, yBot, t, tmin, tmax, side) {
+    var f = Math.max(0, Math.min(1, (t - tmin) / (tmax - tmin))), yb = yBot - 7, yl = yb - (yb - yTop - 4) * f, col = TV.heat(f);
+    g.fillStyle = ctx.color('--c-body-fill'); g.strokeStyle = ctx.color('--c-wire'); g.lineWidth = 1.5;
+    TV.rr(g, x - 4, yTop, 8, yb - yTop, 4); g.fill(); g.stroke();
+    g.beginPath(); g.arc(x, yb, 7, 0, 2 * Math.PI); g.fill(); g.stroke();
+    g.fillStyle = col; g.fillRect(x - 2, yl, 4, yb - yl); g.beginPath(); g.arc(x, yb, 5, 0, 2 * Math.PI); g.fill();
+    TV.font(g, 12, 700);
+    TV.text(g, U.fmtNum(t, 3) + ' °C', side === 'left' ? x - 12 : x + 12, Math.max(yTop + 6, yl), ctx.color('--fg'), side === 'left' ? 'right' : 'left', ctx.color('--surface'));
+  };
+  /** Digital panel display (dark glass, green digits) centred at x, y. */
+  TV.lcd = function (g, ctx, x, y, text, px) {
+    px = px || 13; TV.font(g, px, 700);
+    var w = g.measureText(text).width + 14, h = px + 10;
+    g.fillStyle = ctx.color('--c-display-bg'); g.strokeStyle = ctx.color('--c-wire'); g.lineWidth = 1.5;
+    TV.rr(g, x - w / 2, y - h / 2, w, h, 4); g.fill(); g.stroke();
+    TV.text(g, text, x, y + 1, ctx.color('--c-display-fg'), 'center');
+    return w;
+  };
+
+  /** Device widget: sliders + canvas drawing of a real device + readouts, as one 'custom' widget config.
+   *  def: { params, aspect, animate, draw(g, w, h, p, ctx, TV, D), outputs(p) -> readout items, answer(p) -> {v},
+   *         buttons: [{label: {en, fi}, click(p, D)}],                    hands-on actions under the sliders
+   *         drag: {hit(x, y, p, D) -> key|null, move(key, x, y, p, D) -> {id: value}} }   drag a part of the device
+   *  D = {S: per-mount scratch state, w, h, t, dt, motion (animations allowed), set(vals) (moves the sliders too)}.
+   *  Values set by the device are clamped to the slider range. Redraws on slider, theme and language change; the
+   *  slider state is saved; takes part in widget quiz tasks (getAnswer). vals: start values overriding def.params. */
+  TV.device = function (def, vals) {
+    return {
+      mount: function (host, ctx) {
+        var params = def.params.map(function (p) { var q = Object.assign({}, p); if (vals && vals[p.id] != null) q.value = vals[p.id]; return q; });
+        var save = U.debounce(function () { ctx.setState(Object.assign({}, panel.values)); }, 400);
+        var panel = V.params(params, function () { update(); save(); }, ctx);
+        var btns = el('div', { class: 'thermo-controls' }), stage = el('div', { class: 'thermo-stage' }), reads = el('div', { class: 'readout-list' });
+        host.append(el('div', { class: 'plot-widget thermo-widget' }, [panel, btns, stage, reads]));
+        var locked = false, D = { S: {}, w: 0, h: 0, t: 0, dt: 0, motion: !!def.animate && !U.reducedMotion(),
+          set: function (v) {
+            var o = {};
+            params.forEach(function (p) {
+              if (v[p.id] == null) return;
+              var x = Math.max(p.min, Math.min(p.max, v[p.id]));
+              o[p.id] = p.step ? +(Math.round(x / p.step) * p.step).toFixed(6) : x;
+            });
+            panel.setValues(o); update(); save();
+          } };
+        var cv = V.canvas(stage, { aspect: def.aspect || function (w) { return w < 520 ? 0.85 : 0.5; }, animate: !!def.animate,
+          draw: function (g, w, h, t, dt) { D.w = w; D.h = h; D.t = t || 0; D.dt = dt || 0; def.draw(g, w, h, panel.values, ctx, TV, D); } });
+        (def.buttons || []).forEach(function (b) {
+          var btn = el('button', { type: 'button', class: 'btn btn-small' });
+          TDC.i18n.bind(btn, b.label, true);
+          btn.addEventListener('click', function () { if (!locked) { b.click(panel.values, D); cv.redraw(); } });
+          btns.appendChild(btn);
+        });
+        if (def.drag) TV.drag(cv.canvas, function (x, y) { return !locked && (D.key = def.drag.hit(x, y, panel.values, D)); },
+          function (x, y) { if (D.key) D.set(def.drag.move(D.key, x, y, panel.values, D)); }, function () { D.key = null; });
+        var saved = ctx.getState(); if (saved) panel.setValues(saved);
+        function update() {
+          cv.redraw();
+          reads.innerHTML = '';
+          def.outputs(panel.values).forEach(function (o) {
+            var lab = o.tex ? TDC.formula.el(o.tex) : el('span', {}, ctx.tx(o.label));
+            var val = typeof o.value === 'number' ? TV.fmt(o.value, o.unit, o.digits) : typeof o.value === 'object' ? ctx.tx(o.value) : o.value;
+            reads.appendChild(el('div', { class: 'readout' + (o.warn ? ' readout-warn' : '') }, [lab, el('b', {}, ' = ' + val)]));
+          });
+        }
+        ctx.onTheme(function () { cv.redraw(); });
+        ctx.onLang(update);
+        update();
+        return {
+          destroy: cv.destroy,
+          getAnswer: function () { return def.answer ? def.answer(panel.values) : {}; },
+          getAnswerState: function () { return Object.assign({}, panel.values); },
+          setAnswerState: function (st) { if (st) { panel.setValues(st); update(); } },
+          lock: function () { locked = true; host.querySelectorAll('input, button, select').forEach(function (i) { i.disabled = true; }); }
+        };
+      }
+    };
+  };
+
   /** Drag handler on a canvas: onDrag(x, y) in CSS pixels; hit(x, y) decides whether a press starts a drag. */
   TV.drag = function (canvas, hit, onDrag, onEnd) {
     var active = false;

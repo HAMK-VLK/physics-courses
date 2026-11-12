@@ -5,6 +5,89 @@
   function T(en, fi) { return { en: en, fi: fi }; }
   function opt(id, en, fi) { return { id: id, html: T(en, fi) }; }
 
+  function fsz(w) { return Math.max(11, Math.min(14, Math.round(w / 48))); }
+  // device widget (thermo-common.js TV.device), looked up at mount: the tools load content without the viz scripts
+  function dev(def, vals) { return { mount: function (h, c) { return TDC.thermoViz.device(def, vals).mount(h, c); } }; }
+  function nf(v, d) { return TDC.util.fmtNum(v, d); }
+  function line(g, x1, y1, x2, y2) { g.beginPath(); g.moveTo(x1, y1); g.lineTo(x2, y2); g.stroke(); }
+
+  // ---------- device: panel radiator on a wall, thermostatic valve, room thermometer (t7-conv-rad) ----------
+  function rLay(w, h, p) {
+    var floor = h * 0.9, rx0 = w * 0.12, rw = Math.max(w * 0.1, w * 0.52 * p.A / 3), rh = h * 0.34, ry1 = floor - h * 0.1;
+    return { floor: floor, rx0: rx0, rw: rw, rx1: rx0 + rw, ry0: ry1 - rh, ry1: ry1, tx: w * 0.9, tTop: h * 0.2, tBot: floor - 10 };
+  }
+  function radPhi(v) { return v.h * v.A * (v.ts - v.tr); }
+  var RADIATOR = {
+    animate: true,
+    aspect: function (w) { return w < 520 ? 0.85 : 0.5; },
+    params: [
+      { id: "h", tex: "h", min: 4, max: 25, step: 0.5, value: 10, unit: "W/(m²·K)" },
+      { id: "A", tex: "A", min: 0.5, max: 3, step: 0.1, value: 1.5, unit: "m²" },
+      { id: "ts", tex: "t_s", min: 30, max: 80, step: 1, value: 60, unit: "°C" },
+      { id: "tr", tex: "t_r", min: 10, max: 26, step: 1, value: 21, unit: "°C" }],
+    buttons: [   // more hot water through the valve → hotter surface
+      { label: T("Valve: more hot water", "Venttiili: lisää kuumaa vettä"), click: function (p, D) { D.set({ ts: p.ts + 5 }); } },
+      { label: T("Valve: less hot water", "Venttiili: vähemmän kuumaa vettä"), click: function (p, D) { D.set({ ts: p.ts - 5 }); } }
+    ],
+    drag: {   // drag the radiator's right edge (size A) or the room thermometer (t_r)
+      hit: function (x, y, p, D) {
+        var L = rLay(D.w, D.h, p);
+        if (Math.abs(x - L.rx1) < 12 && y > L.ry0 && y < L.ry1) return 'A';
+        return Math.abs(x - L.tx) < 16 && y > L.tTop - 8 && y < L.tBot + 10 ? 'tr' : null;
+      },
+      move: function (k, x, y, p, D) {
+        var L = rLay(D.w, D.h, p);
+        return k === 'A' ? { A: (x - L.rx0) / (D.w * 0.52) * 3 } : { tr: 10 + (L.tBot - 7 - y) / (L.tBot - 11 - L.tTop) * 20 };
+      }
+    },
+    draw: function (g, w, h, p, ctx, TV, D) {
+      var L = rLay(w, h, p), S = D.S, fg = ctx.color('--fg'), mu = ctx.color('--muted'), wire = ctx.color('--c-wire'), fs = fsz(w), surf = ctx.color('--surface');
+      var tin = p.ts + 7.5, tret = p.ts - 7.5, f = function (t) { return (t - 10) / 75; }, phi = radPhi(p), qm = phi / (4190 * 15);
+      g.clearRect(0, 0, w, h); g.lineJoin = 'round';
+      g.strokeStyle = wire; g.lineWidth = 2; line(g, 0, L.floor, w, L.floor); line(g, w * 0.04, 0, w * 0.04, L.floor);
+      g.fillStyle = TV.heat(f(p.tr), 0.08); g.fillRect(w * 0.04, 0, w * 0.96, L.floor);
+      // convection: cool floor air drawn to the radiator, warm plume rising above it (speed ∝ h)
+      S.off = ((S.off || 0) + D.dt * p.h / 60) % 1;
+      for (var i = 0; i < 24; i++) {
+        var u = (i / 24 + S.off) % 1, x = L.rx0 + L.rw * ((i * 0.618) % 1), y = L.ry0 - u * (L.ry0 - h * 0.06);
+        g.fillStyle = TV.heat(f(p.ts - (p.ts - p.tr) * u), 0.85 - 0.6 * u); g.beginPath(); g.arc(x + 6 * Math.sin(u * 9 + i), y, 3, 0, 2 * Math.PI); g.fill();
+      }
+      for (i = 0; i < 8; i++) {
+        var v = (i / 8 + S.off) % 1, xc = L.tx - 30 - v * (L.tx - 30 - L.rx1);
+        g.fillStyle = TV.heat(f(p.tr), 0.7); g.beginPath(); g.arc(xc, L.floor - 8, 3, 0, 2 * Math.PI); g.fill();
+      }
+      // pipes: supply up the left with the thermostatic valve, return down the right
+      var sx = L.rx0 - 14, rxp = L.rx1 + 14;
+      g.lineWidth = 6; g.strokeStyle = TV.heat(f(tin)); g.beginPath(); g.moveTo(sx, h); g.lineTo(sx, L.ry0 + 10); g.lineTo(L.rx0, L.ry0 + 10); g.stroke();
+      g.strokeStyle = TV.heat(f(tret)); g.beginPath(); g.moveTo(L.rx1, L.ry1 - 10); g.lineTo(rxp, L.ry1 - 10); g.lineTo(rxp, L.floor); g.stroke();
+      g.fillStyle = ctx.color('--c-body-fill'); g.strokeStyle = wire; g.lineWidth = 2; TV.rr(g, sx - 9, L.ry0 - 22, 18, 26, 5); g.fill(); g.stroke();
+      TV.font(g, 11, 700); TV.text(g, nf(1 + (p.ts - 30) / 12.5, 2), sx, L.ry0 - 9, fg, 'center');
+      // radiator panel: hot at the top, cooler at the bottom; vertical channels; drag grip on the right edge
+      var gr = g.createLinearGradient(0, L.ry0, 0, L.ry1); gr.addColorStop(0, TV.heat(f(tin))); gr.addColorStop(1, TV.heat(f(tret)));
+      g.fillStyle = gr; TV.rr(g, L.rx0, L.ry0, L.rw, L.ry1 - L.ry0, 3); g.fill(); g.strokeStyle = wire; g.lineWidth = 2; g.stroke();
+      g.strokeStyle = TV.alpha(wire, 0.35); g.lineWidth = 1.5;
+      for (var x2 = L.rx0 + 7; x2 < L.rx1 - 3; x2 += 7) line(g, x2, L.ry0 + 4, x2, L.ry1 - 4);
+      g.fillStyle = wire; TV.rr(g, L.rx1 - 3, (L.ry0 + L.ry1) / 2 - 12, 6, 24, 3); g.fill();
+      g.strokeStyle = wire; g.lineWidth = 3; line(g, L.rx0 + 10, L.ry1, L.rx0 + 10, L.floor); line(g, L.rx1 - 10, L.ry1, L.rx1 - 10, L.floor);
+      // labels: water temperatures, power, flow meter
+      TV.font(g, fs - 1, 600);
+      TV.text(g, ctx.tx(T("supply ", "meno ")) + nf(tin, 3) + ' °C · ' + ctx.tx(T("return ", "paluu ")) + nf(tret, 3) + ' °C', w * 0.06, 14, fg, 'left', surf);
+      TV.font(g, fs, 700); TV.text(g, 'Φ = ' + TV.fmt(phi, 'W', 3), (L.rx0 + L.rx1) / 2, (L.ry0 + L.ry1) / 2, fg, 'center', surf);
+      TV.font(g, fs - 1, 600); TV.text(g, 'A = ' + nf(p.A, 2) + ' m²', (L.rx0 + L.rx1) / 2, L.ry1 + 12, fg, 'center', surf);
+      var qt = 'q_m ' + TV.fmt(qm, 'kg/s', 3); TV.font(g, fs - 1, 700);   // flow meter on the supply pipe under the floor
+      TV.lcd(g, ctx, Math.max(g.measureText(qt).width / 2 + 12, sx), (L.floor + h) / 2 + 1, qt, fs - 1);
+      TV.thermometer(g, ctx, L.tx, L.tTop, L.tBot, p.tr, 10, 30, 'left');
+    },
+    outputs: function (v) {
+      var phi = radPhi(v);
+      return [
+        { tex: "Φ = h·A·ΔT", value: Math.round(phi), unit: "W" },
+        { tex: "q = Φ/A", value: Math.round(phi / v.A), unit: "W/m²" },
+        { tex: "q_m = {Φ}/{c·ΔT_w}", value: Math.round(phi / (4190 * 15) * 10000) / 10000, unit: "kg/s" }
+      ];
+    }
+  };
+
   TDC.registerTopic({
     id: "t7", num: 7,
     title: T("Heat transfer", "Lämmönsiirto"),
@@ -191,25 +274,11 @@
             steps: [{ tex: "Φ = q_m·c·ΔT = 0.050·4190·15 ≈ 3.1 kW" }],
             result: T("Φ ≈ 3.1 kW", "Φ ≈ 3,1 kW") },
           // (extra) device: panel radiator, Phi = h A dT at the surface
-          { id: "t7-conv-rad", type: "interactive", widget: "readout",
+          { id: "t7-conv-rad", type: "interactive", widget: "custom",
             title: T("Device: panel radiator", "Laite: vesipatteri"),
-            caption: T("(extra) At the surface the heat goes to the room air as Φ = h·A·ΔT. The hot water must supply the same power: the flow q_m needed follows from Φ = q_m·c·ΔT with a 15 K water temperature drop.", "(lisä) Pinnalta lämpö siirtyy huoneilmaan kaavalla Φ = h·A·ΔT. Kuuman veden täytyy tuoda sama teho: tarvittava virtaus q_m seuraa kaavasta Φ = q_m·c·ΔT, kun veden lämpötila laskee 15 K."),
-            config: {
-              params: [
-                { id: "h", tex: "h", min: 4, max: 25, step: 0.5, value: 10, unit: "W/(m²·K)" },
-                { id: "A", tex: "A", min: 0.5, max: 3, step: 0.1, value: 1.5, unit: "m²" },
-                { id: "ts", tex: "t_s", min: 30, max: 80, step: 1, value: 60, unit: "°C" },
-                { id: "tr", tex: "t_r", min: 10, max: 26, step: 1, value: 21, unit: "°C" }
-              ],
-              outputs: function (v) {
-                var phi = v.h * v.A * (v.ts - v.tr);
-                return [
-                  { tex: "Φ = h·A·ΔT", value: Math.round(phi), unit: "W" },
-                  { tex: "q = Φ/A", value: Math.round(phi / v.A), unit: "W/m²" },
-                  { tex: "q_m = {Φ}/{c·ΔT_w}", value: Math.round(phi / (4190 * 15) * 10000) / 10000, unit: "kg/s" }
-                ];
-              }
-            } },
+            caption: { en: "(extra) Drag the right edge of the radiator to change its size A, drag the room thermometer to change t_r, and use the valve buttons to let more or less hot water in (surface temperature t_s). At the surface the heat goes to the room air as Φ = h·A·ΔT. The hot water must supply the same power: the flow q_m needed follows from Φ = q_m·c·ΔT with a 15 K water temperature drop.",
+            fi: "(lisä) Vedä patterin oikeaa reunaa muuttaaksesi sen kokoa A, vedä huonelämpömittaria muuttaaksesi lämpötilaa t_r ja päästä venttiilipainikkeilla enemmän tai vähemmän kuumaa vettä (pintalämpötila t_s). Pinnalta lämpö siirtyy huoneilmaan kaavalla Φ = h·A·ΔT. Kuuman veden täytyy tuoda sama teho: tarvittava virtaus q_m seuraa kaavasta Φ = q_m·c·ΔT, kun veden lämpötila laskee 15 K." },
+          config: dev(RADIATOR) },
           { id: "t7-conv-d1", type: "details", summary: T("Gulf Stream and the Norwegian Current", "Golfvirta ja Norjan merivirta"), html: T(
             "<p>Western Europe and Scandinavia are warmed by the Gulf Stream, which begins in the Caribbean Sea. A branch flows along the coast of Western Europe and the western coast of Norway. This Norwegian Current releases a huge amount of heat to Scandinavia and keeps cold Arctic currents away from the Norwegian coast: convection on a continental scale.</p>",
             "<p>Länsi-Eurooppaa ja Skandinaviaa lämmittää Golfvirta, joka saa alkunsa Karibianmereltä. Yksi haara virtaa Länsi-Euroopan rannikkoa ja Norjan länsirannikkoa pitkin. Tämä Norjan merivirta luovuttaa valtavasti lämpöä Skandinaviaan ja estää kylmiä Jäämeren virtauksia kulkemasta Norjan rannikkoa pitkin: konvektiota mantereen mittakaavassa.</p>") },

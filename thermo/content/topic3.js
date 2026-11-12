@@ -16,46 +16,8 @@
   }
   function fsz(w) { return Math.max(11, Math.min(14, Math.round(w / 48))); }
   function nf(v, d) { return TDC.util.fmtNum(v, d); }
-  function withVals(params, vals) {
-    return params.map(function (p) { var q = Object.assign({}, p); if (vals && vals[p.id] != null) q.value = vals[p.id]; return q; });
-  }
-
-  /** Device widget: sliders + canvas + readouts as one 'custom' config.
-   *  def: {params, aspect, draw(g,w,h,p,ctx,TV), outputs(p) -> [{tex|label, value, unit, digits, warn}], answer(p) -> {v}}.
-   *  Redraws on slider, theme and language change; takes part in widget quiz tasks (getAnswer). */
-  function dev(def, vals) {
-    return {
-      mount: function (host, ctx) {
-        var V = TDC.viz, TV = TDC.thermoViz, U = TDC.util, el = U.el;
-        var save = U.debounce(function () { ctx.setState(Object.assign({}, panel.values)); }, 400);
-        var panel = V.params(withVals(def.params, vals), function () { update(); save(); }, ctx);
-        var stage = el('div', { class: 'thermo-stage' }), reads = el('div', { class: 'readout-list' });
-        host.append(el('div', { class: 'plot-widget thermo-widget' }, [panel, stage, reads]));
-        var cv = V.canvas(stage, { aspect: def.aspect || function (w) { return w < 520 ? 0.85 : 0.5; }, animate: false,
-          draw: function (g, w, h) { def.draw(g, w, h, panel.values, ctx, TV); } });
-        var saved = ctx.getState(); if (saved) panel.setValues(saved);
-        function update() {
-          cv.redraw();
-          reads.innerHTML = '';
-          def.outputs(panel.values).forEach(function (o) {
-            var lab = o.tex ? TDC.formula.el(o.tex) : el('span', {}, ctx.tx(o.label));
-            var val = typeof o.value === 'number' ? TV.fmt(o.value, o.unit, o.digits) : typeof o.value === 'object' ? ctx.tx(o.value) : o.value;
-            reads.appendChild(el('div', { class: 'readout' + (o.warn ? ' readout-warn' : '') }, [lab, el('b', {}, ' = ' + val)]));
-          });
-        }
-        ctx.onTheme(function () { cv.redraw(); });
-        ctx.onLang(update);
-        update();
-        return {
-          destroy: cv.destroy,
-          getAnswer: function () { return def.answer ? def.answer(panel.values) : {}; },
-          getAnswerState: function () { return Object.assign({}, panel.values); },
-          setAnswerState: function (st) { if (st) { panel.setValues(st); update(); } },
-          lock: function () { host.querySelectorAll('input, button, select').forEach(function (i) { i.disabled = true; }); }
-        };
-      }
-    };
-  }
+  // device widget (thermo-common.js TV.device), looked up at mount: the tools load content without the viz scripts
+  function dev(def, vals) { return { mount: function (h, c) { return TDC.thermoViz.device(def, vals).mount(h, c); } }; }
 
   // ---------- device 1: overhead line sag ----------
   var AL = 25e-6; // aluminium, table value near 20 C

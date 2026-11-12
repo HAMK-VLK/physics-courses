@@ -1,5 +1,160 @@
 /* Topic 4: Ideal gas and kinetic theory (slides Ph2_3 p16-p29 and Ph2_4 p01-p08).
  * NO answers in this file: they live in src/answers/topic4.json. Ids are stable, never rename. */
+(function () {
+  'use strict';
+  function L(en, fi) { return { en: en, fi: fi }; }
+  function fsz(w) { return Math.max(11, Math.min(14, Math.round(w / 48))); }
+  // device widget (thermo-common.js TV.device), looked up at mount: the tools load content without the viz scripts
+  function dev(def, vals) { return { mount: function (h, c) { return TDC.thermoViz.device(def, vals).mount(h, c); } }; }
+  function nf(v, d) { return TDC.util.fmtNum(v, d); }
+  function line(g, x1, y1, x2, y2) { g.beginPath(); g.moveTo(x1, y1); g.lineTo(x2, y2); g.stroke(); }
+
+  // ---------- device: compressed-air receiver feeding a pneumatic cylinder (t4-dev-air) ----------
+  var PA = 101300, VR = 0.1, TK = 293.15, PW = 6e5 + PA, VC = Math.PI / 4 * 0.05 * 0.05 * 0.2;   // 100 L at 20 °C; 6 bar gauge; Ø 50 × 200 mm
+  function airState(v) {
+    var TH = TDC.thermo, n0 = TH.idealGas({ p: v.pg * 1e5 + PA, V: VR, T: TK }, 'n'), nc = TH.idealGas({ p: PW, V: VC, T: TK }, 'n');
+    var nk = Math.max(0, n0 - v.k * nc), p = nk > 0 ? TH.idealGas({ n: nk, V: VR, T: TK }, 'p') : 0;
+    return { n0: n0, nc: nc, p: p, pg: Math.max(0, p - PA), left: Math.max(0, (v.pg * 1e5 + PA - PW) * VR / (PW * VC)) };
+  }
+  var AIR = {
+    animate: true,
+    params: [{ id: 'pg', tex: 'p_g', min: 4, max: 10, step: 0.1, value: 7, unit: 'bar' }, { id: 'k', label: L('strokes made', 'tehdyt iskut'), min: 0, max: 80, step: 1, value: 0, unit: '' }],
+    buttons: [
+      { label: L('Make a stroke', 'Tee isku'), click: function (p, D) { if (D.motion) { if (D.S.st == null) D.S.st = 0; } else D.set({ k: p.k + 1 }); } },
+      { label: L('10 strokes', '10 iskua'), click: function (p, D) { D.set({ k: p.k + 10 }); } },
+      { label: L('Refill with the compressor', 'Täytä kompressorilla'), click: function (p, D) { D.S.st = null; D.set({ k: 0 }); } }
+    ],
+    draw: function (g, w, h, p, ctx, TV, D) {
+      var S = D.S, s = airState(p), weak = s.pg < 6e5;
+      if (S.st != null) { S.st += D.dt / (weak ? 2.6 : 1); if (S.st >= 1) { S.st = null; D.set({ k: p.k + 1 }); s = airState(p); weak = s.pg < 6e5; } }
+      var fg = ctx.color('--fg'), mu = ctx.color('--muted'), wire = ctx.color('--c-wire'), body = ctx.color('--c-body-fill'), air = ctx.color('--c-electron');
+      var warn = ctx.color('--c-2'), fs = fsz(w), narrow = w < 520, floor = h * 0.92;
+      g.clearRect(0, 0, w, h); g.lineJoin = 'round';
+      g.strokeStyle = wire; g.lineWidth = 2; line(g, 0, floor, w, floor);
+      // receiver: horizontal vessel on two legs, air dots ∝ absolute pressure
+      var tx0 = w * 0.04, tx1 = w * (narrow ? 0.44 : 0.38), ty0 = h * 0.5, ty1 = h * 0.78, tr = (ty1 - ty0) / 2;
+      g.lineWidth = 3; [tx0 + tr, tx1 - tr].forEach(function (x) { line(g, x, ty1, x - 6, floor); line(g, x, ty1, x + 6, floor); });
+      g.fillStyle = body; TV.rr(g, tx0, ty0, tx1 - tx0, ty1 - ty0, tr); g.fill();
+      g.fillStyle = TV.alpha(air, 0.06 + 0.25 * Math.min(1, s.p / 1.2e6)); g.fill(); g.strokeStyle = wire; g.lineWidth = 2.5; g.stroke();
+      if (!S.dots) { S.dots = []; for (var i = 0; i < 48; i++) S.dots.push([Math.random(), Math.random(), Math.random() * 6]); }
+      var nd = Math.min(48, Math.round(s.p / 1e5 * 4)); g.fillStyle = air;
+      for (i = 0; i < nd; i++) {
+        var d = S.dots[i], x = tx0 + tr * 0.6 + (tx1 - tx0 - tr * 1.2) * d[0] + 3 * Math.sin(D.t * 4 + d[2]), y = ty0 + 6 + (ty1 - ty0 - 12) * d[1] + 3 * Math.cos(D.t * 5 + d[2]);
+        g.beginPath(); g.arc(x, y, 2.4, 0, 2 * Math.PI); g.fill();
+      }
+      TV.font(g, fs, 600); TV.text(g, '100 L · 20 °C', (tx0 + tx1) / 2, ty1 - 10, fg, 'center', body);
+      // receiver gauge (bar, gauge pressure)
+      var r = Math.min(w * 0.075, h * 0.12), gx = (tx0 + tx1) / 2, gy = ty0 - r - 14;
+      g.strokeStyle = wire; g.lineWidth = 3; line(g, gx, ty0, gx, gy + r);
+      TV.gauge(g, ctx, gx, gy, r, s.pg / 1e5, 12, null, nf(s.pg / 1e5, 2));
+      TV.font(g, fs - 1, 500); TV.text(g, '0…12 bar', gx + r + 6, gy - r * 0.6, mu, 'left');
+      // regulator set to 6 bar: its outlet gauge shows min(6 bar, receiver)
+      var ym = (ty0 + ty1) / 2, rx = tx1 + w * 0.07, rw = Math.max(18, w * 0.04);
+      g.strokeStyle = wire; g.lineWidth = 4; line(g, tx1, ym, rx - rw / 2, ym);
+      g.fillStyle = body; g.lineWidth = 2; TV.rr(g, rx - rw / 2, ym - rw * 0.7, rw, rw * 1.4, 3); g.fill(); g.stroke();
+      line(g, rx, ym - rw * 0.7, rx, ym - rw * 1.1); TV.rr(g, rx - rw * 0.35, ym - rw * 1.3, rw * 0.7, rw * 0.25, 2); g.stroke();
+      var r2 = r * 0.62, g2y = ym + rw * 0.7 + r2 + 8;
+      line(g, rx, ym + rw * 0.7, rx, g2y - r2);
+      TV.gauge(g, ctx, rx, g2y, r2, Math.min(6, s.pg / 1e5), 12, null, nf(Math.min(6, s.pg / 1e5), 2));
+      TV.font(g, fs - 1, 500); TV.text(g, ctx.tx(L('regulator 6 bar', 'säädin 6 bar')), rx, g2y + r2 + 10, mu, 'center');
+      // pneumatic cylinder with a 5/2 valve; piston travel u = 0…1
+      var cx0 = w * (narrow ? 0.6 : 0.58), cx1 = w * 0.78, cy = h * 0.3, ch = Math.max(22, h * 0.12), trav = w * 0.12;
+      var u = S.st == null ? 0 : S.st < 0.5 ? S.st * 2 : (1 - S.st) * 2, px = cx0 + 6 + u * trav;
+      g.strokeStyle = wire; g.lineWidth = 4; g.beginPath(); g.moveTo(rx + rw / 2, ym); g.lineTo(cx0 - 14, ym); g.lineTo(cx0 - 14, cy); g.lineTo(cx0, cy); g.stroke();
+      g.fillStyle = body; g.strokeStyle = wire; g.lineWidth = 2.5; TV.rr(g, cx0, cy - ch / 2, cx1 - cx0, ch, 3); g.fill(); g.stroke();
+      if (S.st != null && S.st < 0.5) { g.fillStyle = TV.alpha(air, 0.3); g.fillRect(cx0 + 1, cy - ch / 2 + 1, px - cx0 - 1, ch - 2); }
+      g.fillStyle = wire; g.fillRect(px, cy - ch / 2 + 2, 6, ch - 4);
+      var tip = px + cx1 - cx0 + w * 0.03; g.fillRect(px + 6, cy - 3, tip - px - 6, 6); g.fillRect(tip - 4, cy - ch * 0.4, 6, ch * 0.8);
+      // workpiece pushed along by the rod
+      var bx = Math.max(tip + 2, cx1 + w * 0.03 + 6 + 2), bs = ch * 0.8;
+      g.fillStyle = TV.alpha(ctx.color('--c-6'), 0.6); g.fillRect(Math.min(bx, w - bs - 2), cy - bs / 2, bs, bs);
+      TV.font(g, fs - 1, 500); TV.text(g, 'Ø 50 mm × 200 mm', (cx0 + cx1) / 2, cy + ch / 2 + 11, mu, 'center', ctx.color('--surface'));
+      TV.lcd(g, ctx, (cx0 + cx1) / 2, cy - ch / 2 - 18, ctx.tx(L('strokes ', 'iskuja ')) + p.k, fs);
+      TV.font(g, fs, 700);
+      TV.text(g, ctx.tx(weak ? L('weak stroke: receiver below 6 bar', 'heikko isku: säiliö alle 6 bar') : L('full force', 'täysi voima')),
+        (cx0 + w) / 2, h * 0.62, weak ? warn : ctx.color('--c-3'), 'center');
+    },
+    outputs: function (v) {
+      var s = airState(v);
+      return [
+        { tex: 'n_0', value: s.n0, unit: 'mol' },
+        { tex: 'n_c', value: s.nc, unit: 'mol' },
+        { tex: 'p', value: s.p, unit: 'Pa' },
+        { tex: 'p_g', value: s.pg, unit: 'Pa' },
+        { label: L('full strokes at 6 bar from the start', 'täydet iskut 6 barilla alusta'), value: Math.floor(s.left) },
+        { label: L('cylinder', 'sylinteri'), value: s.pg >= 6e5 ? L('full force', 'täysi voima') : L('receiver pressure below working pressure', 'säiliön paine alle työpaineen'), warn: s.pg < 6e5 }
+      ];
+    }
+  };
+
+  // ---------- device: electrical cabinet purged with nitrogen, oxygen analyser (t4-da-purge) ----------
+  var PURGE = {
+    animate: true,
+    params: [{ id: 'p', tex: 'p_{tot}', min: 0.5, max: 10, step: 0.1, value: 1, unit: 'bar' }, { id: 'x', tex: 'x_{O_2}', min: 1, max: 21, step: 1, value: 21, unit: '%' }],
+    buttons: [
+      { label: L('Purge with N₂ (3 s)', 'Huuhtele typellä (3 s)'), click: function (p, D) { if (D.motion) { D.S.pg = 3; D.S.xf = p.x; } else D.set({ x: p.x * Math.exp(-3 / 4) }); } },
+      { label: L('Open the door', 'Avaa ovi'), click: function (p, D) { D.S.pg = 0; D.set({ x: 21 }); } }
+    ],
+    draw: function (g, w, h, p, ctx, TV, D) {
+      var S = D.S, i;
+      if (S.pg > 0) {   // dilution: x falls as e^(−t/τ), τ = 4 s; the slider moves in whole percents
+        S.pg -= D.dt; S.xf = Math.max(1, S.xf * Math.exp(-D.dt / 4));
+        if (Math.round(S.xf) !== p.x) D.set({ x: S.xf });
+      }
+      var purging = S.pg > 0, fg = ctx.color('--fg'), mu = ctx.color('--muted'), wire = ctx.color('--c-wire'), body = ctx.color('--c-body-fill');
+      var cO = ctx.color('--c-2'), cN = ctx.color('--c-1'), fs = fsz(w), narrow = w < 520, floor = h * 0.92;
+      g.clearRect(0, 0, w, h); g.lineJoin = 'round';
+      g.strokeStyle = wire; g.lineWidth = 2; line(g, 0, floor, w, floor);
+      // cabinet with DIN rails and breakers, molecules inside
+      var cx0 = w * 0.3, cx1 = w * (narrow ? 0.68 : 0.64), cy0 = h * 0.16, cy1 = floor - 4;
+      g.fillStyle = body; g.strokeStyle = wire; g.lineWidth = 3; TV.rr(g, cx0, cy0, cx1 - cx0, cy1 - cy0, 4); g.fill(); g.stroke();
+      g.globalAlpha = 0.3; g.lineWidth = 2;
+      [0.35, 0.65].forEach(function (f) {
+        var y = cy0 + (cy1 - cy0) * f; line(g, cx0 + 8, y, cx1 - 8, y);
+        for (var x = cx0 + 14; x < cx1 - 22; x += 16) { g.strokeRect(x, y - 12, 11, 24); }
+      });
+      g.globalAlpha = 1;
+      if (!S.mol) { S.mol = []; for (i = 0; i < 50; i++) S.mol.push({ x: Math.random(), y: Math.random(), a: Math.random() * 6.3 }); }
+      var n = Math.min(50, Math.round(10 + 4 * p.p)), xs = S.pg > 0 ? S.xf : p.x, nO = Math.round(n * xs / 100);
+      for (i = 0; i < n; i++) {
+        var m = S.mol[i], sp = D.dt * 0.25;
+        m.x += Math.cos(m.a) * sp; m.y += Math.sin(m.a) * sp * 1.3;
+        if (m.x < 0 || m.x > 1) { m.a = Math.PI - m.a; m.x = Math.max(0, Math.min(1, m.x)); }
+        if (m.y < 0 || m.y > 1) { m.a = -m.a; m.y = Math.max(0, Math.min(1, m.y)); }
+        g.fillStyle = i < nO ? cO : cN; g.beginPath();
+        g.arc(cx0 + 10 + (cx1 - cx0 - 20) * m.x, cy0 + 26 + (cy1 - cy0 - 36) * m.y, i < nO ? 4 : 3.2, 0, 2 * Math.PI); g.fill();
+      }
+      TV.font(g, fs - 1, 600);
+      g.fillStyle = cO; g.beginPath(); g.arc(cx0 + 12, cy0 + 12, 4, 0, 7); g.fill(); TV.text(g, 'O₂', cx0 + 20, cy0 + 12, fg, 'left');
+      g.fillStyle = cN; g.beginPath(); g.arc(cx0 + 50, cy0 + 12, 3.2, 0, 7); g.fill(); TV.text(g, 'N₂', cx0 + 58, cy0 + 12, fg, 'left');
+      // vent on the roof, gas out while purging
+      var vx = cx1 - 22; g.strokeStyle = wire; g.lineWidth = 3; line(g, vx, cy0, vx, cy0 - 14); line(g, vx - 8, cy0 - 14, vx + 8, cy0 - 14);
+      if (purging) TV.arrow(g, vx + 4, cy0 - 18, vx + 20, cy0 - 34 + 3 * Math.sin(D.t * 8), mu, 2);
+      // nitrogen bottle with valve and hose into the cabinet bottom
+      var bw = Math.max(22, w * 0.07), bx = w * 0.06, by0 = h * 0.3;
+      g.fillStyle = TV.alpha(cN, 0.25); g.strokeStyle = wire; g.lineWidth = 2.5; TV.rr(g, bx, by0, bw, floor - by0, bw / 2); g.fill(); g.stroke();
+      g.fillStyle = wire; g.fillRect(bx + bw / 2 - 3, by0 - 12, 6, 12); g.fillRect(bx + bw / 2 - 9, by0 - 16, 18, 5);
+      TV.font(g, fs, 700); TV.text(g, 'N₂', bx + bw / 2, (by0 + floor) / 2, fg, 'center');
+      var hy = cy1 - 18; g.strokeStyle = purging ? cN : wire; g.lineWidth = 3;
+      if (purging) { g.setLineDash([8, 6]); g.lineDashOffset = -D.t * 40; }
+      g.beginPath(); g.moveTo(bx + bw / 2 + 9, by0 - 14); g.lineTo(bx + bw + 14, by0 - 14); g.lineTo(bx + bw + 14, hy); g.lineTo(cx0, hy); g.stroke();
+      g.setLineDash([]); g.lineDashOffset = 0;
+      TV.font(g, fs - 1, 500); TV.text(g, ctx.tx(purging ? L('valve open', 'venttiili auki') : L('valve closed', 'venttiili kiinni')), bx + bw + 18, hy - 12, purging ? cN : mu, 'left', ctx.color('--surface'));
+      // oxygen analyser and total-pressure gauge on the right
+      var ax = (cx1 + w) / 2, r = Math.min(w * 0.08, h * 0.12);
+      g.strokeStyle = wire; g.lineWidth = 2; line(g, cx1, h * 0.3, ax - 30, h * 0.3);
+      TV.font(g, fs - 1, 500); TV.text(g, ctx.tx(L('O₂ analyser', 'O₂-analysaattori')), ax, h * 0.3 - 26, mu, 'center');
+      TV.lcd(g, ctx, ax, h * 0.3, 'O₂ ' + nf(xs, 3) + ' %', fs + 1);
+      TV.lcd(g, ctx, ax, h * 0.3 + fs + 16, nf(p.p * 100 * xs / 100, 3) + ' kPa', fs);
+      var gy = h * 0.68; line(g, cx1, gy, ax - r, gy);
+      TV.gauge(g, ctx, ax, gy, r, p.p, 10, 'p_{tot} / bar', nf(p.p, 2));
+    },
+    outputs: function (v) {
+      var pt = v.p * 1e5;
+      return [{ tex: 'p_{O_2}', value: pt * v.x / 100, unit: 'Pa' }, { tex: 'p_{rest}', value: pt * (1 - v.x / 100), unit: 'Pa' }];
+    }
+  };
+
 TDC.registerTopic({
   id: 't4', num: 4,
   title: { en: 'Ideal gas and kinetic theory', fi: 'Ideaalikaasu ja kineettinen kaasuteoria' },
@@ -222,27 +377,11 @@ TDC.registerTopic({
         { id: 't4-dev-p2', type: 'text', html: {
           en: '<p>An automation line has a 100 l air receiver (20 °C) feeding a pneumatic cylinder (Ø 50 mm, stroke 200 mm) through a regulator at 6 bar gauge. Each stroke fills the cylinder volume with air at the working pressure and removes <f>n_c = p_w V_c/(RT)</f> from the receiver. Because <f>pV = nRT</f>, the receiver pressure falls by <f>Δp = p_w V_c / V</f> per stroke. When the receiver pressure drops to the working pressure, the cylinder weakens.</p>',
           fi: '<p>Automaatiolinjalla on 100 l:n paineilmasäiliö (20 °C), josta syötetään paineilmasylinteriä (Ø 50 mm, iskunpituus 200 mm) paineensäätimen kautta 6 barin ylipaineella. Jokainen isku täyttää sylinterin tilavuuden työpaineella olevalla ilmalla ja poistaa säiliöstä ainemäärän <f>n_c = p_w V_c/(RT)</f>. Koska <f>pV = nRT</f>, säiliön paine laskee iskua kohti määrän <f>Δp = p_w V_c / V</f>. Kun säiliön paine laskee työpaineeseen, sylinterin voima heikkenee.</p>' } },
-        { id: 't4-dev-air', type: 'interactive', widget: 'readout',
+        { id: 't4-dev-air', type: 'interactive', widget: 'custom',
           title: { en: 'Compressed-air receiver: how many strokes?', fi: 'Paineilmasäiliö: montako iskua?' },
-          caption: { en: 'Set the receiver gauge pressure and the number of strokes already made. The readout shows the amount of air, the pressure left and how many strokes remain until the pressure falls to 6 bar gauge (temperature kept constant).',
-                     fi: 'Aseta säiliön ylipaine ja jo tehtyjen iskujen määrä. Näytöstä näet ilman ainemäärän, jäljellä olevan paineen ja iskut, jotka riittävät, kunnes paine laskee 6 bar:n ylipaineeseen (lämpötila vakio).' },
-          config: {
-            params: [{ id: 'pg', tex: 'p_g', min: 4, max: 10, step: 0.1, value: 7, unit: 'bar' }, { id: 'k', label: { en: 'strokes made', fi: 'tehdyt iskut' }, min: 0, max: 80, step: 1, value: 0, unit: '' }],
-            outputs: function (v) {
-              var TH = TDC.thermo, pa = 101300, Vr = 0.1, Tk = 293.15, pw = 6e5 + pa, Vc = Math.PI / 4 * 0.05 * 0.05 * 0.2;
-              var n0 = TH.idealGas({ p: v.pg * 1e5 + pa, V: Vr, T: Tk }, 'n'), nc = TH.idealGas({ p: pw, V: Vc, T: Tk }, 'n');
-              var nk = Math.max(0, n0 - v.k * nc), p = nk > 0 ? TH.idealGas({ n: nk, V: Vr, T: Tk }, 'p') : 0, pgk = Math.max(0, p - pa);
-              var left = Math.max(0, (v.pg * 1e5 + pa - pw) * Vr / (pw * Vc));
-              return [
-                { tex: 'n_0', value: n0, unit: 'mol' },
-                { tex: 'n_c', value: nc, unit: 'mol' },
-                { tex: 'p', value: p, unit: 'Pa' },
-                { tex: 'p_g', value: pgk, unit: 'Pa' },
-                { label: { en: 'full strokes at 6 bar from the start', fi: 'täydet iskut 6 barilla alusta' }, value: Math.floor(left) },
-                { label: { en: 'cylinder', fi: 'sylinteri' }, value: pgk >= 6e5 ? { en: 'full force', fi: 'täysi voima' } : { en: 'receiver pressure below working pressure', fi: 'säiliön paine alle työpaineen' } }
-              ];
-            }
-          } },
+          caption: { en: "Press “Make a stroke”: the cylinder pushes a part and the receiver gauge drops, because every stroke takes the amount n_c of air. Below 6 bar gauge the regulator can no longer hold the working pressure and the strokes get weak. Refill with the compressor, or set the start pressure with the slider (temperature kept constant).",
+            fi: "Paina ”Tee isku”: sylinteri työntää kappaletta ja säiliön painemittarin lukema laskee, koska jokainen isku vie ainemäärän n_c ilmaa. Alle 6 barin ylipaineessa säädin ei enää pysty pitämään työpainetta ja iskut heikkenevät. Täytä säiliö kompressorilla tai aseta alkupaine liukusäätimellä (lämpötila vakio)." },
+          config: dev(AIR) },
         { id: 't4-dev-q10', type: 'question', q: 't4-q10' },
         { id: 't4-dev-q11', type: 'question', q: 't4-q11' },
         { id: 't4-dev-h2', type: 'h', text: { en: 'Device: SF₆ gas-insulated switchgear', fi: 'Laite: SF₆-kaasueristeinen kytkinlaitteisto' } },
@@ -304,17 +443,11 @@ TDC.registerTopic({
         { id: 't4-da-t1', type: 'table', caption: { en: 'Dry air, mole fractions', fi: 'Kuiva ilma, ainemääräosuudet' }, // (extra)
           head: [{ en: 'Gas', fi: 'Kaasu' }, { en: 'Fraction', fi: 'Osuus' }, { en: 'Partial pressure at 101.325 kPa', fi: 'Osapaine 101,325 kPa:ssa' }],
           rows: [[{ en: 'nitrogen', fi: 'typpi' }, '78 %', '79.0 kPa'], [{ en: 'oxygen', fi: 'happi' }, '21 %', '21.3 kPa'], [{ en: 'argon and others', fi: 'argon ym.' }, '1 %', '1.0 kPa']] },
-        { id: 't4-da-purge', type: 'interactive', widget: 'readout',
+        { id: 't4-da-purge', type: 'interactive', widget: 'custom',
           title: { en: 'Nitrogen-purged cabinet: partial pressure of oxygen', fi: 'Typellä huuhdeltu kotelo: hapen osapaine' },
-          caption: { en: 'An electrical cabinet is flushed with nitrogen to push the oxygen content down. Total pressure and the oxygen fraction set the oxygen partial pressure.',
-                     fi: 'Sähkökotelo huuhdellaan typellä hapen osuuden pienentämiseksi. Kokonaispaine ja hapen osuus määräävät hapen osapaineen.' }, // (extra)
-          config: {
-            params: [{ id: 'p', tex: 'p_{tot}', min: 0.5, max: 10, step: 0.1, value: 1, unit: 'bar' }, { id: 'x', tex: 'x_{O_2}', min: 1, max: 21, step: 1, value: 21, unit: '%' }],
-            outputs: function (v) {
-              var pt = v.p * 1e5;
-              return [{ tex: 'p_{O_2}', value: pt * v.x / 100, unit: 'Pa' }, { tex: 'p_{rest}', value: pt * (1 - v.x / 100), unit: 'Pa' }];
-            }
-          } },
+          caption: { en: "Purge the cabinet with nitrogen: the O₂ molecules are flushed out through the vent and the oxygen analyser falls. Open the door and air comes back. The total pressure (gauge) and the oxygen fraction set the oxygen partial pressure.",
+            fi: "Huuhtele kotelo typellä: O₂-molekyylit huuhtoutuvat ulos tuuletusaukosta ja happianalysaattorin lukema laskee. Avaa ovi, niin ilma palaa. Kokonaispaine (painemittari) ja hapen osuus määräävät hapen osapaineen." },
+          config: dev(PURGE) },
         { id: 't4-da-q14', type: 'question', q: 't4-q14' }
       ]
     },
@@ -497,3 +630,4 @@ TDC.registerTopic({
       hints: [{ en: 'v_rms is proportional to 1/√M.', fi: 'v_rms on verrannollinen suureeseen 1/√M.' }] }
   ]
 });
+})();
