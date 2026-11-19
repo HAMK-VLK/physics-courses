@@ -25,7 +25,7 @@
       icon: '<svg viewBox="0 0 64 64"><circle ' + S + ' cx="16" cy="32" r="9"/><circle ' + S + ' cx="48" cy="32" r="9"/><path ' + S + ' d="M2 52h20M16 46l6 6M30 32h4"/></svg>' },
     { id: 't6', num: 6, color: 'var(--t6)',
       title: { en: 'Rotation', fi: 'Pyörimisliike' },
-      summary: { en: 'Angular velocity and acceleration, moment of inertia, torque, rolling, and conservation of angular momentum.', fi: 'Kulmanopeus ja -kiihtyvyys, hitausmomentti, vääntömomentti, vierintä ja pyörimismäärän säilyminen.' },
+      summary: { en: 'Angular velocity and acceleration, moment of inertia, torque, rolling, and conservation of angular momentum.', fi: 'Kulmanopeus ja -kiihtyvyys, hitausmomentti, vääntömomentti, vierimisliike ja liikemäärämomentin säilyminen.' },
       icon: '<svg viewBox="0 0 64 64"><circle ' + S + ' cx="32" cy="32" r="22"/><circle ' + S + ' cx="32" cy="32" r="3"/><path ' + S + ' d="M32 32 50 22M54 8a26 26 0 0 1 4 12M58 20l-6 0"/></svg>' }
   ];
 })();

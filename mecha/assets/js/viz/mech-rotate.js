@@ -101,7 +101,7 @@
       }
       if (on && p.M > 0) arcArrow(Rr + 14, 0.3, 1.3, ctx.color('--f-applied'), 'M', '');
       if (p.Mf > 0 && st.w > 1e-6) arcArrow(Rr + 14, 3.9, 2.9, ctx.color('--f-friction'), 'M', 'μ');
-      TV.font(g, 12, 700); TV.text(g, ctx.t(!started ? 'mr.press' : st.w <= 1e-6 && S.t > 0 ? 'mr.stopped' : on ? 'mr.on' : 'mr.off'), 10, 14, mu, 'left');
+      TV.font(g, 12, 700); TV.text(g, ctx.t(!started ? 'mr.press' : R.a1 === 0 ? 'mr.noTurn' : st.w <= 1e-6 && S.t > 0 ? 'mr.stopped' : on ? 'mr.on' : 'mr.off'), 10, 14, mu, 'left');
       if (f < 0.999) { TV.font(g, 10, 600); TV.text(g, ctx.t('mr.slow').replace('{n}', U.fmtNum(1 / f, 2)), cx, cy + Rr + (narrow ? 22 : 34), mu, 'center'); }
       // ω,t graph: grows during the run; dashed: the whole run for the current sliders
       var gx0 = narrow ? 40 : w * 0.46, gx1 = w - 16, gy0 = narrow ? cy + Rr + 46 : 34, gy1 = h - 28, wtop = (R.w1 > 1e-6 ? wmax : 1) * 1.15;   // M ≤ M_μ: the wheel never turns, keep a readable axis

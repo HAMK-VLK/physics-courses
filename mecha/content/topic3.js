@@ -651,7 +651,7 @@
             '70 kg:n astronautin massa on Kuussakin 70 kg, mutta paino siellä on vain <f>70 kg · 1,62 m/s^2 ≈ 113 N</f> eikä 687 N kuten maan pinnalla. Paino riippuu paikallisesta painovoimakentästä, massa ei. Tällä kurssilla käytetään arvoa <f>g = 9,81 m/s^2</f> (kalvoilla on joskus 9,8).') },
           { id: 't3-laws-fund', type: 'text', html: T(
             '<p>Nature has four <b>fundamental forces</b>: gravity, the electromagnetic force, the weak nuclear force and the strong nuclear force. All other forces (normal force, friction, rope tension, drag…) come from them; the forces of everyday mechanics are mostly electromagnetic forces between the atoms of the surfaces.</p>',
-            '<p>Luonnossa on neljä <b>perusvoimaa</b>: gravitaatio, sähkömagneettinen voima, heikko ydinvoima ja vahva ydinvoima. Kaikki muut voimat (tukivoima, kitka, köysivoima, väliaineen vastus…) johtuvat niistä; arkimekaniikan voimat ovat enimmäkseen pintojen atomien välisiä sähkömagneettisia voimia.</p>') },
+            '<p>Luonnossa on neljä <b>perusvoimaa</b>: gravitaatio, sähkömagneettinen voima, heikko ydinvoima ja vahva ydinvoima. Kaikki muut voimat (tukivoima, kitka, jännitysvoima, väliaineen vastus…) johtuvat niistä; arkimekaniikan voimat ovat enimmäkseen pintojen atomien välisiä sähkömagneettisia voimia.</p>') },
           { type: 'question', q: 't3-q1', id: 't3-q1-blk' },
           { type: 'question', q: 't3-q2', id: 't3-q2-blk' },
           { type: 'question', q: 't3-q3', id: 't3-q3-blk' }
@@ -723,7 +723,7 @@
           { id: 't3-method-which', type: 'columns', cols: [
             [{ id: 't3-method-yes', type: 'callout', kind: 'tip', title: T('Forces that do act', 'Voimat, jotka vaikuttavat'), html: T(
               '<ul><li>the weight <f>m g</f> (always, straight down)</li><li>a force from everything that <b>touches</b> the body: support force <f>N</f> (perpendicular to the surface), friction <f>F_μ</f> (along the surface), rope tension <f>T</f> (along the rope), a push or pull <f>F</f></li></ul>',
-              '<ul><li>paino <f>m g</f> (aina, suoraan alas)</li><li>voima jokaiselta, mikä <b>koskettaa</b> kappaletta: tukivoima <f>N</f> (kohtisuoraan pintaa vastaan), kitka <f>F_μ</f> (pinnan suuntaan), köysivoima <f>T</f> (köyden suuntaan), työntö tai veto <f>F</f></li></ul>') }],
+              '<ul><li>paino <f>m g</f> (aina, suoraan alas)</li><li>voima jokaiselta, mikä <b>koskettaa</b> kappaletta: tukivoima <f>N</f> (kohtisuoraan pintaa vastaan), kitka <f>F_μ</f> (pinnan suuntaan), jännitysvoima <f>T</f> (köyden suuntaan), työntö tai veto <f>F</f></li></ul>') }],
             [{ id: 't3-method-no', type: 'callout', kind: 'warn', title: T('Not forces on the body', 'Eivät ole kappaleeseen vaikuttavia voimia'), html: T(
               '<ul><li>a "force of motion" (a moving body needs no force to keep moving: Newton I)</li><li>"inertia" or <f>m a</f> (that is the result, the right-hand side of <f>ΣF = m a</f>)</li><li>counterforces, which act on <b>other</b> bodies (the body\'s push on the floor)</li><li>a "centripetal force" on a straight path</li></ul>',
               '<ul><li>"liikkeen voima" (liikkuva kappale ei tarvitse voimaa pysyäkseen liikkeessä: Newtonin I laki)</li><li>"hitaus" tai <f>m a</f> (se on tulos, yhtälön <f>ΣF = m a</f> oikea puoli)</li><li>vastavoimat, jotka vaikuttavat <b>muihin</b> kappaleisiin (kappaleen paine lattiaa vasten)</li><li>"keskeisvoima" suoralla radalla</li></ul>') }]] },
@@ -839,9 +839,9 @@
           { id: 't3-fo-h-rope', type: 'h', text: T('Rope (belt) friction', 'Köysikitka') },
           { id: 't3-fo-rope', type: 'text', html: T(
             '<p>A rope or belt over a drum or pulley is held by friction along the whole contact. The tension changes a little at every bit of the contact, so the ratio of the two end forces grows <b>exponentially</b> with the contact (wrap) angle <f>θ</f> (in radians). A sailor holds a large load with a small pull by winding the rope a few turns around a bollard.</p>',
-            '<p>Rummun tai pyörän yli kulkevaa köyttä tai hihnaa pitää kitka koko kosketusmatkalla. Köysivoima muuttuu hieman jokaisella kosketuksen osalla, joten päiden voimien suhde kasvaa <b>eksponentiaalisesti</b> kosketuskulman <f>θ</f> (radiaaneina) mukana. Merimies pitää suurta kuormaa pienellä vedolla kiertämällä köyden muutaman kerran pollarin ympäri.</p>') },
+            '<p>Rummun tai pyörän yli kulkevaa köyttä tai hihnaa pitää kitka koko kosketusmatkalla. Jännitysvoima muuttuu hieman jokaisessa kosketuksen kohdassa, joten köyden päiden voimien suhde kasvaa <b>eksponentiaalisesti</b> kosketuskulman <f>θ</f> (radiaaneina) mukana. Merimies pitää suurta kuormaa pienellä vedolla kiertämällä köyden muutaman kerran pollarin ympäri.</p>') },
           { id: 't3-fo-rope-f', type: 'formula', key: true, tex: '{F_1}/{F_2} = e^{μθ}', label: T('Rope friction (F_1 the larger force)', 'Köysikitka (F_1 suurempi voima)'),
-            legend: [['θ', T('contact (wrap) angle', 'kosketuskulma'), 'rad'], ['μ', T('coefficient of friction between rope and drum', 'köyden ja rummun välinen kitkakerroin'), ''], ['F_1, F_2', T('rope forces at the two ends', 'köysivoimat köyden päissä'), 'N']] },
+            legend: [['θ', T('contact (wrap) angle', 'kosketuskulma'), 'rad'], ['μ', T('coefficient of friction between rope and drum', 'köyden ja rummun välinen kitkakerroin'), ''], ['F_1, F_2', T('rope forces at the two ends', 'jännitysvoimat köyden päissä'), 'N']] },
           { id: 't3-capstan', type: 'interactive', widget: 'custom', title: T('Rope on a drum', 'Köysi rummulla'),
             caption: T('Choose the wrap angle and μ, then wind the rope on. The rope gets thicker where its tension is larger, and the F_1 arrow grows exponentially with the angle: one extra turn with μ = 0.3 already multiplies the holding force by <f>e^{0.3 · 2π}</f> ≈ 6.6.',
               'Valitse kosketuskulma ja μ ja kierrä köysi rummulle. Köysi paksunee siellä, missä sen jännitysvoima on suurempi, ja F_1-nuoli kasvaa eksponentiaalisesti kulman mukana: yksi lisäkierros arvolla μ = 0,3 kertoo pitovoiman jo luvulla <f>e^{0,3 · 2π}</f> ≈ 6,6.'),
@@ -1091,7 +1091,7 @@
         hints: [T('y: N = mg cos α, so <f>F_μ</f> = μ mg cos α.', 'y: N = mg cos α, joten <f>F_μ</f> = μ mg cos α.'), T('x: F = <f>F_μ</f> + mg sin α + m a.', 'x: F = <f>F_μ</f> + mg sin α + m a.')] },
       { id: 't3-q20', mode: 'practice', type: 'slider', difficulty: 2, tol: 0.02,
         prompt: T('In the lab (35°, 55 kg, μ_s = μ_k = 0.43, on the Earth) set the pull F so that the block accelerates <b>up</b> the slope at 3.0 m/s². The widget reads the acceleration at release.',
-          'Säädä laboratoriossa (35°, 55 kg, μ_s = μ_k = 0,43, Maassa) veto F niin, että kappale kiihtyy <b>ylös</b> rinnettä 3,0 m/s²:n kiihtyvyydellä. Komponentti lukee kiihtyvyyden päästöhetkellä.'),
+          'Säädä laboratoriossa (35°, 55 kg, μ_s = μ_k = 0,43, Maassa) veto F niin, että kappale kiihtyy <b>ylös</b> rinnettä 3,0 m/s²:n kiihtyvyydellä. Sovelma lukee kiihtyvyyden päästöhetkellä.'),
         hints: [T('Moving up, friction points down the slope: F = <f>F_μ</f> + mg sin α + m a. Compute F first, then set the slider.', 'Ylös liikuttaessa kitka osoittaa alas rinnettä: F = <f>F_μ</f> + mg sin α + m a. Laske F ensin ja säädä sitten liukusäädin.')],
         widget: { name: 'incline', config: { values: { alpha: 35, m: 55, mus: 0.43, muk: 0.43, F: 0 }, fixed: ['alpha', 'm', 'mus', 'muk'], ranges: { F: { max: 1000 } } } } },
       { id: 't3-q21', mode: 'practice', type: 'fbd', difficulty: 2,
@@ -1125,7 +1125,7 @@
                 T('With acceleration the net force must be m a: F = R ± mg sin α + m a.', 'Kiihdyttäessä kokonaisvoiman on oltava m a: F = R ± mg sin α + m a.')] },
       // ---- 3.7
       { id: 't3-q26', mode: 'practice', type: 'mc', difficulty: 1,
-        prompt: T('Bodies of the same cross-section area move through air at the same speed. Which has the smallest drag force?', 'Kappaleet, joilla on sama poikkipinta-ala, liikkuvat ilmassa samalla nopeudella. Mihin vaikuttaa pienin ilmanvastus?'),
+        prompt: T('Bodies of the same cross-section area move through air at the same speed. Which has the smallest drag force?', 'Kappaleet, joilla on sama poikkipinta-ala, liikkuvat ilmassa samalla nopeudella. Millä kappaleella ilmanvastus on pienin?'),
         options: [{ id: 'a', html: T('a ball', 'pallo') }, { id: 'b', html: T('a disc moving face-on', 'lappeellaan liikkuva kiekko') },
                   { id: 'c', html: T('a car seen from the side', 'auto sivulta katsottuna') }, { id: 'd', html: T('a streamlined teardrop', 'virtaviivainen pisara') }],
         hints: [T('Same ρ, A and v: compare the drag coefficients C in the table.', 'Sama ρ, A ja v: vertaa taulukon muotokertoimia C.')] },

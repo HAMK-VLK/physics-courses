@@ -387,7 +387,7 @@
       trapezoid: { en: 'trapezoidal method', fi: 'puolisuunnikasmenetelmä', def: T('Approximating the area under a graph by trapezoids.', 'Kuvaajan alle jäävän alan approksimointi puolisuunnikkailla.') },
       lineintegral: { en: 'line integral', fi: 'viivaintegraali', sym: '∫F·ds', def: T('Work along a curve when the force changes.', 'Työ käyrää pitkin, kun voima muuttuu.') },
       perpetual: { en: 'perpetual motion machine', fi: 'ikiliikkuja', def: T('An impossible machine with η = 1 or more.', 'Mahdoton kone, jonka hyötysuhde on 1 tai suurempi.') },
-      loss: { en: 'dissipation power (loss)', fi: 'häviöteho', sym: 'P_h = P_in − P_out', def: T('The part of the input power that is not output; it ends up as heat.', 'Ottotehon osa, joka ei tule antoteholle; se päätyy lämmöksi.') }
+      loss: { en: 'dissipation power (loss)', fi: 'häviöteho', sym: 'P_h = P_in − P_out', def: T('The part of the input power that is not output; it ends up as heat.', 'Ottotehon osa, joka ei päädy antotehoksi; se muuttuu lämmöksi.') }
     },
     formulas: [
       { name: T('Work of a constant force', 'Vakiovoiman työ'), tex: 'W = F s cos α' },
@@ -409,7 +409,7 @@
         blocks: [
           { id: 't4-ov-intro', type: 'text', html: T(
             '<p><dfn data-term="energy">Energy</dfn> is one of the most important quantities in science and engineering. It appears as <b>mechanical</b>, <b>thermal</b> and <b>electromagnetic</b> energy. The law of conservation says: in energy changes the <b>total</b> energy stays constant.</p>',
-            '<p><dfn data-term="energy">Energia</dfn> on yksi luonnontieteen ja tekniikan tärkeimmistä suureista. Sitä esiintyy <b>mekaanisena</b>, <b>lämpö</b>- ja <b>sähkömagneettisena</b> energiana. Säilymislaki sanoo: energian muutoksissa <b>kokonaisenergia</b> pysyy vakiona.') },
+            '<p><dfn data-term="energy">Energia</dfn> on yksi luonnontieteen ja tekniikan tärkeimmistä suureista. Sitä esiintyy <b>mekaanisena</b>, <b>lämpö</b>- ja <b>sähkömagneettisena</b> energiana. Säilymislaki sanoo: energian muutoksissa <b>kokonaisenergia</b> pysyy vakiona.</p>') },
           { id: 't4-ov-three', type: 'columns', cols: [
             [{ id: 't4-ov-work', type: 'formula', key: true, tex: 'W = F · s', label: T('Work: force does the work in most energy changes', 'Työ: voima tekee työn useimmissa energian muutoksissa'),
               legend: [['W', T('work', 'työ'), 'J = N·m'], ['F', T('force', 'voima'), 'N'], ['s', T('displacement', 'siirtymä'), 'm']] }],
@@ -419,7 +419,7 @@
             legend: [['E_k', T('kinetic energy', 'liike-energia'), 'J'], ['E_p', T('potential energy', 'potentiaalienergia'), 'J']] },
           { id: 't4-ov-tip', type: 'callout', kind: 'tip', title: T('A ladder to the exercises', 'Portaat tehtäviin'), html: T(
             'This topic climbs in steps: work of a constant force, the angle, the area under F,s, kinetic energy, conservation of energy on a ramp, friction loss, spring energy, power and efficiency. Each exercise of the deck is the top step of one such ladder.',
-            'Aihe etenee portaittain: vakiovoiman työ, kulma, F,s-kuvaajan ala, liike-energia, energian säilyminen rampilla, kitkahäviö, jousienergia, teho ja hyötysuhde. Kunkin tehtävän aihe on yhden tällaisen portaikon ylin askel.') },
+            'Aihe etenee portaittain: vakiovoiman työ, kulma, F,s-kuvaajan ala, liike-energia, energian säilyminen rampilla, kitkahäviö, jousienergia, teho ja hyötysuhde. Kukin kalvosarjan tehtävä on yhden tällaisen portaikon ylin askel.') },
           { type: 'question', q: 't4-q1', id: 't4-q1-blk' },
           { type: 'question', q: 't4-q2', id: 't4-q2-blk' }
         ] },
@@ -429,7 +429,7 @@
         blocks: [
           { id: 't4-wk-text', type: 'text', html: T(
             '<p>A small displacement <f>ds</f> under the force <f>F</f> does the work <f>dW = F ds cos α</f>, where <f>α</f> is the angle between the force and the displacement. For a <b>constant</b> force over the displacement <f>s</f> the total <dfn data-term="work">work</dfn> is</p>',
-            '<p>Pieni siirtymä <f>ds</f> voiman <f>F</f> vaikutuksesta tekee työn <f>dW = F ds cos α</f>, missä <f>α</f> on voiman ja siirtymän välinen kulma. <b>Vakiovoiman</b> <dfn data-term="work">työ</dfn> siirtymällä <f>s</f> on') },
+            '<p>Pieni siirtymä <f>ds</f> voiman <f>F</f> vaikutuksesta tekee työn <f>dW = F ds cos α</f>, missä <f>α</f> on voiman ja siirtymän välinen kulma. <b>Vakiovoiman</b> <dfn data-term="work">työ</dfn> siirtymällä <f>s</f> on</p>') },
           { id: 't4-wk-f', type: 'formula', key: true, tex: 'W = F s cos α', label: T('Work of a constant force', 'Vakiovoiman työ'),
             legend: [['α', T('angle between F and the displacement', 'voiman ja siirtymän välinen kulma'), '°']] },
           { id: 't4-wk-cases', type: 'table', head: [T('Angle', 'Kulma'), T('Work for F = 500 N, s = 10 m', 'Työ, kun F = 500 N ja s = 10 m'), T('Meaning', 'Merkitys')],
@@ -577,7 +577,7 @@
             legend: [['W_μ', T('friction work = F_μ times the path length', 'kitkatyö = F_μ kertaa matkan pituus'), 'J']] },
           { id: 't4-energy-lab', type: 'interactive', widget: 'energy', title: T('Energy lab: a block on a hill', 'Energia\u00ADlaboratorio: kappale mäellä'),
             caption: T('Drag the knots (or h₁…h₅) to reshape the hill, choose the start with the block or the start slider, and press Release. With μ = 0 the bars E_p and E_k trade places and the sum stays constant; add friction and the bar W_μ grows until the block stops. The dashed line shows the highest level the remaining energy can reach.',
-              'Vedä solmuja (tai säätimiä h₁…h₅) muuttaaksesi mäen muotoa, valitse lähtöpaikka kappaleesta tai lähtösäätimestä ja paina Päästä. Kun μ = 0, palkit E_p ja E_k vaihtavat paikkaa ja summa pysyy vakiona; lisää kitka, niin palkki W_μ kasvaa kunnes kappale pysähtyy. Katkoviiva osoittaa korkeimman tason, jolle jäljellä oleva energia riittää.'),
+              'Vedä solmuja (tai säätimiä h₁…h₅) muuttaaksesi mäen muotoa, valitse lähtöpaikka kappaleesta tai lähtösäätimestä ja paina Päästä. Kun μ = 0, palkit E_p ja E_k vaihtavat paikkaa ja summa pysyy vakiona; lisää kitka, niin palkki W_μ kasvaa, kunnes kappale pysähtyy. Katkoviiva osoittaa korkeimman tason, jolle jäljellä oleva energia riittää.'),
             config: { track: [[0, 4], [3, 0.6], [6, 2.6], [9, 0.4], [12, 3]], values: { m: 1, mu: 0, v0: 0 }, fixed: ['v0', 'm'], T: 12 } },   // m cancels out of the motion: no slider
           { id: 't4-me-ex1', type: 'example', title: T('How high from the kinetic energy? (slide p10)', 'Kuinka korkealle liike-energialla? (kalvo s. 10)'),
             problem: T('A vehicle moves at 90 km/h. How high could it be lifted with its kinetic energy?', 'Ajoneuvo liikkuu nopeudella 90 km/h. Kuinka korkealle se voitaisiin nostaa liike-energiallaan?'),
@@ -650,10 +650,10 @@
         blocks: [
           { id: 't4-ef-text', type: 'text', html: T(
             '<p>The <dfn data-term="efficiency">efficiency</dfn> is the work, energy or power a machine delivers divided by what is put into it. It is always between 0 and 1: if η = 1, the machine would be a <dfn data-term="perpetual">perpetual motion machine</dfn> without any losses.</p>',
-            '<p><dfn data-term="efficiency">Hyötysuhde</dfn> on koneen antama työ, energia tai teho jaettuna siihen syötetyllä. Se on aina välillä 0…1: jos η = 1, kone olisi <dfn data-term="perpetual">ikiliikkuja</dfn> ilman häviöitä.</p>') },
+            '<p><dfn data-term="efficiency">Hyötysuhde</dfn> on koneen antama työ, energia tai teho jaettuna siihen syötetyllä määrällä. Se on aina välillä 0…1: jos η = 1, kone olisi <dfn data-term="perpetual">ikiliikkuja</dfn> ilman häviöitä.</p>') },
           { id: 't4-ef-f', type: 'formula', key: true, tex: 'η = {W_{out}}/{W_{in}} = {E_{out}}/{E_{in}} = {P_{out}}/{P_{in}},  0 < η < 1', label: T('Efficiency (in = input, out = output)', 'Hyötysuhde (in = otto, out = anto)') },
           { id: 't4-ef-ex1', type: 'example', title: T('Water pump (slide p13)', 'Vesipumppu (kalvo s. 13)'),
-            problem: T('In 13 s a pump lifts 12 kg of water to the height 9.5 m. The electrical (input) power is 170 W. Find the efficiency.', 'Pumppu nostaa 13 s:ssa 12 kg vettä 9,5 m:n korkeuteen. Sähköinen (ottoteho) on 170 W. Laske hyötysuhde.'),
+            problem: T('In 13 s a pump lifts 12 kg of water to the height 9.5 m. The electrical (input) power is 170 W. Find the efficiency.', 'Pumppu nostaa 13 s:ssa 12 kg vettä 9,5 m:n korkeuteen. Sähköinen ottoteho on 170 W. Laske hyötysuhde.'),
             given: ['m = 12 kg', 'h = 9.5 m', 't = 13 s', 'P_in = 170 W'],
             steps: [{ tex: 'P_{out} = {m g h}/{t} = {12 kg · 9.81 m/s^2 · 9.5 m}/{13 s} ≈ 86 W' }, { tex: 'η = {P_{out}}/{P_{in}} = {86 W}/{170 W} ≈ 0.51 = 51 %' }], result: T('η ≈ 51 %', 'η ≈ 51 %') },
           { id: 't4-pump-lab', type: 'interactive', widget: 'custom', title: T('Water pump: lifting, speed and efficiency', 'Vesipumppu: nosto, nopeus ja hyötysuhde'),
@@ -665,7 +665,7 @@
           { id: 't4-ef-h', type: 'h', text: T('Total efficiency (slide p14)', 'Kokonaishyötysuhde (kalvo s. 14)') },
           { id: 't4-ef-tot', type: 'text', html: T(
             '<p>When a drive is a chain of parts (motor, clutch, gearbox, driven machine) the <dfn data-term="toteff">total efficiency</dfn> is the <b>product</b> of the efficiencies of all the parts. The lost power <f>P_h = P_in − P_out</f> ends up as heat.</p>',
-            '<p>Kun voimansiirto on osien ketju (moottori, kytkin, vaihde, käyttölaite), <dfn data-term="toteff">kokonaishyötysuhde</dfn> on kaikkien osien hyötysuhteiden <b>tulo</b>. Hukkateho <f>P_h = P_in − P_out</f> päätyy lämmöksi.</p>') },
+            '<p>Kun voimansiirto on osien ketju (moottori, kytkin, vaihde, käyttölaite), <dfn data-term="toteff">kokonaishyötysuhde</dfn> on kaikkien osien hyötysuhteiden <b>tulo</b>. Häviöteho <f>P_h = P_in − P_out</f> päätyy lämmöksi.</p>') },
           { id: 't4-ef-totf', type: 'formula', key: true, tex: 'η = η_1 η_2 η_3 η_4 …', label: T('Total efficiency', 'Kokonaishyötysuhde') },
           { id: 't4-chain-lab', type: 'interactive', widget: 'custom', title: T('Efficiency chain: where the power goes', 'Hyötysuhde\u00ADketju: minne teho menee'),
             caption: T('A passenger car (slide p14): engine, clutch, transmission, differential and final drive. Press Send the power through and watch the blue flow shrink at every stage while the red losses drop out. Move any η: the total is the product, and one poor stage ruins the chain.',
@@ -689,7 +689,7 @@
         prompt: T('Fill in the names of the units (one word each).', 'Täydennä yksiköiden nimet (yksi sana kumpaankin).'),
         text: T('Work is measured in [[a]] (1 N·m) and power in [[b]] (1 J/s).', 'Työn yksikkö on [[a]] (1 N·m) ja tehon yksikkö on [[b]] (1 J/s).'),
         fields: [{ id: 'a', kind: 'text' }, { id: 'b', kind: 'text' }],
-        hints: [T('Both are named after British physicists, one for the unit of energy, one for the steam engine.', 'Molemmat on nimetty brittifyysikoiden mukaan, toinen energian yksikkö ja toinen höyrykoneen mukaan.')] },
+        hints: [T('Both are named after British physicists, one for the unit of energy, one for the steam engine.', 'Molemmat on nimetty brittiläisten tutkijoiden mukaan: toinen on energian yksikkö, toinen liittyy höyrykoneeseen.')] },
       { id: 't4-q2', mode: 'practice', type: 'match', difficulty: 1,
         prompt: T('Match each quantity with its formula.', 'Yhdistä kukin suure kaavaansa.'),
         left: [{ id: 'k', html: T('kinetic energy', 'liike-energia') }, { id: 'p', html: T('potential energy (height)', 'potentiaalienergia (korkeus)') }, { id: 'j', html: T('spring energy', 'jousienergia') }, { id: 'w', html: T('power of a force', 'voiman teho') }, { id: 'e', html: T('efficiency', 'hyötysuhde') }],
@@ -710,8 +710,8 @@
         hints: [T('Only the component along the displacement counts: F cos α.', 'Vain siirtymän suuntainen komponentti lasketaan: F cos α.')] },
       { id: 't4-q6', mode: 'practice', type: 'multi', difficulty: 2,
         prompt: T('Which of these forces do <b>negative</b> work? Select all.', 'Mitkä seuraavista voimista tekevät <b>negatiivista</b> työtä? Valitse kaikki.'),
-        options: [{ id: 'a', html: T('friction on a sliding box', 'kitka liukuvaan laatikkoon') }, { id: 'b', html: T('gravity on a ball that is rising', 'painovoima nousevaan palloon') },
-                  { id: 'c', html: T('the normal force of the floor on a sliding box', 'lattian tukivoima liukuvaan laatikkoon') }, { id: 'd', html: T('the cable force on a load that is being lowered', 'vaijerin voima laskettavaan kuormaan') },
+        options: [{ id: 'a', html: T('friction on a sliding box', 'liukuvaan laatikkoon vaikuttava kitka') }, { id: 'b', html: T('gravity on a ball that is rising', 'nousevaan palloon vaikuttava painovoima') },
+                  { id: 'c', html: T('the normal force of the floor on a sliding box', 'liukuvaan laatikkoon vaikuttava lattian tukivoima') }, { id: 'd', html: T('the cable force on a load that is being lowered', 'laskettavaan kuormaan vaikuttava vaijerin voima') },
                   { id: 'e', html: T('the push of a hand on a cart it accelerates', 'käden työntö vaunuun, jota se kiihdyttää') }],
         hints: [T('Negative work: the force has a component against the displacement (α > 90°).', 'Negatiivinen työ: voimalla on siirtymää vastaan oleva komponentti (α > 90°).')] },
       // ---- 4.3
@@ -766,7 +766,7 @@
       { id: 't4-q17', mode: 'practice', type: 'numeric', difficulty: 2,
         prompt: T('The 1250 kg vehicle moving at 32 m/s brakes with a constant force and stops in 80 m. How large is the braking force? Use the work-energy theorem.', 'Edellinen 1250 kg:n ajoneuvo, nopeus 32 m/s, jarruttaa vakiovoimalla ja pysähtyy 80 m:ssä. Kuinka suuri on jarruttava voima? Käytä työperiaatetta.'),
         fields: [{ id: 'F', tex: 'F', unit: 'N' }],
-        hints: [T('The work of the braking force is negative and equals the change of E_k: −F s = 0 − E_k0.', 'Jarruvoiman työ on negatiivinen ja yhtä suuri kuin E_k:n muutos: −F s = 0 − E_k0.')] },
+        hints: [T('The work of the braking force is negative and equals the change of E_k: −F s = 0 − E_k0.', 'Jarruttavan voiman työ on negatiivinen ja yhtä suuri kuin E_k:n muutos: −F s = 0 − E_k0.')] },
       // ---- 4.6
       { id: 't4-q18', mode: 'practice', type: 'numeric', difficulty: 1,
         prompt: T('A spring with k = 5300 N/m is compressed 13 cm. How much energy is stored in it?', 'Jousi, jonka k = 5300 N/m, puristetaan 13 cm. Kuinka paljon energiaa siihen varastoituu?'),
@@ -778,7 +778,7 @@
         hints: [T('All the spring energy becomes kinetic energy: ½ k s² = ½ m v².', 'Koko jousienergia muuttuu liike-energiaksi: ½ k s² = ½ m v².'), T('Use the mass in kilograms.', 'Käytä massaa kilogrammoina.')] },
       { id: 't4-q20', mode: 'practice', type: 'slider', difficulty: 2, tol: 0.03,
         prompt: T('A 0.50 kg block is launched by a spring (k = 250 N/m) up a frictionless ramp. Set the compression s so that the block rises to the height 1.0 m above its start. The widget reads the highest point reached.',
-          '0,50 kg:n kappale laukaistaan jousella (k = 250 N/m) ylös kitkatonta ramppia. Säädä puristuma s niin, että kappale nousee 1,0 m korkeudelle lähtötasonsa yläpuolelle. Komponentti lukee saavutetun korkeimman kohdan.'),
+          '0,50 kg:n kappale laukaistaan jousella (k = 250 N/m) ylös kitkatonta ramppia. Säädä puristuma s niin, että kappale nousee 1,0 m korkeudelle lähtötasonsa yläpuolelle. Sovelma lukee saavutetun korkeimman kohdan.'),
         hints: [T('At the highest point all the spring energy has become potential energy: ½ k s² = m g h.', 'Korkeimmassa kohdassa koko jousienergia on muuttunut potentiaalienergiaksi: ½ k s² = m g h.'), T('Compute s first, then set the slider and Release to check.', 'Laske s ensin, säädä sitten säädin ja tarkista Päästä-painikkeella.')],
         widget: { name: 'energy', config: { track: [[0, 0], [2, 0], [5, 1.5], [8, 1.5]], editable: false, spring: true, springLen: 0.8, T: 6,
           values: { m: 0.5, mu: 0, v0: 0, k: 250, c: 0.1 }, fixed: ['m', 'mu', 'v0', 'k'], ranges: { c: { step: 0.005 } },
@@ -811,10 +811,10 @@
         prompt: T('A 0.20 kg object lies on a horizontal surface against a spring (k = 200 N/m) compressed by 5.0 cm. When released it slides 30 cm in all before it stops. Calculate the coefficient of friction (two decimals). (Exercise 4.16)',
           '0,20 kg:n kappale on vaakasuoralla alustalla vasten jousta (k = 200 N/m), joka on puristettu 5,0 cm. Vapautettuna se liukuu yhteensä 30 cm ennen kuin pysähtyy. Laske kitkakerroin (kaksi desimaalia). (Tehtävä 4.16)'),
         fields: [{ id: 'mu', tex: 'μ' }],
-        hints: [T('The stored spring energy is all spent on friction work.', 'Koko jousessa oleva energia kuluu kitkatyöhön.'), T('½ k s² = μ m g d, with d = 0.30 m.', '½ k s² = μ m g d, d = 0,30 m.')] },
+        hints: [T('The stored spring energy is all spent on friction work.', 'Jouseen varastoitunut energia kuluu kokonaan kitkatyöhön.'), T('½ k s² = μ m g d, with d = 0.30 m.', '½ k s² = μ m g d, d = 0,30 m.')] },
       { id: 't4-q27', mode: 'practice', type: 'slider', difficulty: 2, tol: 0.03,
         prompt: T('A car at about 50 km/h (14 m/s) brakes on a flat road. Set the coefficient of friction μ so that it stops in 30 m. The widget reads the stopping distance.',
-          'Auto ajaa noin 50 km/h (14 m/s) tasaisella tiellä ja jarruttaa. Säädä kitkakerroin μ niin, että auto pysähtyy 30 m:ssä. Komponentti lukee pysähtymismatkan.'),
+          'Auto ajaa noin 50 km/h (14 m/s) tasaisella tiellä ja jarruttaa. Säädä kitkakerroin μ niin, että auto pysähtyy 30 m:ssä. Sovelma lukee pysähtymismatkan.'),
         hints: [T('½ m v² = μ m g s gives μ = v²/(2 g s).', '½ m v² = μ m g s antaa μ = v²/(2 g s).'), T('Compute μ first, then set the slider and Release.', 'Laske μ ensin, säädä sitten säädin ja paina Päästä.')],
         widget: { name: 'energy', config: { track: [[0, 0], [100, 0]], editable: false, T: 12, values: { m: 1000, mu: 0.2, v0: 14 }, fixed: ['m', 'v0'], ranges: { mu: { min: 0.2, max: 1, step: 0.01 } } } } },
       { id: 't4-q28', mode: 'practice', type: 'numeric', difficulty: 2, tol: 0.03,
@@ -881,7 +881,7 @@
       { id: 't4-q42', mode: 'graded', type: 'numeric', difficulty: 2, tol: 0.03,
         prompt: T('A power plant with the efficiency 0.33 delivers 1600 MW of electricity. How much power is dissipated as heat? (Slide p14)', 'Voimalaitoksen hyötysuhde on 0,33 ja sähköinen antoteho 1600 MW. Kuinka suuri teho hukkautuu lämpönä? (Kalvo s. 14)'),
         fields: [{ id: 'P', tex: 'P_h', unit: 'GW' }],
-        hints: [T('P_in = P_out/η first.', 'Ensin P_in = P_out/η.'), T('The loss is what is not output: P_h = P_in − P_out.', 'Häviö on se, mikä ei tule ulos: P_h = P_in − P_out.')] },
+        hints: [T('P_in = P_out/η first.', 'Ensin P_in = P_out/η.'), T('The loss is what is not output: P_h = P_in − P_out.', 'Häviö on se osa, joka ei ole antotehoa: P_h = P_in − P_out.')] },
       { id: 't4-q43', mode: 'practice', type: 'numeric', difficulty: 2, tol: 0.03,
         prompt: T('A hoist lifts a 500 kg load to the height 8.5 m in 34 s. Its efficiency is 60 %. What average power does it consume? (Exercise 79)', 'Nosturi nostaa 500 kg:n kuorman 8,5 m:n korkeuteen 34 s:ssa. Sen hyötysuhde on 60 %. Kuinka suuren keskimääräisen tehon se kuluttaa? (Tehtävä 79)'),
         fields: [{ id: 'P', tex: 'P_in', unit: 'W' }],

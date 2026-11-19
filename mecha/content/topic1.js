@@ -31,6 +31,7 @@
     /** "0.0577" | "70" | "6,080" -> {digits, rules, counts, n, dec, ...} or null (not a positive decimal number). */
     function parse(str) {
       var s = String(str == null ? '' : str).trim().replace(',', '.');
+      if (s.length > 30) return null;   // BigInt powers of a pasted 100 000-digit number would hang the tab
       if (!/^(\d+\.?\d*|\.\d+)$/.test(s)) return null;
       var pt = s.indexOf('.') >= 0, ip = pt ? s.split('.')[0] : s, fp = pt ? s.split('.')[1] : '', d = ip + fp;
       var first = d.search(/[1-9]/); if (first < 0) return null;
@@ -121,7 +122,7 @@
         b.addEventListener('click', function () { S.op = o; start(); }); row2.appendChild(b);
       });
       var bStep = el('button', { type: 'button', class: 'btn btn-small' }), bRun = el('button', { type: 'button', class: 'btn btn-small btn-primary' });
-      TDC.i18n.bind(bStep, T('Step', 'Askel'), true); TDC.i18n.bind(bRun, T('Run', 'Aja'), true);
+      TDC.i18n.bind(bStep, T('Step', 'Vaihe'), true); TDC.i18n.bind(bRun, T('Run', 'Aja'), true);
       row2.append(bStep, bRun);
       host.append(el('div', { class: 'plot-widget mech-widget' }, [row1, row2, stage, cap]));
       function start() { S.phase = 0; S.tm = 0; S.run = !TDC.util.reducedMotion(); if (!S.run) S.phase = 5; sync(); }
@@ -138,20 +139,20 @@
       function caption(A, B, R) {
         var sA = ln(A.s), sB = ln(B.s), mul = R.op === '×' || R.op === '÷';
         switch (S.phase) {
-          case 0: return tx2(ctx, 'The numbers are kept exactly as typed: trailing zeros are information. Press Step or Run.', 'Luvut säilytetään täsmälleen kirjoitettuina: loppunollat ovat tietoa. Paina Askel tai Aja.');
+          case 0: return tx2(ctx, 'The numbers are kept exactly as typed: trailing zeros are information. Press Step or Run.', 'Luvut säilytetään täsmälleen kirjoitettuina: loppunollat ovat tietoa. Paina Vaihe tai Aja.');
           case 1: return tx2(ctx, 'A = ' + A.s + ' has ' + A.n + ' significant figures (' + A.dec + ' decimal places). Rules: ' + ruleList(ctx, A) + '.',
             'A = ' + A.s + ' sisältää ' + A.n + ' merkitsevää numeroa (' + A.dec + ' desimaalia). Säännöt: ' + ruleList(ctx, A) + '.');
           case 2: return tx2(ctx, 'B = ' + B.s + ' has ' + B.n + ' significant figures (' + B.dec + ' decimal places). Rules: ' + ruleList(ctx, B) + '.',
             'B = ' + B.s + ' sisältää ' + B.n + ' merkitsevää numeroa (' + B.dec + ' desimaalia). Säännöt: ' + ruleList(ctx, B) + '.');
           case 3: return mul
             ? tx2(ctx, 'Multiplication and division: the result has as many significant figures as the least accurate value: min(' + A.n + ', ' + B.n + ') = ' + R.n + '.',
-                'Kerto- ja jakolasku: tuloksessa on yhtä monta merkitsevää numeroa kuin epätarkimmassa luvussa: min(' + A.n + ', ' + B.n + ') = ' + R.n + '.')
+                'Kerto- ja jakolasku: tuloksessa on yhtä monta merkitsevää numeroa kuin epätarkimmassa lähtöarvossa: min(' + A.n + ', ' + B.n + ') = ' + R.n + '.')
             : tx2(ctx, 'Addition and subtraction: the result has as many decimal places as the least precise value: min(' + A.dec + ', ' + B.dec + ') = ' + R.nd + '. The red line marks that column.',
-                'Yhteen- ja vähennyslasku: tuloksessa on yhtä monta desimaalia kuin epätarkimmassa luvussa: min(' + A.dec + ', ' + B.dec + ') = ' + R.nd + '. Punainen viiva osoittaa sen sarakkeen.');
+                'Yhteen- ja vähennyslasku: tuloksessa on yhtä monta desimaalia kuin epätarkimmassa lähtöarvossa: min(' + A.dec + ', ' + B.dec + ') = ' + R.nd + '. Punainen viiva osoittaa sen sarakkeen.');
           case 4: return tx2(ctx, 'Unrounded result: ' + (R.sign < 0 ? '−' : '') + SF.dec(R.uq, R.up) + (R.inexact ? '…' : '') + '. Do not stop here.',
             'Pyöristämätön tulos: ' + (R.sign < 0 ? '−' : '') + SF.dec(R.uq, R.up) + (R.inexact ? '…' : '') + '. Älä jää tähän.');
           default: return tx2(ctx, 'Rounded to ' + (mul ? R.n + (R.n === 1 ? ' significant figure' : ' significant figures') : R.nd + (R.nd === 1 ? ' decimal place' : ' decimal places')) + ': ' + sfText(R) + (R.tie ? ' (the dropped part is exactly half: it rounds up)' : '') + '.',
-            'Pyöristetty ' + (mul ? R.n + ' merkitsevään numeroon' : R.nd + ' desimaaliin') + ': ' + sfText(R) + (R.tie ? ' (poistuva osa on täsmälleen puoli: pyöristys ylöspäin)' : '') + '.');
+            'Pyöristetty ' + (mul ? R.n + ' merkitsevään numeroon' : R.nd + ' desimaaliin') + ': ' + sfText(R) + (R.tie ? ' (poistettava osa on täsmälleen puolikas: pyöristetään ylöspäin)' : '') + '.');
         }
       }
       var cv = TDC.viz.canvas(stage, { aspect: function (w) { return w < 520 ? 0.78 : 0.46; }, animate: true,
@@ -243,7 +244,8 @@
       var xs = Math.min(S.u, TRAP_STEPS), y0 = h * 0.1, dy = h * 0.115, xe = 10, xv = w * 0.62;
       lab(g, '', tx2(ctx, 'Mode: ' + (mode === 'keep' ? 'keep all digits' : 'round every intermediate result'), 'Tila: ' + (mode === 'keep' ? 'kaikki numerot säilytetään' : 'jokainen välitulos pyöristetään')), xe, y0, mode === 'keep' ? ok : bad, 'left', fs);
       lab(g, '', ln('9.500 ÷ ' + p.x.toFixed(2) + ' + 2.45 + 3.84 × 2.0 − 1.58'), xe, y0 + dy * 0.9, fg, 'left', fs);
-      var rows = [['9.500 ÷ ' + p.x.toFixed(2), T0.t1, T0.t1n], ['', '2.45', ''], ['3.84 × 2.0', T0.t3, T0.t3n], ['', '−1.58', '']];
+      var sfN = function (s) { return s && tx2(ctx, s, s.replace('s.f.', 'm.n.')); };   // (3 s.f.) = (3 m.n.)
+      var rows = [['9.500 ÷ ' + p.x.toFixed(2), T0.t1, sfN(T0.t1n)], ['', '2.45', ''], ['3.84 × 2.0', T0.t3, sfN(T0.t3n)], ['', '−1.58', '']];
       rows.forEach(function (r, i) {
         if (xs < i + 1) return; var y = y0 + dy * (2 + i * 0.95), a = clamp(xs - i, 0, 1); g.globalAlpha = a;
         lab(g, '', ln(r[0]), xe, y, mu, 'left', fs); lab(g, '', ln(r[1]), xv, y, fg, 'right', fs);
@@ -258,7 +260,7 @@
       var yr = yf + dy * 1.15;
       if (xs >= 7) {
         lab(g, '', tx2(ctx, 'result', 'tulos'), xe, yr, mu, 'left', fs); lab(g, '', ln(T0.res), xv, yr, mode === 'keep' ? ok : bad, 'right', fs + 3);
-        if (T0.tie) lab(g, '', tx2(ctx, 'exactly a tie: 10.45 → 10.5?', 'täsmälleen tasapeli: 10,45 → 10,5?'), xe, yr + dy * 0.95, bad, 'left', fs - 1);
+        if (T0.tie) lab(g, '', tx2(ctx, 'exactly a tie: 10.45 → 10.5?', 'täsmälleen puoliväli: 10,45 → 10,5?'), xe, yr + dy * 0.95, bad, 'left', fs - 1);
         else if (mode === 'round' && T0.res !== K.res) lab(g, '', tx2(ctx, 'differs from ' + K.res, 'poikkeaa tuloksesta ' + K.res), xe, yr + dy * 0.95, bad, 'left', fs - 1);
         else if (mode === 'round') lab(g, '', tx2(ctx, 'same here, but not always (try x = 5.05)', 'sama tässä, mutta ei aina (kokeile x = 5,05)'), xe, yr + dy * 0.95, mu, 'left', fs - 1);
       }
@@ -266,7 +268,7 @@
     outputs: function (p) {
       var K = trapCalc(p.x, 'keep'), R = trapCalc(p.x, 'round');
       return [{ label: T('Keeping all digits', 'Kaikki numerot säilyttäen'), value: ln(K.sum + ' → ' + K.res) },
-              { label: T('Rounding every step', 'Jokainen askel pyöristäen'), value: ln(R.sum + (R.tie ? ' (tie)' : '') + ' → ' + R.res) }];
+              { label: T('Rounding every step', 'Jokainen askel pyöristäen'), value: ln(R.sum + (R.tie ? TDC.tx(T(' (tie)', ' (puoliväli)')) : '') + ' → ' + R.res) }];
     }
   };
   /** 9.500 / x + 2.45 + 3.84 x 2.0 - 1.58 with exact decimals; mode 'keep' = no intermediate rounding, 'round' = each step to its own s.f. */
@@ -794,7 +796,7 @@
           { id: 't1-brake-h', type: 'h', text: T('Exercise B2: how does the braking distance depend on speed?', 'Tehtävä B2: miten jarrutusmatka riippuu nopeudesta?') },
           { id: 't1-brake-text', type: 'text', html: T(
             '<p>For road safety it is useful to know how the <dfn data-term="brakedist">braking distance</dfn> depends on the initial speed when the braking performance stays the same. With a constant deceleration a, the final speed 0 gives <f>0 = v^2 − 2 a s</f>, so <f>s = {v^2}/{2a}</f>. The speed enters as a <b>square</b>: use that, then look at the lab.</p>',
-            '<p>Tieliikenteen turvallisuuden kannalta on tärkeää tietää, miten <dfn data-term="brakedist">jarrutusmatka</dfn> riippuu alkunopeudesta, kun jarrutusteho pysyy samana. Vakiohidastuvuudella a ja loppunopeudella 0 saadaan <f>0 = v^2 − 2 a s</f>, joten <f>s = {v^2}/{2a}</f>. Nopeus tulee kaavaan <b>neliönä</b>: hyödynnä sitä ja katso sitten laboratoriota.</p>') },
+            '<p>Tieliikenteen turvallisuuden kannalta on tärkeää tietää, miten <dfn data-term="brakedist">jarrutusmatka</dfn> riippuu alkunopeudesta, kun jarrutuskyky pysyy samana. Vakiohidastuvuudella a ja loppunopeudella 0 saadaan <f>0 = v^2 − 2 a s</f>, joten <f>s = {v^2}/{2a}</f>. Nopeus tulee kaavaan <b>neliönä</b>: hyödynnä sitä ja katso sitten laboratoriota.</p>') },
           { id: 't1-brake-lab', type: 'interactive', widget: 'custom', title: T('Two cars, speeds v and 2v, the same deceleration', 'Kaksi autoa, nopeudet v ja 2v, sama hidastuvuus'),
             caption: T('Set the speed v and the deceleration a, then press Brake. Both cars brake with the same a: the stop marks show the distances s and 4 s, and the track rescales to fit them. In the lower graph the curve s = v²/(2a) becomes steeper when a is small; the two dots slide down it as the cars slow down, and the one for 2v starts four times as high.',
               'Säädä nopeus v ja hidastuvuus a ja paina Jarruta. Molemmat autot jarruttavat samalla a:lla: pysähtymismerkit näyttävät matkat s ja 4 s, ja rata skaalautuu niiden mukaan. Alemmassa kuvaajassa käyrä s = v²/(2a) jyrkkenee, kun a on pieni; kaksi pistettä liukuu käyrää alas autojen hidastuessa, ja 2v:n piste alkaa nelinkertaisesta korkeudesta.'),
@@ -831,7 +833,7 @@
           { id: 't1-sf-h2', type: 'h', text: T('Calculating with significant figures', 'Laskeminen merkitsevillä numeroilla') },
           { id: 't1-sf-mul', type: 'callout', kind: 'key', title: T('Multiplication and division', 'Kerto- ja jakolasku'), html: T(
             'The result has <b>as many significant figures as the least accurate value</b> (the one with the fewest). <f>2.8 × 3.21 = 8.988 ≈ 9.0</f> (2 and 3 s.f. → 2 s.f.); <f>2.000 ÷ 15 = 0.1333… ≈ 0.13</f> (4 and 2 s.f. → 2 s.f.).',
-            'Tuloksessa on <b>yhtä monta merkitsevää numeroa kuin epätarkimmassa luvussa</b> (siinä, jossa niitä on vähiten). <f>2,8 × 3,21 = 8,988 ≈ 9,0</f> (2 ja 3 m.n. → 2 m.n.); <f>2,000 ÷ 15 = 0,1333… ≈ 0,13</f> (4 ja 2 m.n. → 2 m.n.).') },
+            'Tuloksessa on <b>yhtä monta merkitsevää numeroa kuin epätarkimmassa lähtöarvossa</b> (siinä, jossa niitä on vähiten). <f>2,8 × 3,21 = 8,988 ≈ 9,0</f> (2 ja 3 m.n. → 2 m.n.); <f>2,000 ÷ 15 = 0,1333… ≈ 0,13</f> (4 ja 2 m.n. → 2 m.n.).') },
           { id: 't1-sf-add', type: 'callout', kind: 'key', title: T('Addition and subtraction', 'Yhteen- ja vähennyslasku'), html: T(
             'The result has <b>as many decimal places as the least precise starting value</b>. <f>4.5 − 3.2750 = 1.225 ≈ 1.2</f> (1 and 4 decimals → 1 decimal); <f>4.530 + 3.27 = 7.800 ≈ 7.80</f> (3 and 2 decimals → 2 decimals). Here the decimals count, not the significant figures.',
             'Tuloksessa on <b>yhtä monta desimaalia kuin epätarkimmassa lähtöarvossa</b>. <f>4,5 − 3,2750 = 1,225 ≈ 1,2</f> (1 ja 4 desimaalia → 1 desimaali); <f>4,530 + 3,27 = 7,800 ≈ 7,80</f> (3 ja 2 desimaalia → 2 desimaalia). Tässä lasketaan desimaalit, ei merkitseviä numeroita.') },
@@ -840,7 +842,7 @@
             'Välituloksia <b>ei</b> pyöristetä; vain lopullinen vastaus pyöristetään yllä olevin säännöin (ellei tehtävässä toisin sanota). Välissä pyöristäminen kasvattaa virhettä ja voi jopa muuttaa viimeistä numeroa: katso alla oleva pyöristysansa. Tällä kurssilla viimeisen säilytettävän numeron perässä oleva 5 pyöristetään ylöspäin.') },
           { id: 't1-sf-calc', type: 'interactive', widget: 'custom', title: T('Significant-figure calculator', 'Merkitsevien numeroiden laskin'),
             caption: T('Pick an example or type two positive numbers (their digits are kept exactly as typed, so 3.50 and 3.5 differ) and choose × ÷ + −. Step or Run shows the method: first the digits that count in A and in B, each with its rule number (1 nonzero, 2 internal zero, 3 leading zero, 4 ending zero); then for × ÷ the counts of significant figures are compared, and for + − the numbers are aligned by the decimal point and a red line drops through the last decimal column of the least precise value; then the unrounded result, whose digits behind the line are crossed out, and the rounded answer.',
-              'Valitse esimerkki tai kirjoita kaksi positiivista lukua (numerot säilyvät täsmälleen kirjoitettuina, joten 3,50 ja 3,5 eroavat) ja valitse × ÷ + −. Askel tai Aja näyttää menetelmän: ensin A:n ja B:n merkitsevät numerot sääntönumeroineen (1 nollasta eroava, 2 sisäinen nolla, 3 etunolla, 4 loppunolla); sitten ×- ja ÷-laskussa verrataan merkitsevien numeroiden määriä, ja +- ja −-laskussa luvut tasataan desimaalipilkun mukaan ja punainen viiva laskeutuu epätarkimman luvun viimeisen desimaalin sarakkeen kohdalle; sitten pyöristämätön tulos, jonka viivan takana olevat numerot yliviivataan, ja pyöristetty vastaus.'),
+              'Valitse esimerkki tai kirjoita kaksi positiivista lukua (numerot säilyvät täsmälleen kirjoitettuina, joten 3,50 ja 3,5 eroavat) ja valitse × ÷ + −. Vaihe tai Aja näyttää menetelmän: ensin A:n ja B:n merkitsevät numerot sääntönumeroineen (1 nollasta eroava, 2 sisäinen nolla, 3 etunolla, 4 loppunolla); sitten ×- ja ÷-laskussa verrataan merkitsevien numeroiden määriä, ja +- ja −-laskussa luvut tasataan desimaalipilkun mukaan ja punainen viiva laskeutuu epätarkimman luvun viimeisen desimaalin sarakkeen kohdalle; sitten pyöristämätön tulos, jonka viivan takana olevat numerot yliviivataan, ja pyöristetty vastaus.'),
             config: sfCalc() },
           { type: 'question', q: 't1-q30', id: 't1-q30-blk' },
           { id: 't1-sf-h3', type: 'h', text: T('Rounding examples (slide p09)', 'Pyöristysesimerkkejä (kalvo s. 09)') },
@@ -865,10 +867,10 @@
           { id: 't1-sf-h5', type: 'h', text: T('The rounding trap', 'Pyöristysansa') },
           { id: 't1-trap-text', type: 'text', html: T(
             '<p>Slide p09 item 4 mixes all the operations: <f>9.500 ÷ 5.05 + 2.45 + 3.84 × 2.0 − 1.58</f>. The division has 3 s.f. (1.88) and the multiplication 2 s.f. (7.7), so the <b>sum</b> is given to one decimal place, limited by 7.7. The slide’s roundings only <b>identify the precision</b>; the numbers are not rounded before the end. The lab shows why: round the intermediate results and the sum is exactly 10.45, a tie between 10.4 and 10.5.</p>',
-            '<p>Kalvon s. 09 kohdassa 4 on kaikki laskutoimitukset sekaisin: <f>9,500 ÷ 5,05 + 2,45 + 3,84 × 2,0 − 1,58</f>. Jakolaskussa on 3 m.n. (1,88) ja kertolaskussa 2 m.n. (7,7), joten <b>summa</b> annetaan yhdellä desimaalilla 7,7:n rajoittamana. Kalvon pyöristykset vain <b>tunnistavat tarkkuuden</b>; lukuja ei pyöristetä ennen loppua. Laboratorio näyttää miksi: pyöristä välitulokset ja summa on täsmälleen 10,45, tasapeli lukujen 10,4 ja 10,5 välillä.</p>') },
+            '<p>Kalvon s. 09 kohdassa 4 on kaikki laskutoimitukset samassa laskussa: <f>9,500 ÷ 5,05 + 2,45 + 3,84 × 2,0 − 1,58</f>. Jakolaskussa on 3 m.n. (1,88) ja kertolaskussa 2 m.n. (7,7), joten <b>summa</b> annetaan yhdellä desimaalilla 7,7:n rajoittamana. Kalvon pyöristykset vain <b>tunnistavat tarkkuuden</b>; lukuja ei pyöristetä ennen loppua. Laboratorio näyttää miksi: pyöristä välitulokset ja summa on täsmälleen 10,45, tasan lukujen 10,4 ja 10,5 puolivälissä.</p>') },
           { id: 't1-trap-lab', type: 'interactive', widget: 'custom', title: T('Rounding trap: keep the digits or round every step?', 'Pyöristysansa: säilytätkö numerot vai pyöristätkö joka askeleen?'),
             caption: T('Press “Run the calculation” and watch the terms appear one by one. Switch between the two modes with the buttons: with all digits kept the sum is 10.43118… and the answer 10.4; with every intermediate result rounded the sum is 10.45, a tie, and rounding it up gives 10.5, which is wrong. The slider x changes the divisor, so you can look for other values where the two modes disagree.',
-              'Paina ”Aja lasku” ja katso, kuinka termit ilmestyvät yksi kerrallaan. Vaihda tilaa painikkeilla: kun kaikki numerot säilytetään, summa on 10,43118… ja vastaus 10,4; kun jokainen välitulos pyöristetään, summa on 10,45, tasapeli, ja ylöspäin pyöristys antaa 10,5, mikä on väärin. Liukusäädin x muuttaa jakajaa, joten voit etsiä muita arvoja, joilla tilat eroavat.'),
+              'Paina ”Aja lasku” ja katso, kuinka termit ilmestyvät yksi kerrallaan. Vaihda tilaa painikkeilla: kun kaikki numerot säilytetään, summa on 10,43118… ja vastaus 10,4; kun jokainen välitulos pyöristetään, summa on 10,45, tasan puolivälissä, ja ylöspäin pyöristettynä saadaan 10,5, mikä on väärin. Liukusäädin x muuttaa jakajaa, joten voit etsiä muita arvoja, joilla tilat eroavat.'),
             config: dev(TRAP) },
           { id: 't1-mixed-ex', type: 'example', title: T('The mixed calculation (slide p09, item 4)', 'Sekalasku (kalvo s. 09, kohta 4)'),
             problem: T('Calculate 9.500 ÷ 5.05 + 2.45 + 3.84 × 2.0 − 1.58 with the correct number of significant figures.', 'Laske 9,500 ÷ 5,05 + 2,45 + 3,84 × 2,0 − 1,58 oikealla määrällä merkitseviä numeroita.'),
@@ -900,7 +902,7 @@
         hints: [T('The base units are metre, kilogram, second, ampere, kelvin, mole and candela.', 'Perusyksiköt ovat metri, kilogramma, sekunti, ampeeri, kelvin, mooli ja kandela.')] },
       { id: 't1-q3', mode: 'practice', type: 'fill', difficulty: 1,
         prompt: T('Complete the sentence.', 'Täydennä lause.'),
-        text: T('The value of a quantity is the numerical value multiplied by the [[a]], for example the “m” in 12 m.', 'Suureen arvo on lukuarvo kerrottuna [[a]]llä, esimerkiksi ”m” lukemassa 12 m.'),
+        text: T('The value of a quantity is the numerical value multiplied by the [[a]], for example the “m” in 12 m.', 'Suureen arvo = lukuarvo · [[a]], esimerkiksi ”m” lukemassa 12 m.'),
         fields: [{ id: 'a', kind: 'text' }],
         hints: [T('12 is the numerical value. What do we call the “m”?', '12 on lukuarvo. Miksi ”m” kutsutaan?')] },
 
@@ -948,7 +950,7 @@
         right: [{ id: 'f1', html: '<f>A cos θ</f>' }, { id: 'f2', html: '<f>A sin θ</f>' }, { id: 'f3', html: '<f>sqrt{A_x^2 + A_y^2}</f>' }, { id: 'f4', html: '<f>tan θ = {A_y}/{A_x}</f>' }],
         hints: [T('Use the right triangle of the vector explorer: the x-component is the side next to the angle θ.', 'Käytä vektoritutkijan suorakulmaista kolmiota: x-komponentti on kulman θ viereinen sivu.')] },
       { id: 't1-q13', mode: 'practice', type: 'numeric', difficulty: 1,
-        prompt: T('A velocity vector has the magnitude 10.0 m/s and points at θ = 30° above the x axis. Find its components.', 'Nopeusvektorin suuruus on 10,0 m/s ja se osoittaa kulmaan θ = 30° x-akselin yläpuolelle. Määritä sen komponentit.'),
+        prompt: T('A velocity vector has the magnitude 10.0 m/s and points at θ = 30° above the x axis. Find its components.', 'Nopeusvektorin suuruus on 10,0 m/s ja sen suunta on θ = 30° x-akselin yläpuolella. Määritä sen komponentit.'),
         fields: [{ id: 'x', tex: 'v_x', unit: 'm/s' }, { id: 'y', tex: 'v_y', unit: 'm/s' }],
         hints: [T('v_x = v cos θ, v_y = v sin θ. Set the calculator to degrees.', 'v_x = v cos θ, v_y = v sin θ. Aseta laskin asteille.')] },
       { id: 't1-q14', mode: 'graded', type: 'numeric', difficulty: 2,
@@ -956,11 +958,11 @@
         fields: [{ id: 'F', tex: 'F', unit: 'N' }, { id: 'th', tex: 'θ', unit: '°' }],
         hints: [T('The magnitude is the hypotenuse of the right triangle.', 'Suuruus on suorakulmaisen kolmion hypotenuusa.'), T('tan θ = F_y/F_x; use the inverse tangent (atan) in degrees.', 'tan θ = F_y/F_x; käytä käänteistä tangenttia (atan) asteina.')] },
       { id: 't1-q15', mode: 'practice', type: 'numeric', difficulty: 2,
-        prompt: T('A force of 12 N points at θ = 150° (measured counter-clockwise from the positive x axis). Find its components, with signs.', '12 N:n voima osoittaa kulmaan θ = 150° (mitattuna vastapäivään positiivisesta x-akselista). Määritä sen komponentit etumerkkeineen.'),
+        prompt: T('A force of 12 N points at θ = 150° (measured counter-clockwise from the positive x axis). Find its components, with signs.', 'Voiman suuruus on 12 N ja sen suunta on θ = 150° (mitattuna vastapäivään positiivisesta x-akselista). Määritä sen komponentit etumerkkeineen.'),
         fields: [{ id: 'x', tex: 'F_x', unit: 'N' }, { id: 'y', tex: 'F_y', unit: 'N' }],
         hints: [T('The formulas work for any θ: put 150° into cos and sin.', 'Kaavat toimivat millä tahansa θ:lla: sijoita 150° kosiniin ja siniin.'), T('Check the signs with the vector explorer (Run): which quadrant is 150° in?', 'Tarkista etumerkit vektoritutkijalla (Aja): missä neljänneksessä 150° on?')] },
       { id: 't1-q16', mode: 'practice', type: 'numeric', difficulty: 3,
-        prompt: T('A box with the weight mg = 100 N rests on a slope that makes the angle 30° with the horizontal. The weight points straight down. Resolve it into a) the component <b>along</b> the slope and b) the component <b>perpendicular</b> to the slope. (Topic 3 uses exactly this.)', 'Laatikon paino mg = 100 N lepää rinteellä, joka muodostaa 30°:n kulman vaakatason kanssa. Paino osoittaa suoraan alas. Jaa se komponentteihin a) rinteen <b>suuntainen</b> ja b) rinteeseen <b>nähden kohtisuora</b>. (Aihe 3 käyttää juuri tätä.)'),
+        prompt: T('A box with the weight mg = 100 N rests on a slope that makes the angle 30° with the horizontal. The weight points straight down. Resolve it into a) the component <b>along</b> the slope and b) the component <b>perpendicular</b> to the slope. (Topic 3 uses exactly this.)', 'Laatikon paino mg = 100 N lepää rinteellä, joka muodostaa 30°:n kulman vaakatason kanssa. Paino osoittaa suoraan alas. Jaa se komponentteihin: a) rinteen <b>suuntainen</b> komponentti ja b) rinteeseen <b>nähden kohtisuora</b> komponentti. (Aihe 3 käyttää juuri tätä.)'),
         fields: [{ id: 'along', label: T('along the slope', 'rinteen suuntainen'), unit: 'N' }, { id: 'perp', label: T('perpendicular', 'kohtisuora'), unit: 'N' }],
         hints: [T('Draw the slope as a right triangle and the weight as a vertical arrow from the box.', 'Piirrä rinne suorakulmaiseksi kolmioksi ja paino pystysuoraksi nuoleksi laatikosta.'), T('The angle between the weight and the perpendicular to the slope equals the slope angle 30°.', 'Painon ja rinteen normaalin välinen kulma on yhtä suuri kuin rinteen kulma 30°.'), T('Which side is next to this angle (cos) and which is opposite (sin)?', 'Mikä sivu on tämän kulman vieressä (cos) ja mikä vastapäätä (sin)?')] },
 
@@ -1006,7 +1008,7 @@
       { id: 't1-q27', mode: 'practice', type: 'mc', difficulty: 1,
         prompt: T('How many significant figures does 0.07804 have?', 'Montako merkitsevää numeroa luvussa 0,07804 on?'),
         options: [{ id: 'a', html: T('3', '3') }, { id: 'b', html: T('4', '4') }, { id: 'c', html: T('5', '5') }, { id: 'd', html: T('6', '6') }],
-        hints: [T('Leading zeros never count; zeros between nonzero digits always do.', 'Etunollat eivät koskaan ole merkitseviä; nollasta eroavien numeroiden välissä olevat nollat aina ovat.')] },
+        hints: [T('Leading zeros never count; zeros between nonzero digits always do.', 'Etunollat eivät koskaan ole merkitseviä; nollasta eroavien numeroiden välissä olevat nollat ovat aina merkitseviä.')] },
       { id: 't1-q28', mode: 'practice', type: 'numeric', difficulty: 1,
         prompt: T('Give the number of significant figures: a) 9.00, b) 70, c) 6.080, d) 8.0097.', 'Anna merkitsevien numeroiden määrä: a) 9,00, b) 70, c) 6,080, d) 8,0097.'),
         fields: [{ id: 'a', label: T('a)', 'a)') }, { id: 'b', label: T('b)', 'b)') }, { id: 'c', label: T('c)', 'c)') }, { id: 'd', label: T('d)', 'd)') }],
@@ -1036,7 +1038,7 @@
       { id: 't1-q32', mode: 'graded', type: 'numeric', difficulty: 2,
         prompt: T('Exercise A1: a) 14.0550 + 6.05, b) 252.2 − 17.789. Give the results with the correct number of decimals.', 'Tehtävä A1: a) 14,0550 + 6,05, b) 252,2 − 17,789. Anna tulokset oikealla määrällä desimaaleja.'),
         fields: [{ id: 'a', kind: 'sig', label: T('a)', 'a)') }, { id: 'b', kind: 'sig', label: T('b)', 'b)') }],
-        hints: [T('Find the term with the fewest decimals: it fixes the decimals of the result.', 'Etsi termi, jossa on vähiten desimaaleja: se ratkaisee tuloksen desimaalien määrän.'), T('In a) the dropped digit is a 5 followed by a 0: it rounds up.', 'Kohdassa a) poistuva numero on 5, jota seuraa 0: se pyöristyy ylöspäin.')] },
+        hints: [T('Find the term with the fewest decimals: it fixes the decimals of the result.', 'Etsi termi, jossa on vähiten desimaaleja: se ratkaisee tuloksen desimaalien määrän.'), T('In a) the dropped digit is a 5 followed by a 0: it rounds up.', 'Kohdassa a) poistettava numero on 5, jota seuraa 0: se pyöristyy ylöspäin.')] },
       { id: 't1-q33', mode: 'practice', type: 'numeric', difficulty: 2,
         prompt: T('Exercise A1: c) 0.0577 / 0.753 (write it as a plain decimal, e.g. 0.0766; the slide writes 76.6·10⁻³), d) 18.4 · 2.85 / 10.49.', 'Tehtävä A1: c) 0,0577 / 0,753 (kirjoita desimaalilukuna, esim. 0,0766; kalvolla 76,6·10⁻³), d) 18,4 · 2,85 / 10,49.'),
         fields: [{ id: 'c', kind: 'sig', label: T('c)', 'c)') }, { id: 'd', kind: 'sig', label: T('d)', 'd)') }],

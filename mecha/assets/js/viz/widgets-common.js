@@ -71,7 +71,7 @@
     }
     function frame(now) {
       var dt = Math.min(0.05, (now - last) / 1000); last = now;
-      opts.draw(g, w, h, (now - t0) / 1000, dt);
+      try { opts.draw(g, w, h, (now - t0) / 1000, dt); } catch (e) { console.error(e); }   // one bad frame must not stop the loop
       if (opts.animate !== false && visible && !U.reducedMotion()) raf = requestAnimationFrame(frame);
     }
     var ro = new ResizeObserver(function () { size(); opts.draw(g, w, h, (performance.now() - t0) / 1000, 0); });

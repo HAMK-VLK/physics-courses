@@ -99,9 +99,9 @@
    *  defs: [{id, tex|label, min, max, step, value, unit, log}], merged with cfg.values / cfg.ranges / cfg.fixed. */
   TV.frame = function (host, cfg, ctx, defs, onChange) {
     var values = cfg.values || {}, fixed = cfg.fixed || [], ranges = cfg.ranges || {}, base = {};
-    var shown = [];
+    var shown = [], lim = {};
     defs.forEach(function (d) {
-      var p = Object.assign({}, d, ranges[d.id] || {});
+      var p = lim[d.id] = Object.assign({}, d, ranges[d.id] || {});
       if (p.plain == null && PLAIN.test(p.unit || '')) p.plain = true;   // slider shows 0.6 m, not 600 mm
       if (values[d.id] != null) p.value = values[d.id];
       base[d.id] = p.value;
@@ -116,7 +116,12 @@
       stage: stage, legend: legend, controls: extra,
       p: function () { return Object.assign({}, base, panel ? panel.values : {}); },
       /** Set some values from the widget itself (dragging a part), moving their sliders too. */
-      set: function (vals) { Object.assign(base, vals); if (panel) panel.setValues(vals); changed(); save(); },
+      set: function (vals) {
+        vals = Object.assign({}, vals);
+        Object.keys(vals).forEach(function (k) {   // a dragged part stays inside its slider range, without float noise (0.30000000000000004)
+          var r = lim[k]; if (r && typeof vals[k] === 'number') vals[k] = +Math.max(r.min, Math.min(r.max, vals[k])).toPrecision(12);
+        });
+        Object.assign(base, vals); if (panel) panel.setValues(vals); changed(); save(); },
       readouts: function (list) {
         reads.innerHTML = '';
         list.forEach(function (o) {
@@ -204,7 +209,8 @@
         });
         if (def.drag) TV.drag(cv.canvas, function (x, y) { return !locked && (D.key = def.drag.hit(x, y, panel.values, D)); },
           function (x, y) { if (D.key) D.set(def.drag.move(D.key, x, y, panel.values, D)); }, function () { D.key = null; });
-        var saved = ctx.getState(); if (saved) panel.setValues(saved);
+        var saved = ctx.getState();
+        if (saved) { panel.setValues(saved); Object.keys(saved).forEach(function (k) { if (panel.values[k] == null) panel.values[k] = saved[k]; }); }   // also a device's own non-slider state (t1 rounding-trap mode)
         function update() {
           cv.redraw();
           reads.innerHTML = '';

@@ -213,6 +213,10 @@
 
     function reads() {
       var R = run(), p = F.p(), i = ME.idx(R, S.t);
+      if (!spr) {                                                       // arrows move the start point: a slider for assistive tech
+        c.setAttribute('role', 'slider'); c.setAttribute('aria-valuemin', R.T.x0); c.setAttribute('aria-valuemax', R.T.x1);
+        c.setAttribute('aria-valuenow', p.xs); c.setAttribute('aria-valuetext', 'x = ' + U.fmtNum(p.xs, 3) + ' m');
+      }
       var st = { t: R.t[i], h: R.y[i], v: R.v[i], Ep: R.Ep[i], Ek: R.Ek[i], Es: R.Es[i], Wm: R.Wm[i], dist: R.dist[i], R: R,
         stopDist: R.dist[R.dist.length - 1], stopped: R.stopT != null };
       var list = [{ tex: 'h', value: st.h, unit: 'm' }, { tex: 'v', value: Math.abs(st.v), unit: 'm/s' },

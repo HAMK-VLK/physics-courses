@@ -147,7 +147,7 @@
     aspect: function (w) { return w < 520 ? 0.8 : 0.42; },
     params: [{ id: 'd1', tex: 'd_1', min: 0.5, max: 10, step: 0.25, value: 2, unit: 'km' }, { id: 'v1', tex: 'v_1', min: 20, max: 120, step: 5, value: 60, unit: 'km/h' },
              { id: 'd2', tex: 'd_2', min: 0.5, max: 10, step: 0.25, value: 3.75, unit: 'km' }, { id: 'v2', tex: 'v_2', min: 20, max: 120, step: 5, value: 90, unit: 'km/h' }],
-    buttons: [{ label: T('Race: real car vs "mean-speed" car', 'Kisa: oikea auto vs ”keskinopeusauto”'), click: function (p, D) { changed(D.S, p, ['d1', 'v1', 'd2', 'v2']); D.S.t = D.motion ? 0 : 1e9; D.S.run = D.motion; } }],
+    buttons: [{ label: T('Race: real car vs "mean-speed" car', 'Kisa: oikea auto vastaan ”keskinopeusauto”'), click: function (p, D) { changed(D.S, p, ['d1', 'v1', 'd2', 'v2']); D.S.t = D.motion ? 0 : 1e9; D.S.run = D.motion; } }],
     draw: function (g, w, h, p, ctx, TV, D) {
       var S = D.S, q = tripTimes(p), D12 = p.d1 + p.d2, Tg = D12 / q.vm, Tmax = Math.max(q.T, Tg), RUN = 5;   // the slower car needs 5 s on the screen
       if (changed(S, p, ['d1', 'v1', 'd2', 'v2'])) { S.run = false; S.t = 1e9; }
@@ -171,7 +171,7 @@
       lab(g, 't', ' = ' + nf(th * 60, 3) + ' min', x0, h - 14, fg, 'left', fs);
     },
     outputs: function (p) {
-      var q = tripTimes(p), win = q.T < (p.d1 + p.d2) / q.vm - 1e-9 ? T('the real car is faster', 'oikea auto on nopeampi') : q.T > (p.d1 + p.d2) / q.vm + 1e-9 ? T('the ghost car is faster', 'haamuauto on nopeampi') : T('a tie', 'tasapeli');
+      var q = tripTimes(p), win = q.T < (p.d1 + p.d2) / q.vm - 1e-9 ? T('the real car is faster', 'oikea auto on nopeampi') : q.T > (p.d1 + p.d2) / q.vm + 1e-9 ? T('the ghost car is faster', 'haamuauto on nopeampi') : T('a tie', 'yhtä nopeat');
       return [{ tex: 't_1 = {d_1}/{v_1}', value: q.t1 * 60, unit: 'min' }, { tex: 't_2 = {d_2}/{v_2}', value: q.t2 * 60, unit: 'min' },
               { tex: 'v_k = {d_1 + d_2}/{t_1 + t_2}', value: q.vav, unit: 'km/h' }, { tex: '{v_1 + v_2}/2', value: q.vm, unit: 'km/h' }, { label: T('Result', 'Tulos'), value: win }];
     },
@@ -286,7 +286,7 @@
     subtitle: T('Position, velocity and acceleration of straight-line motion, read from formulas and from graphs.', 'Suoraviivaisen liikkeen paikka, nopeus ja kiihtyvyys kaavoista ja kuvaajista luettuna.'),
     objectives: [
       T('choose a coordinate system and tell displacement from distance travelled', 'valita koordinaatiston ja erottaa siirtymän kuljetusta matkasta'),
-      T('calculate average velocity and average speed, also for trips in several parts', 'laskea keskinopeuden ja keskivauhdin myös useassa osassa kuljetulle matkalle'),
+      T('calculate average velocity and average speed, also for trips in several parts', 'laskea keskinopeuden ja keskivauhdin myös useasta osasta koostuvalle matkalle'),
       T('use the four formulas of constant acceleration and pick the one that fits the known quantities', 'käyttää tasaisesti kiihtyvän liikkeen neljää kaavaa ja valita tunnettuihin suureisiin sopivan'),
       T('read velocity as the slope and distance as the area of a graph (s,t, v,t and a,t)', 'lukea nopeuden kuvaajan kulmakertoimena ja matkan pinta-alana (s,t-, v,t- ja a,t-kuvaajat)'),
       T('solve free-fall and stopping-distance problems with g = 9.81 m/s²', 'ratkaista vapaan pudotuksen ja pysähtymismatkan tehtäviä arvolla g = 9,81 m/s²')
@@ -321,7 +321,7 @@
       derivative: { en: 'derivative', fi: 'derivaatta', sym: 'ds/dt', def: T('The limit of the slope of the secant as Δt → 0.', 'Sekantin kulmakertoimen raja-arvo, kun Δt → 0.') },
       integral: { en: 'integral', fi: 'integraali', sym: '∫ v dt', def: T('The area under a graph; ∫ v dt is the displacement.', 'Kuvaajan alle jäävä pinta-ala; ∫ v dt on siirtymä.') },
       area: { en: 'area under the graph', fi: 'kuvaajan alle jäävä pinta-ala', def: T('Area under v,t = displacement; area under a,t = change of velocity.', 'v,t-kuvaajan ala = siirtymä; a,t-kuvaajan ala = nopeuden muutos.') },
-      trapezoid: { en: 'trapezoidal method', fi: 'puolisuunnikasmenetelmä', def: T('Estimate of an area by strips with a slanted top; each strip is ½ (y₁ + y₂) Δt.', 'Pinta-alan arvio vinoyläreunaisilla kaistoilla; kunkin kaistan ala on ½ (y₁ + y₂) Δt.') },
+      trapezoid: { en: 'trapezoidal method', fi: 'puolisuunnikasmenetelmä', def: T('Estimate of an area by strips with a slanted top; each strip is ½ (y₁ + y₂) Δt.', 'Pinta-alan arvio kaistoilla, joiden yläreuna on vino; kunkin kaistan ala on ½ (y₁ + y₂) Δt.') },
       graph: { en: 'graph', fi: 'kuvaaja', def: T('A plot of one quantity against another, e.g. the t,v graph (v against t).', 'Yhden suureen piirros toisen funktiona, esim. t,v-kuvaaja (v ajan funktiona).') },
       initvel: { en: 'initial velocity', fi: 'alkunopeus', sym: 'v₀', def: T('The velocity at the start, at t = 0.', 'Nopeus alussa, hetkellä t = 0.') },
       leadsign: { en: 'leading sign', fi: 'etumerkki', def: T('The + or − in front of a vector component; it gives the direction on the axis.', 'Vektorin komponentin edessä oleva + tai −; se ilmaisee suunnan akselilla.') }
@@ -365,7 +365,7 @@
               T('Choose the coordinate system. Case a): tied to the train, positive to the right: the passenger moves 5 km/h.', 'Valitse koordinaatisto. Tapaus a): kiinni junassa, positiivinen oikealle: matkustaja liikkuu 5 km/h.'),
               T('Case b): tied to the ground, positive to the right: the train moves 80 km/h and the passenger moves on top of that.', 'Tapaus b): kiinni maassa, positiivinen oikealle: juna liikkuu 80 km/h ja matkustaja sen lisäksi.'),
               { tex: 'v = 80 km/h + 5 km/h = 85 km/h' },
-              T('Walking toward the back would give 80 − 5 = 75 km/h. So always say which coordinate system you use.', 'Taaksepäin kävellessä saataisiin 80 − 5 = 75 km/h. Kerro siis aina, mitä koordinaatistoa käytät.')
+              T('Walking toward the back would give 80 − 5 = 75 km/h. So always say which coordinate system you use.', 'Taaksepäin kävellessä saataisiin 80 − 5 = 75 km/h. Ilmoita siis aina, mitä koordinaatistoa käytät.')
             ],
             result: T('a) 5 km/h, b) 85 km/h', 'a) 5 km/h, b) 85 km/h') },
           { id: 't2-frame-h', type: 'h', text: T('Position, displacement and distance travelled', 'Paikka, siirtymä ja kuljettu matka') },
@@ -423,7 +423,7 @@
               { tex: 'v_k = {15 km − 0 km}/{0.5 h} = 30 km/h' },
               T('b) The average speed uses the distance travelled, 20 km out and 5 km back.', 'b) Keskivauhti lasketaan kuljetusta matkasta, 20 km menoa ja 5 km paluuta.'),
               { tex: '{20 km + 5 km}/{0.5 h} = 50 km/h' },
-              T('The slide writes the 50 km/h as |v_av|; strictly that is the average speed, while the average velocity is 30 km/h.', 'Kalvolla 50 km/h on merkitty |v_av|; tarkasti se on keskivauhti, kun keskinopeus on 30 km/h.')
+              T('The slide writes the 50 km/h as |v_av|; strictly that is the average speed, while the average velocity is 30 km/h.', 'Kalvolla 50 km/h on merkitty |v_av|; tarkasti se on keskivauhti, kun taas keskinopeus on 30 km/h.')
             ],
             result: T('v_k = 30 km/h, average speed 50 km/h', 'v_k = 30 km/h, keskivauhti 50 km/h') },
           { type: 'question', q: 't2-q6', id: 't2-q6-blk' },
@@ -456,7 +456,7 @@
             result: T('v ≈ 77 km/h (the slide: ≈ 80 km/h)', 'v ≈ 77 km/h (kalvolla ≈ 80 km/h)') },
           { id: 't2-trip-lab', type: 'interactive', widget: 'custom', title: T('Trip in two parts: the real car and the "mean-speed" car', 'Matka kahdessa osassa: oikea auto ja ”keski\u00ADnopeus\u00ADauto”'),
             caption: T('Set the two distances and speeds and press Race. The ghost car drives the whole trip at the plain mean of the two speeds. It only ties with the real car when both parts take the same time; otherwise the true average speed (total distance over total time) differs from the mean of the speeds.',
-              'Säädä kaksi matkaa ja nopeutta ja paina Kisa. Haamuauto ajaa koko matkan nopeuksien tavallisella keskiarvolla. Se on tasoissa oikean auton kanssa vain, jos molempiin osiin kuluu yhtä pitkä aika; muuten todellinen keskivauhti (kokonaismatka / kokonaisaika) poikkeaa nopeuksien keskiarvosta.'),
+              'Säädä kaksi matkaa ja nopeutta ja paina Kisa. Haamuauto ajaa koko matkan nopeuksien tavallisella keskiarvolla. Se on yhtä nopea kuin oikea auto vain, jos molempiin osiin kuluu yhtä pitkä aika; muuten todellinen keskivauhti (kokonaismatka / kokonaisaika) poikkeaa nopeuksien keskiarvosta.'),
             config: dev(TRIP) },
           { type: 'question', q: 't2-q14', id: 't2-q14-blk' },
           { type: 'question', q: 't2-q15', id: 't2-q15-blk' },
@@ -489,7 +489,7 @@
             head: ['#', T('formula', 'kaava'), T('missing quantity', 'puuttuva suure')],
             rows: [['1', { tex: 'v = v_0 + a t' }, { tex: 's' }], ['2', { tex: 's = s_0 + ½ (v_0 + v) t' }, { tex: 'a' }],
                    ['3', { tex: 's = s_0 + v_0 t + ½ a t^2' }, { tex: 'v' }], ['4', { tex: 'v^2 = v_0^2 + 2 a (s − s_0)' }, { tex: 't' }]] },
-          { id: 't2-const-key', type: 'callout', kind: 'key', title: T('From rest and the mean velocity', 'Levosta ja keskinopeus'), html: T(
+          { id: 't2-const-key', type: 'callout', kind: 'key', title: T('From rest and the mean velocity', 'Lähtö levosta ja keskinopeus'), html: T(
             'Starting from rest at the origin (<f>v_0 = 0</f>, <f>s_0 = 0</f>) formula 3 becomes <f>s = ½ a t^2</f>. For <b>constant</b> acceleration the average velocity is <f>v_k = Δs/Δt = (v_0 + v)/2</f>. The slide shows both on the t,v panel; the second one is <b>only</b> valid when a is constant.',
             'Levosta origosta lähdettäessä (<f>v_0 = 0</f>, <f>s_0 = 0</f>) kaavasta 3 tulee <f>s = ½ a t^2</f>. <b>Vakio</b>kiihtyvyydellä keskinopeus on <f>v_k = Δs/Δt = (v_0 + v)/2</f>. Kalvolla molemmat on esitetty t,v-kuvassa; jälkimmäinen pätee <b>vain</b> vakiokiihtyvyydellä.') },
           { id: 't2-motion-lab', type: 'interactive', widget: 'motion', title: T('Motion lab: cart, s,t, v,t and a,t', 'Liike\u00ADlaboratorio: vaunu, s,t, v,t ja a,t'),
@@ -567,7 +567,7 @@
             '<p>Kun kiihtyvyys ei ole vakio, neljä kaavaa eivät enää päde ja tarvitaan <b>hetkellisiä</b> arvoja. <dfn data-term="instvel">Hetkellinen nopeus</dfn> hetkellä t on s(t)-käyrän <dfn data-term="tangent">tangentin</dfn> kulmakerroin. Keskinopeus aikavälillä Δt on käyrän kahden pisteen kautta kulkevan <b>sekantin</b> kulmakerroin. Kun Δt → 0, sekantista tulee tangentti.</p>') },
           { id: 't2-secant-lab', type: 'interactive', widget: 'motion', title: T('Secant to tangent: shrink Δt', 'Sekantista tangentiksi: pienennä Δt:tä'),
             caption: T('The s,t curve is S-shaped (the body speeds up, then slows down). Move the time cursor, set Δt and look at the secant through the points t and t + Δt. Press "Shrink Δt": the secant turns into the tangent and its slope v_k = Δs/Δt approaches the instantaneous velocity (the slope of the tangent, drawn on the v,t graph below).',
-              's,t-käyrä on S:n muotoinen (kappale kiihtyy ja sitten hidastaa). Siirrä aikakursoria, säädä Δt ja katso pisteiden t ja t + Δt kautta kulkevaa sekanttia. Paina "Pienennä Δt": sekantista tulee tangentti ja sen kulmakerroin v_k = Δs/Δt lähestyy hetkellistä nopeutta (tangentin kulmakerroin, piirretty alla olevaan v,t-kuvaajaan).'),
+              's,t-käyrä on S:n muotoinen (kappale kiihtyy ja sitten hidastuu). Siirrä aikakursoria, säädä Δt ja katso pisteiden t ja t + Δt kautta kulkevaa sekanttia. Paina ”Pienennä Δt”: sekantista tulee tangentti ja sen kulmakerroin v_k = Δs/Δt lähestyy hetkellistä nopeutta (tangentin kulmakerroin, piirretty alla olevaan v,t-kuvaajaan).'),
             config: { T: 10, t: 3, fn: { of: 's', f: SSHAPE }, graphs: ['s', 'v'], tools: ['secant', 'tangent'], ranges: { dt: { min: 0.1, max: 5, step: 0.1 } } } },
           { id: 't2-var-f1', type: 'formula', key: true, tex: 'v = {ds}/{dt},  a = {dv}/{dt} = {d^2 s}/{dt^2}', label: T('Instantaneous velocity and acceleration (derivatives)', 'Hetkellinen nopeus ja kiihtyvyys (derivaatat)'),
             legend: [['v', T('slope of the tangent of s(t)', 's(t):n tangentin kulmakerroin'), 'm/s'], ['a', T('slope of the tangent of v(t)', 'v(t):n tangentin kulmakerroin'), 'm/s²']] },
@@ -584,7 +584,7 @@
           { id: 't2-read-h', type: 'h', text: T('Reading graphs: exercises A2, A3, A4 and 2.15', 'Kuvaajien lukeminen: tehtävät A2, A3, A4 ja 2.15') },
           { id: 't2-read-intro', type: 'text', html: T(
             '<p>The exercise graphs are drawn below as widgets with a time cursor (drag on the graph or use the arrow keys) and a tangent line. The widgets show only the time and the value of the graph itself, never a slope or an area: reading these is your job. Graph readings are estimates, so the answers are accepted within a few per cent.</p>',
-            '<p>Tehtävien kuvaajat on piirretty alle komponentteina, joissa on aikakursori (vedä kuvaajalla tai käytä nuolinäppäimiä) ja tangenttisuora. Komponentit näyttävät vain ajan ja kuvaajan oman arvon, eivät koskaan kulmakerrointa tai alaa: niiden lukeminen on sinun tehtäväsi. Kuvaajasta luetut arvot ovat arvioita, joten vastaukset hyväksytään muutaman prosentin tarkkuudella.</p>') },
+            '<p>Tehtävien kuvaajat on piirretty alle sovelmina, joissa on aikakursori (vedä kuvaajalla tai käytä nuolinäppäimiä) ja tangenttisuora. Sovelmat näyttävät vain ajan ja kuvaajan oman arvon, eivät koskaan kulmakerrointa tai alaa: niiden lukeminen on sinun tehtäväsi. Kuvaajasta luetut arvot ovat arvioita, joten vastaukset hyväksytään muutaman prosentin tarkkuudella.</p>') },
           { id: 't2-a2-w', type: 'interactive', widget: 'motion', title: T('Exercise A2: the t,x graph', 'Tehtävä A2: t,x-kuvaaja'),
             caption: T('Position x against time. Use the cursor to read x at the times you need and the tangent (it follows the cursor) to judge the slope.', 'Paikka ajan funktiona. Lue x tarvitsemillasi hetkillä kursorin avulla ja arvioi kulmakerrointa tangentin avulla (se seuraa kursoria).'),
             config: { T: 6, sym: { s: 'x' }, fn: { of: 's', f: A2F }, graphs: ['s'], tools: ['tangent'], axes: { s: [0, 14] }, readouts: readOnly('s', 'x', 'm') } },
@@ -597,12 +597,12 @@
             config: { T: 5, values: { s0: 0 }, fixed: ['s0'], fn: { of: 'v', f: A3F }, graphs: ['v'], tools: ['tangent', 'area'], axes: { v: [0, 8] }, readouts: readOnly('v', 'v', 'm/s') } },
           { type: 'question', q: 't2-q33', id: 't2-q33-blk' },
           { id: 't2-a4-w', type: 'interactive', widget: 'motion', title: T('Exercise A4: the t,a graph', 'Tehtävä A4: t,a-kuvaaja'),
-            caption: T('Acceleration against time. The area under the a,t curve (area tool) is the change of velocity. The widget does not print it.', 'Kiihtyvyys ajan funktiona. a,t-käyrän alle jäävä ala (aluetyökalu) on nopeuden muutos. Komponentti ei tulosta sitä.'),
+            caption: T('Acceleration against time. The area under the a,t curve (area tool) is the change of velocity. The widget does not print it.', 'Kiihtyvyys ajan funktiona. a,t-käyrän alle jäävä ala (aluetyökalu) on nopeuden muutos. Sovelma ei tulosta sitä.'),
             config: { T: 5, values: { s0: 0, v0: 0 }, fixed: ['s0', 'v0'], fn: { of: 'a', f: A4F }, graphs: ['a'], tools: ['area'], axes: { a: [0, 2.5] }, readouts: readOnly('a', 'a', 'm/s²') } },
           { type: 'question', q: 't2-q34', id: 't2-q34-blk' },
           { type: 'question', q: 't2-q35', id: 't2-q35-blk' },
           { id: 't2-215-w', type: 'interactive', widget: 'motion', title: T('Exercise 2.15: the speed curve of a car', 'Tehtävä 2.15: auton nopeuskäyrä'),
-            caption: T('Velocity of a car against time. The slide has the speed in km/h; the widget draws the same curve in m/s (the scale reaches about 34 m/s, which is 120 km/h; 1 km/h = 0.2778 m/s).', 'Auton nopeus ajan funktiona. Kalvolla nopeus on yksikössä km/h; komponentti piirtää saman käyrän yksikössä m/s (asteikko yltää noin 34 m/s:iin eli 120 km/h:iin; 1 km/h = 0,2778 m/s).'),
+            caption: T('Velocity of a car against time. The slide has the speed in km/h; the widget draws the same curve in m/s (the scale reaches about 34 m/s, which is 120 km/h; 1 km/h = 0.2778 m/s).', 'Auton nopeus ajan funktiona. Kalvolla nopeus on yksikössä km/h; sovelma piirtää saman käyrän yksikössä m/s (asteikko yltää noin 34 m/s:iin eli 120 km/h:iin; 1 km/h = 0,2778 m/s).'),
             config: { T: 16, values: { s0: 0 }, fixed: ['s0'], fn: { of: 'v', f: F215 }, graphs: ['v'], tools: ['tangent'], axes: { v: [0, 35] }, readouts: readOnly('v', 'v', 'm/s') } },
           { type: 'question', q: 't2-q36', id: 't2-q36-blk' },
           { type: 'question', q: 't2-q37', id: 't2-q37-blk' }
@@ -657,16 +657,16 @@
         fields: [{ id: 'v', tex: 'v_k', unit: 'm/s' }],
         hints: [T('0.94 ms = 0.94·10⁻³ s.', '0,94 ms = 0,94·10⁻³ s.'), T('v_k = Δs/Δt.', 'v_k = Δs/Δt.')] },
       { id: 't2-q10', mode: 'practice', type: 'numeric', difficulty: 1, tol: 0.03,
-        prompt: T('The average speed of a car was 75 km/h. How far did it travel in a) 3 hours and b) 20 minutes? (Exercise 2.2)', 'Auton keskinopeus oli 75 km/h. Kuinka pitkän matkan se kulki a) 3 tunnissa ja b) 20 minuutissa? (Tehtävä 2.2)'),
+        prompt: T('The average speed of a car was 75 km/h. How far did it travel in a) 3 hours and b) 20 minutes? (Exercise 2.2)', 'Auton keskivauhti oli 75 km/h. Kuinka pitkän matkan se kulki a) 3 tunnissa ja b) 20 minuutissa? (Tehtävä 2.2)'),
         fields: [{ id: 'a', tex: 's_a', unit: 'km' }, { id: 'b', tex: 's_b', unit: 'km' }],
         hints: [T('s = v t. The time must be in hours when the speed is in km/h.', 's = v t. Ajan on oltava tunteina, kun nopeus on km/h.'), T('20 min is a third of an hour.', '20 min on kolmasosa tunnista.')] },
       { id: 't2-q11', mode: 'practice', type: 'numeric', difficulty: 1,
-        prompt: T('The average speed of a moped was 12 m/s. How long did it take to travel 3.0 km? Give the time in minutes. (Exercise 2.3)', 'Mopon keskinopeus oli 12 m/s. Kuinka kauan kului 3,0 km:n matkaan? Anna aika minuutteina. (Tehtävä 2.3)'),
+        prompt: T('The average speed of a moped was 12 m/s. How long did it take to travel 3.0 km? Give the time in minutes. (Exercise 2.3)', 'Mopon keskivauhti oli 12 m/s. Kuinka kauan kului 3,0 km:n matkaan? Anna aika minuutteina. (Tehtävä 2.3)'),
         fields: [{ id: 't', tex: 't', unit: 'min' }],
         hints: [T('t = s/v with s in metres and v in m/s gives seconds.', 't = s/v antaa sekunteja, kun s on metreinä ja v yksikössä m/s.'), T('Then divide by 60.', 'Jaa sitten 60:llä.')] },
       { id: 't2-q12', mode: 'graded', type: 'numeric', difficulty: 2,
         prompt: T('The average velocity of one motorist on the motorway was exactly 90 km/h and that of another exactly 100 km/h. How much time did the faster driver save compared to the slower one over a) 1 km and b) 15 km? Give the answers in seconds. (Exercise 2.5)',
-          'Autoilijan keskinopeus moottoritiellä oli tasan 90 km/h. Toisen autoilijan keskinopeus oli tasan 100 km/h. Kuinka paljon nopeampi autoilija säästi aikaa hitaampaan verrattuna a) 1 km:n ja b) 15 km:n matkalla? Anna vastaukset sekunteina. (Tehtävä 2.5)'),
+          'Yhden autoilijan keskinopeus moottoritiellä oli tasan 90 km/h. Toisen autoilijan keskinopeus oli tasan 100 km/h. Kuinka paljon nopeampi autoilija säästi aikaa hitaampaan verrattuna a) 1 km:n ja b) 15 km:n matkalla? Anna vastaukset sekunteina. (Tehtävä 2.5)'),
         fields: [{ id: 'a', tex: 'Δt_a', unit: 's' }, { id: 'b', tex: 'Δt_b', unit: 's' }],
         hints: [T('Find the time of each driver, t = s/v, and subtract.', 'Laske kummankin aika, t = s/v, ja vähennä.'), T('Keep the times in hours until the end, then multiply by 3600 s/h.', 'Pidä ajat tunteina loppuun asti ja kerro sitten 3600 s/h.')] },
       { id: 't2-q13', mode: 'practice', type: 'numeric', difficulty: 2,
@@ -681,7 +681,7 @@
         prompt: T('A car drives the first half of the <b>distance</b> at 60 km/h and the second half at 90 km/h. Its average speed for the whole trip is…', 'Auto ajaa <b>matkan</b> ensimmäisen puolikkaan nopeudella 60 km/h ja toisen puolikkaan nopeudella 90 km/h. Sen keskivauhti koko matkalla on…'),
         options: [{ id: 'a', html: T('exactly 75 km/h, the mean of the two speeds', 'täsmälleen 75 km/h, nopeuksien keskiarvo') }, { id: 'b', html: T('more than 75 km/h', 'yli 75 km/h') },
                   { id: 'c', html: T('less than 75 km/h', 'alle 75 km/h') }, { id: 'd', html: T('impossible to tell without the length of the trip', 'mahdoton sanoa ilman matkan pituutta') }],
-        hints: [T('At which speed does the car spend more <i>time</i>?', 'Millä nopeudella auto viettää enemmän <i>aikaa</i>?'), T('Try a trip of 180 km, or the lab above.', 'Kokeile 180 km:n matkaa tai ylläolevaa laboratoriota.')] },
+        hints: [T('At which speed does the car spend more <i>time</i>?', 'Millä nopeudella auto viettää enemmän <i>aikaa</i>?'), T('Try a trip of 180 km, or the lab above.', 'Kokeile 180 km:n matkaa tai yllä olevaa laboratoriota.')] },
       { id: 't2-q16', mode: 'practice', type: 'numeric', difficulty: 3, tol: 0.02,
         prompt: T('A road of 48 km is driven at 80 km/h. a) How long does it take (minutes)? b) At what speed must you drive to arrive 6 minutes earlier? c) What is the average speed of the round trip if the return drive is made at 64 km/h?',
           '48 km:n tie ajetaan nopeudella 80 km/h. a) Kuinka kauan matka kestää (minuutteina)? b) Millä nopeudella on ajettava, jotta perille päästäisiin 6 minuuttia aikaisemmin? c) Mikä on edestakaisen matkan keskivauhti, kun paluu ajetaan nopeudella 64 km/h?'),
@@ -722,7 +722,7 @@
         fields: [{ id: 's', tex: 's', unit: 'm' }],
         hints: [T('The distance is the area under the v,t graph. Cut it into a triangle, a rectangle and a triangle.', 'Matka on v,t-kuvaajan alle jäävä ala. Jaa se kolmioksi, suorakulmioksi ja kolmioksi.'), T('Triangle: ½ · base · height.', 'Kolmio: ½ · kanta · korkeus.')] },
       { id: 't2-q23', mode: 'practice', type: 'slider', difficulty: 2, tol: 0.02,
-        prompt: T('Reshape the v,t graph (drag the knots) so that the cart’s <b>displacement</b> over the whole 8 s run is 30 m. The widget reads the displacement of the run.', 'Muokkaa v,t-kuvaajaa (vedä solmukohtia) niin, että vaunun <b>siirtymä</b> koko 8 s:n ajolla on 30 m. Komponentti lukee ajon siirtymän.'),
+        prompt: T('Reshape the v,t graph (drag the knots) so that the cart’s <b>displacement</b> over the whole 8 s run is 30 m. The widget reads the displacement of the run.', 'Muokkaa v,t-kuvaajaa (vedä solmukohtia) niin, että vaunun <b>siirtymä</b> koko 8 s:n ajolla on 30 m. Sovelma lukee ajon siirtymän.'),
         hints: [T('The displacement is the area under the v,t graph; areas below the axis count as negative.', 'Siirtymä on v,t-kuvaajan alle jäävä ala; akselin alapuoliset alat ovat negatiivisia.'), T('Use the trapezoid tool or add the strips between the knots: ½ (v₁ + v₂) · 2 s.', 'Käytä puolisuunnikastyökalua tai laske solmukohtien väliset kaistat: ½ (v₁ + v₂) · 2 s.')],
         widget: { name: 'motion', config: { T: 8, knots: { of: 'v', t: [0, 2, 4, 6, 8], value: [0, 4, 4, -2, 0], min: -6, max: 6, step: 0.5 }, values: { s0: 0 }, fixed: ['s0'], tools: ['trap'] } } },
       { id: 't2-q24', mode: 'practice', type: 'numeric', difficulty: 2, tol: 0.02,
@@ -730,7 +730,7 @@
         fields: [{ id: 'a', tex: 'a', unit: 'm/s²' }, { id: 's', tex: 's', unit: 'm' }],
         hints: [T('Convert 80 km/h to m/s first.', 'Muunna ensin 80 km/h yksikköön m/s.'), T('a = Δv/Δt. For s use formula 3 or ½ (v₀ + v) t.', 'a = Δv/Δt. Matkaan kaava 3 tai ½ (v₀ + v) t.')] },
       { id: 't2-q25', mode: 'practice', type: 'slider', difficulty: 2, tol: 0.02,
-        prompt: T('A car starts from rest. Set the acceleration <i>a</i> so that it has travelled <b>150 m</b> after 12 s. The widget reads the displacement after the 12 s run.', 'Auto lähtee levosta. Säädä kiihtyvyys <i>a</i> niin, että se on kulkenut <b>150 m</b> 12 s:ssa. Komponentti lukee siirtymän 12 s:n ajon jälkeen.'),
+        prompt: T('A car starts from rest. Set the acceleration <i>a</i> so that it has travelled <b>150 m</b> after 12 s. The widget reads the displacement after the 12 s run.', 'Auto lähtee levosta. Säädä kiihtyvyys <i>a</i> niin, että se on kulkenut <b>150 m</b> 12 s:ssa. Sovelma lukee siirtymän 12 s:n ajon jälkeen.'),
         hints: [T('Starting from rest: s = ½ a t².', 'Levosta lähdettäessä: s = ½ a t².'), T('Solve a = 2 s / t² first, then set the slider.', 'Ratkaise ensin a = 2 s / t² ja säädä sitten liukusäädin.')],
         widget: { name: 'motion', config: { T: 12, values: { s0: 0, v0: 0, a: 1 }, fixed: ['s0', 'v0'], graphs: ['s', 'v'], tools: ['area'], ranges: { a: { min: 0, max: 5, step: 0.01 } } } } },
 
@@ -764,7 +764,7 @@
         hints: [T('Place the cursor at the time and read the slope of the tangent: rise over run on the grid.', 'Aseta kursori hetkeen ja lue tangentin kulmakerroin ruudukosta: pystysuuntainen muutos jaettuna vaakasuuntaisella muutoksella.'), T('Is the curve rising or falling at 5 s?', 'Nouseeko vai laskeeko käyrä hetkellä 5 s?')] },
       { id: 't2-q38', mode: 'practice', type: 'mc', difficulty: 2,
         prompt: T('In exercise A2 the instantaneous velocity at t = 5 s comes out negative. What does the minus sign mean?', 'Tehtävässä A2 hetkellinen nopeus hetkellä t = 5 s on negatiivinen. Mitä miinusmerkki tarkoittaa?'),
-        options: [{ id: 'a', html: T('The position x is negative.', 'Paikka x on negatiivinen.') }, { id: 'b', html: T('The body is slowing down.', 'Kappale hidastaa.') },
+        options: [{ id: 'a', html: T('The position x is negative.', 'Paikka x on negatiivinen.') }, { id: 'b', html: T('The body is slowing down.', 'Kappale hidastuu.') },
                   { id: 'c', html: T('The acceleration is negative.', 'Kiihtyvyys on negatiivinen.') }, { id: 'd', html: T('The body moves in the negative x direction, back toward the origin.', 'Kappale liikkuu negatiiviseen x-suuntaan, takaisin kohti origoa.') }],
         hints: [T('The sign of v is the direction of motion along the axis.', 'v:n etumerkki on liikkeen suunta akselilla.'), T('Look at what the x value does just after t = 5 s.', 'Katso, mitä x:n arvolle tapahtuu hetken 5 s jälkeen.')] },
       { id: 't2-q32', mode: 'graded', type: 'mc', difficulty: 1,

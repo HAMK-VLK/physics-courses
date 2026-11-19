@@ -134,7 +134,7 @@
              { id: 'v', tex: 'v', min: 20, max: 70, step: 1, value: 48, unit: 'm/s' },
              { id: 'dt', tex: 'Δt', min: 0.1, max: 2, step: 0.05, value: 0.45, unit: 'ms' }],
     buttons: [{ label: T('Hit the ball', 'Lyö palloa'), click: function (p, D) { changed(D.S, p, ['m', 'v', 'dt']); D.S.tm = D.motion ? 0 : CON_TA + CON_TC + CON_TF; D.S.run = D.motion; } },
-              { label: T('Golf drive (slide p04)', 'Golf-lyönti (kalvo s. 04)'), click: function (p, D) { D.set({ m: 0.05, v: 48, dt: 0.45 }); } },
+              { label: T('Golf drive (slide p04)', 'Golflyönti (kalvo s. 04)'), click: function (p, D) { D.set({ m: 0.05, v: 48, dt: 0.45 }); } },
               { label: T('Contact 4 times longer', 'Kosketus 4 kertaa pidempi'), click: function (p, D) { D.set({ dt: p.dt * 4 }); } }],
     draw: function (g, w, h, p, ctx, TV, D) {
       var S = D.S;
@@ -204,8 +204,8 @@
     params: [{ id: 'm1', tex: 'm_1', min: 0.5, max: 5, step: 0.1, value: 1, unit: 'kg' },
              { id: 'm2', tex: 'm_2', min: 0.5, max: 5, step: 0.1, value: 3, unit: 'kg' },
              { id: 'E', tex: 'E_j', min: 1, max: 40, step: 1, value: 24, unit: 'J' }],
-    buttons: [{ label: T('Release the spring', 'Vapauta jousi'), click: function (p, D) { changed(D.S, p, ['m1', 'm2', 'E']); D.S.t = D.motion ? 0 : 2.2; D.S.run = D.motion; D.S.rel = true; } },
-              { label: T('Reset', 'Palauta'), click: function (p, D) { D.S.t = 0; D.S.run = false; D.S.rel = false; } }],
+    buttons: [{ label: T('Release the spring', 'Päästä jousi'), click: function (p, D) { changed(D.S, p, ['m1', 'm2', 'E']); D.S.t = D.motion ? 0 : 2.2; D.S.run = D.motion; D.S.rel = true; } },
+              { label: T('Reset', 'Nollaa'), click: function (p, D) { D.S.t = 0; D.S.run = false; D.S.rel = false; } }],
     draw: function (g, w, h, p, ctx, TV, D) {
       var S = D.S, R = recoil(p), M = p.m1 + p.m2;
       if (changed(S, p, ['m1', 'm2', 'E'])) { S.run = false; S.t = 0; S.rel = false; }
@@ -336,7 +336,7 @@
       partial: { en: 'partially elastic collision', fi: 'osittain kimmoinen törmäys', sym: '0 < e < 1', def: T('Momentum is conserved, part of the kinetic energy goes into deformation.', 'Liikemäärä säilyy, osa liike-energiasta kuluu muodonmuutoksiin.') },
       restitution: { en: 'coefficient of restitution', fi: 'sysäyskerroin', sym: 'e = (u_2 − u_1)/(v_1 − v_2)', def: T('Speed of separation divided by speed of approach; 0 for perfectly inelastic, 1 for elastic.', 'Loittonemisnopeus jaettuna lähestymisnopeudella; 0 täysin kimmottomalla ja 1 kimmoisalla törmäyksellä.') },
       kinetic: { en: 'kinetic energy', fi: 'liike-energia', sym: 'E_k = ½ m v²', def: T('Energy of motion; in a collision part of it can turn into heat and deformation.', 'Liikkeen energia; törmäyksessä osa siitä voi muuttua lämmöksi ja muodonmuutoksiksi.') },
-      deformation: { en: 'deformation', fi: 'muodonmuutos', def: T('A permanent change of shape, for example a crumpled car body.', 'Pysyvä muodon muutos, esimerkiksi rutistunut auton kori.') },
+      deformation: { en: 'deformation', fi: 'muodonmuutos', def: T('A permanent change of shape, for example a crumpled car body.', 'Pysyvä muodonmuutos, esimerkiksi rutistunut auton kori.') },
       recoil: { en: 'recoil', fi: 'rekyyli', def: T('The backward motion of a gun (or any body) when it throws something forward.', 'Aseen (tai muun kappaleen) takaisku, kun se sinkoaa jotakin eteenpäin.') },
       recoilforce: { en: 'recoil force', fi: 'rekyylivoima', sym: 'F = n m v', def: T('The average force on a gun from the bullets it fires.', 'Ammuttujen luotien aseeseen kohdistama keskimääräinen voima.') },
       explosion: { en: 'explosion', fi: 'räjähdys', def: T('Internal forces push the parts apart; the total momentum does not change.', 'Sisäiset voimat työntävät osat erilleen; kokonaisliikemäärä ei muutu.') },
@@ -399,8 +399,8 @@
           { id: 't5-ct-text', type: 'text', html: T(
             '<p>In a hit you often know only the speeds <b>before</b> and <b>just after</b> the contact, nothing else. The law of impulses still solves the <dfn data-term="avgforce">average force</dfn>: <f>I = F Δt = m v − m v_0</f>, so <f>F = (m v − m v_0)/Δt</f>.</p>',
             '<p>Iskussa tunnetaan usein vain nopeudet <b>ennen</b> kosketusta ja <b>heti sen jälkeen</b>. Impulssilaki ratkaisee silti <dfn data-term="avgforce">keskimääräisen voiman</dfn>: <f>I = F Δt = m v − m v_0</f>, joten <f>F = (m v − m v_0)/Δt</f>.</p>') },
-          { id: 't5-ct-ex', type: 'example', title: T('Golf ball (slide p04)', 'Golf-pallo (kalvo s. 04)'),
-            problem: T('A golf ball (m = 50.0 g) leaves the club at 48 m/s. The contact time is 0.45 ms. Find the impulse and the average force on the ball.', 'Golf-pallon (m = 50,0 g) lähtönopeudeksi mitataan 48 m/s. Mailan kosketusaika palloon on 0,45 ms. Laske palloon kohdistuva impulssi ja keskimääräinen voima.'),
+          { id: 't5-ct-ex', type: 'example', title: T('Golf ball (slide p04)', 'Golfpallo (kalvo s. 04)'),
+            problem: T('A golf ball (m = 50.0 g) leaves the club at 48 m/s. The contact time is 0.45 ms. Find the impulse and the average force on the ball.', 'Golfpallon (m = 50,0 g) lähtönopeudeksi mitataan 48 m/s. Mailan kosketusaika palloon on 0,45 ms. Laske palloon kohdistuva impulssi ja keskimääräinen voima.'),
             given: ['m = 50.0 g', 'v_0 = 0', 'v = 48 m/s', 'Δt = 0.45 ms'],
             steps: [{ tex: 'I = m v − m v_0 = 0.0500 kg · 48 m/s = 2.4 N·s' }, { tex: 'F = {I}/{Δt} = {2.4 N·s}/{0.45·10^{−3} s} ≈ 5.3 kN' }],
             result: T('I = 2.4 N·s, F ≈ 5.3 kN', 'I = 2,4 N·s, F ≈ 5,3 kN') },
@@ -559,7 +559,7 @@
           { type: 'question', q: 't5-q47', id: 't5-q47-blk' },
           { type: 'question', q: 't5-q48', id: 't5-q48-blk' },
           { type: 'question', q: 't5-q49', id: 't5-q49-blk' },
-          { id: 't5-2d-tip', type: 'callout', kind: 'tip', title: T('A ladder you have climbed', 'Portaat, jotka olet noussut'), html: T(
+          { id: 't5-2d-tip', type: 'callout', kind: 'tip', title: T('A ladder you have climbed', 'Portaikko, jonka olet kiivennyt'), html: T(
             'Momentum p = m v and impulse I = ∫F dt, the law of impulses, conservation of momentum, perfectly inelastic collisions, elastic and partially elastic collisions with e, and finally the same ideas by components. Every exercise of the deck is the top step of one of these ladders.',
             'Liikemäärä p = m v ja impulssi I = ∫F dt, impulssilaki, liikemäärän säilyminen, täysin kimmottomat törmäykset, kimmoiset ja osittain kimmoiset törmäykset kertoimella e ja lopuksi samat ajatukset komponenteittain. Jokainen tehtävä on yhden tällaisen portaikon ylin askel.') }
         ] }
@@ -585,7 +585,7 @@
         options: [{ id: 'a', html: T('It is a scalar quantity.', 'Se on skalaarisuure.') }, { id: 'b', html: T('It is a vector along the velocity.', 'Se on nopeuden suuntainen vektori.') }, { id: 'c', html: T('It is a vector against the velocity.', 'Se on nopeutta vastaan suuntautuva vektori.') }, { id: 'd', html: T('It depends only on the mass.', 'Se riippuu vain massasta.') }],
         hints: [T('Multiplying a vector by a positive number does not turn it around.', 'Vektorin kertominen positiivisella luvulla ei käännä sitä.')] },
       { id: 't5-q5', mode: 'practice', type: 'numeric', difficulty: 1,
-        prompt: T('A golf ball of 50.0 g leaves the club at 48 m/s. What impulse did the club give the ball?', 'Golf-pallo (50,0 g) lähtee mailasta nopeudella 48 m/s. Kuinka suuren impulssin maila antoi pallolle?'),
+        prompt: T('A golf ball of 50.0 g leaves the club at 48 m/s. What impulse did the club give the ball?', 'Golfpallo (50,0 g) lähtee mailasta nopeudella 48 m/s. Kuinka suuren impulssin maila antoi pallolle?'),
         fields: [{ id: 'I', tex: 'I', unit: 'N·s' }],
         hints: [T('The ball started at rest: I = m v − 0.', 'Pallo oli aluksi levossa: I = m v − 0.'), T('Use the mass in kilograms.', 'Käytä massaa kilogrammoina.')] },
       { id: 't5-q6', mode: 'practice', type: 'numeric', difficulty: 2,
@@ -603,7 +603,7 @@
 
       // ---- 5.2 contact time, average force
       { id: 't5-q9', mode: 'graded', type: 'numeric', difficulty: 2,
-        prompt: T('The golf ball (50.0 g, 48 m/s) is in contact with the club for 0.45 ms. What is the average force on the ball? (Slide p04)', 'Golf-pallo (50,0 g, 48 m/s) on kosketuksissa mailaan 0,45 ms. Kuinka suuri on palloon kohdistuva keskimääräinen voima? (Kalvo s. 04)'),
+        prompt: T('The golf ball (50.0 g, 48 m/s) is in contact with the club for 0.45 ms. What is the average force on the ball? (Slide p04)', 'Golfpallo (50,0 g, 48 m/s) on kosketuksissa mailaan 0,45 ms. Kuinka suuri on palloon kohdistuva keskimääräinen voima? (Kalvo s. 04)'),
         fields: [{ id: 'F', tex: 'F', unit: 'N' }],
         hints: [T('F Δt = m v − m v_0: first the impulse, then divide by the time.', 'F Δt = m v − m v_0: laske ensin impulssi ja jaa sitten ajalla.'), T('0.45 ms = 0.45·10⁻³ s.', '0,45 ms = 0,45·10⁻³ s.')] },
       { id: 't5-q10', mode: 'practice', type: 'mc', difficulty: 1,
@@ -624,8 +624,8 @@
         hints: [T('Use the size of the change in momentum.', 'Käytä liikemäärän muutoksen suuruutta.'), T('The force of the ball on the club equals the force of the club on the ball in size (Newton III).', 'Pallon voima mailaan on suuruudeltaan sama kuin mailan voima palloon (Newton III).')] },
       { id: 't5-q14', mode: 'practice', type: 'fbd', difficulty: 2,
         prompt: T('A golf ball is in the air and the club hits it from the left at this very moment. Draw the free-body diagram of the ball during the contact: give each force a direction (or "not acting") and set the arrow lengths so that the compared pair is right.',
-          'Golf-pallo on ilmassa ja maila osuu siihen vasemmalta juuri nyt. Piirrä pallon vapaakappalekuvio kosketuksen aikana: anna jokaiselle voimalle suunta (tai "ei vaikuta") ja säädä nuolten pituudet niin, että verrattava pari on oikein.'),
-        hints: [T('Only gravity and things touching the ball can exert forces on it.', 'Palloon voivat vaikuttaa vain painovoima ja pallon koskettamat kappaleet.'), T('Compare the club force (thousands of newtons) with the weight of a 50 g ball.', 'Vertaa mailan voimaa (tuhansia newtoneja) 50 g:n pallon painoon.')],
+          'Golfpallo on ilmassa ja maila osuu siihen vasemmalta juuri nyt. Piirrä pallon vapaakappalekuvio kosketuksen aikana: anna jokaiselle voimalle suunta (tai "ei vaikuta") ja säädä nuolten pituudet niin, että verrattava pari on oikein.'),
+        hints: [T('Only gravity and things touching the ball can exert forces on it.', 'Palloon voivat vaikuttaa vain painovoima ja palloa koskettavat kappaleet.'), T('Compare the club force (thousands of newtons) with the weight of a 50 g ball.', 'Vertaa mailan voimaa (tuhansia newtoneja) 50 g:n pallon painoon.')],
         widget: { name: 'fbd', config: { scene: 'floor',
           forces: [{ id: 'G', tex: 'mg' }, { id: 'F', label: T('club force on the ball', 'mailan voima palloon') }, { id: 'N', tex: 'N' }, { id: 'Fs', label: T('force of the swing', 'heilautuksen voima') }],
           compare: [['F', 'G']] } } },
@@ -703,7 +703,7 @@
       { id: 't5-q31', mode: 'practice', type: 'mc', difficulty: 2,
         prompt: T('A collision has the coefficient of restitution e = 0.5. What does that tell?', 'Törmäyksen sysäyskerroin on e = 0,5. Mitä se kertoo?'),
         options: [{ id: 'a', html: T('Half of the momentum is lost.', 'Puolet liikemäärästä häviää.') }, { id: 'b', html: T('Exactly half of the kinetic energy is lost.', 'Täsmälleen puolet liike-energiasta häviää.') }, { id: 'c', html: T('The bodies separate at half the speed at which they approached.', 'Kappaleet loittonevat puolella siitä nopeudesta, jolla ne lähestyivät.') }, { id: 'd', html: T('The lighter body keeps half of its speed.', 'Kevyempi kappale säilyttää puolet nopeudestaan.') }],
-        hints: [T('e = (u_2 − u_1)/(v_1 − v_2): speed of separation over speed of approach.', 'e = (u_2 − u_1)/(v_1 − v_2): loittonemisnopeus lähestymisnopeuden suhteen.')] },
+        hints: [T('e = (u_2 − u_1)/(v_1 − v_2): speed of separation over speed of approach.', 'e = (u_2 − u_1)/(v_1 − v_2): loittonemisnopeus jaettuna lähestymisnopeudella.')] },
       { id: 't5-q32', mode: 'graded', type: 'mc', difficulty: 1,
         prompt: T('Which kind of collision describes most real collisions, such as car crashes?', 'Mikä törmäystyyppi kuvaa useimpia todellisia törmäyksiä, esimerkiksi auto-onnettomuuksia?'),
         options: [{ id: 'a', html: T('elastic, e = 1', 'kimmoinen, e = 1') }, { id: 'b', html: T('perfectly inelastic, e = 0', 'täysin kimmoton, e = 0') }, { id: 'c', html: T('partially elastic, 0 < e < 1', 'osittain kimmoinen, 0 < e < 1') }, { id: 'd', html: T('explosive, e > 1', 'räjähdysmäinen, e > 1') }],
@@ -727,19 +727,19 @@
       { id: 't5-q37', mode: 'graded', type: 'numeric', difficulty: 3,
         prompt: T('The same spheres (0.90 kg at 3.0 m/s and 0.10 kg at rest) collide with the coefficient of restitution e = 0.70. Find the speeds after the collision: a) the 0.90 kg sphere and b) the 0.10 kg sphere. (Exercise 5.12 c)', 'Samat pallot (0,90 kg nopeudella 3,0 m/s ja 0,10 kg levossa) törmäävät sysäyskertoimella e = 0,70. Laske nopeudet törmäyksen jälkeen: a) 0,90 kg:n pallo ja b) 0,10 kg:n pallo. (Tehtävä 5.12 c)'),
         fields: [{ id: 'u1', tex: 'u_1', unit: 'm/s' }, { id: 'u2', tex: 'u_2', unit: 'm/s' }],
-        hints: [T('Momentum: 0.90 u_1 + 0.10 u_2 = 2.70. Restitution: u_2 − u_1 = e · 3.0.', 'Liikemäärä: 0,90 u_1 + 0,10 u_2 = 2,70. Sysäys: u_2 − u_1 = e · 3,0.'), T('Substitute u_2 = u_1 + 2.1 into the momentum equation.', 'Sijoita u_2 = u_1 + 2,1 liikemääräyhtälöön.')] },
+        hints: [T('Momentum: 0.90 u_1 + 0.10 u_2 = 2.70. Restitution: u_2 − u_1 = e · 3.0.', 'Liikemäärä: 0,90 u_1 + 0,10 u_2 = 2,70. Sysäyskerroin: u_2 − u_1 = e · 3,0.'), T('Substitute u_2 = u_1 + 2.1 into the momentum equation.', 'Sijoita u_2 = u_1 + 2,1 liikemääräyhtälöön.')] },
       { id: 't5-q38', mode: 'practice', type: 'mc', difficulty: 2,
         prompt: T('A cart hits an equal cart at rest in a head-on elastic collision. Afterwards', 'Vaunu osuu yhtä painavaan levossa olevaan vaunuun suorassa kimmoisassa törmäyksessä. Jälkeenpäin'),
         options: [{ id: 'a', html: T('both move on at half the speed', 'molemmat jatkavat puolella nopeudella') }, { id: 'b', html: T('the first bounces back, the second moves off', 'ensimmäinen kimpoaa takaisin, toinen lähtee liikkeelle') }, { id: 'c', html: T('they stick together', 'ne takertuvat yhteen') }, { id: 'd', html: T('the first stops, the second moves off at the original speed', 'ensimmäinen pysähtyy, toinen lähtee liikkeelle alkuperäisellä nopeudella') }],
         hints: [T('Use u_1 = (m_1 − m_2)/(m_1 + m_2) v_1 with m_1 = m_2, or try it in the swap lab.', 'Käytä kaavaa u_1 = (m_1 − m_2)/(m_1 + m_2) v_1 kun m_1 = m_2, tai kokeile vaihtolaboratoriota.')] },
       { id: 't5-q39', mode: 'practice', type: 'slider', difficulty: 2, tol: 0.015,
         prompt: T('A 0.90 kg sphere at 3.0 m/s hits a 0.10 kg sphere at rest. Set the coefficient of restitution e so that the light sphere leaves at 4.6 m/s. The widget reads the speed of the light sphere after the impact (press Run to watch).',
-          '0,90 kg:n pallo nopeudella 3,0 m/s osuu levossa olevaan 0,10 kg:n palloon. Säädä sysäyskerroin e niin, että kevyt pallo lähtee nopeudella 4,6 m/s. Komponentti lukee kevyen pallon nopeuden törmäyksen jälkeen (katso Aja-painikkeella).'),
+          '0,90 kg:n pallo nopeudella 3,0 m/s osuu levossa olevaan 0,10 kg:n palloon. Säädä sysäyskerroin e niin, että kevyt pallo lähtee nopeudella 4,6 m/s. Sovelma lukee kevyen pallon nopeuden törmäyksen jälkeen (Aja-painikkeella näet liikkeen).'),
         hints: [T('Momentum and e give u_2 = (m_1 v_1 + m_1 e v_1)/(m_1 + m_2).', 'Liikemäärästä ja e:stä saadaan u_2 = (m_1 v_1 + m_1 e v_1)/(m_1 + m_2).'), T('Solve e from the formula, then set the slider.', 'Ratkaise e kaavasta ja säädä sitten säädin.')],
         widget: { name: 'collision', config: { values: { m1: 0.9, m2: 0.1, v1: 3, v2: 0, e: 1 }, fixed: ['m1', 'm2', 'v1', 'v2'], answer: function (p, st) { return { v: st.u2 }; } } } },
       { id: 't5-q40', mode: 'practice', type: 'slider', difficulty: 2, tol: 0.03,
         prompt: T('Cart 1 (1.0 kg) moves at 3.0 m/s and hits cart 2 at rest in an elastic collision. Set the mass m_2 so that cart 1 continues at 1.0 m/s in the same direction. The widget reads the speed of cart 1 after the impact.',
-          'Vaunu 1 (1,0 kg) liikkuu nopeudella 3,0 m/s ja osuu levossa olevaan vaunuun 2 kimmoisassa törmäyksessä. Säädä massa m_2 niin, että vaunu 1 jatkaa nopeudella 1,0 m/s samaan suuntaan. Komponentti lukee vaunun 1 nopeuden törmäyksen jälkeen.'),
+          'Vaunu 1 (1,0 kg) liikkuu nopeudella 3,0 m/s ja osuu levossa olevaan vaunuun 2 kimmoisassa törmäyksessä. Säädä massa m_2 niin, että vaunu 1 jatkaa nopeudella 1,0 m/s samaan suuntaan. Sovelma lukee vaunun 1 nopeuden törmäyksen jälkeen.'),
         hints: [T('u_1 = (m_1 − m_2)/(m_1 + m_2) v_1 for a target at rest.', 'Levossa olevalle kohteelle u_1 = (m_1 − m_2)/(m_1 + m_2) v_1.'), T('Solve m_2 from 1.0 = (1.0 − m_2)/(1.0 + m_2) · 3.0.', 'Ratkaise m_2 yhtälöstä 1,0 = (1,0 − m_2)/(1,0 + m_2) · 3,0.')],
         widget: { name: 'collision', config: { values: { m1: 1, m2: 1, v1: 3, v2: 0, e: 1 }, fixed: ['m1', 'v1', 'v2', 'e'], ranges: { m2: { min: 0.1, max: 5, step: 0.1 } }, answer: function (p, st) { return { v: st.u1 }; } } } },
       { id: 't5-q41', mode: 'practice', type: 'numeric', difficulty: 3, tol: 0.03,
@@ -775,7 +775,7 @@
         hints: [T('For equal masses and e = 1 the outgoing velocities are perpendicular.', 'Yhtä painavilla palloilla ja e = 1 lähtevät nopeudet ovat kohtisuorassa.'), T('The incoming velocity is the hypotenuse of the right triangle of u_1 and u_2.', 'Tulonopeus on u_1:n ja u_2:n muodostaman suorakulmaisen kolmion hypotenuusa.')] },
       { id: 't5-q48', mode: 'practice', type: 'slider', difficulty: 2, tol: 0.02,
         prompt: T('Two equal balls, e = 1: ball 1 hits the ball at rest. Set the aim offset b so that ball 2 leaves at 30° below the x axis. The widget reads the angle of ball 2 below the x axis, in degrees.',
-          'Kaksi yhtä painavaa palloa, e = 1: pallo 1 osuu levossa olevaan palloon. Säädä tähtäyspoikkeama b niin, että pallo 2 lähtee 30° x-akselin alapuolelle. Komponentti lukee pallon 2 lähtökulman x-akselin alapuolella asteina.'),
+          'Kaksi yhtä painavaa palloa, e = 1: pallo 1 osuu levossa olevaan palloon. Säädä tähtäyspoikkeama b niin, että pallo 2 lähtee 30° x-akselin alapuolelle. Sovelma lukee pallon 2 lähtökulman x-akselin alapuolella asteina.'),
         hints: [T('Ball 2 moves along the line of centres at the impact. How is that line tilted when the aim offset is b?', 'Pallo 2 liikkuu keskipisteitä yhdistävää suoraa pitkin. Miten suora on kallellaan, kun tähtäyspoikkeama on b?'), T('Try b = 0.2, 0.4 … in the lab and read the angle.', 'Kokeile laboratoriossa b = 0,2, 0,4 … ja lue kulma.')],
         widget: { name: 'collision', config: { mode: '2d', values: { m1: 1, m2: 1, v1: 2, b: 0.2, e: 1 }, fixed: ['m1', 'm2', 'v1', 'e'], answer: function (p, st) { return { v: -st.th2 }; } } } },
       { id: 't5-q49', mode: 'practice', type: 'numeric', difficulty: 2,

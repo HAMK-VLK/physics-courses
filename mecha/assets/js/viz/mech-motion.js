@@ -114,7 +114,7 @@
       });
     }
     var S = { t: cfg.t != null ? cfg.t : T, run: false, M: null };   // cfg.t: where the time cursor starts
-    var F = TV.frame(host, cfg, ctx, defs, function () { S.M = null; refresh(); });
+    var F = TV.frame(host, cfg, ctx, defs, function () { S.M = null; if (!S.shrink) refresh(); });   // during Shrink Δt the draw loop refreshes (throttled)
     var motion = !U.reducedMotion();
     function model() { return S.M || (S.M = MM.model(cfg, F.p())); }
 
@@ -127,7 +127,7 @@
 
     var cv = TDC.viz.canvas(F.stage, { animate: true, draw: draw,
       aspect: function (w) { return (78 + graphs.length * (w < 520 ? 118 : 140) + 22) / w; } });
-    var c = cv.canvas; c.tabIndex = 0;
+    var c = cv.canvas; c.tabIndex = 0; c.setAttribute('role', 'slider'); c.setAttribute('aria-valuemin', 0); c.setAttribute('aria-valuemax', T);   // the time cursor, for assistive tech
     function refresh() { reads(); cv.redraw(); }
 
     // layout (CSS px) of the current canvas size; panels share one time axis
@@ -151,6 +151,7 @@
         var sh = S.shrink; sh.k = Math.min(1, sh.k + dt / 2);
         F.set({ dt: +(sh.from + (sh.to - sh.from) * (1 - Math.pow(1 - sh.k, 2))).toPrecision(4) });
         if (sh.k >= 1) S.shrink = null;
+        S.rt = (S.rt || 0) + dt; if (S.rt > 0.15 || !S.shrink) { S.rt = 0; reads(); }
       }
       lay(w, h);
       var fg = ctx.color('--fg'), mu = ctx.color('--muted'), wire = ctx.color('--c-wire'), bg = ctx.color('--surface');
@@ -274,12 +275,14 @@
       } else { S.run = false; S.t = Math.max(0, Math.min(T, (px - L.x0) / (L.x1 - L.x0) * T)); refresh(); }
     }, function () { S.drag = null; });
     c.addEventListener('keydown', function (e) {
-      if (F.locked || (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight')) return;
-      e.preventDefault(); S.run = false; S.t = Math.max(0, Math.min(T, S.t + (e.key === 'ArrowRight' ? 1 : -1) * T / 50)); refresh();
+      var stepK = { ArrowLeft: -1, ArrowDown: -1, ArrowRight: 1, ArrowUp: 1, PageDown: -10, PageUp: 10, Home: -1e9, End: 1e9 }[e.key];
+      if (F.locked || !stepK) return;
+      e.preventDefault(); S.run = false; S.t = Math.max(0, Math.min(T, S.t + stepK * T / 50)); refresh();
     });
     function aria() { c.setAttribute('aria-label', ctx.t('mv.motionAria')); }
 
     function reads() {
+      c.setAttribute('aria-valuenow', +S.t.toFixed(2)); c.setAttribute('aria-valuetext', 't = ' + U.fmtNum(S.t, 3) + ' s');
       var M = model(), p = F.p(), t = S.t;
       var at = function (k) { var y = MM.at(M, k, t), big = Math.max.apply(null, M[k].map(Math.abs)); return Math.abs(y) < 1e-9 * big ? 0 : y; };   // sin(π) is 0, not 1.6·10⁻¹⁵ m
       var st = { t: t, s: at('s'), v: at('v'), a: at('a'), M: M };
