@@ -145,11 +145,41 @@
       mark: function () {}
     };
   };
+  // A native <option> shows plain text only, so maths choices get a button + popover list that renders them.
+  // The button's own value/disabled properties stand in for the <select>'s.
+  function mathSelect(label, rights) {
+    function face(r) { return r.tex ? TDC.formula.el(r.tex) : txs('span', r.html); }
+    var b = el('button', { type: 'button', class: 'input q-msel', 'aria-haspopup': 'listbox', 'aria-label': label });
+    b.pick = function (id) {
+      var r = rights.filter(function (x) { return x.id === id; })[0];
+      b.value = r ? id : ''; b.textContent = '';
+      b.appendChild(r ? face(r) : el('span', { class: 'q-msel-none' }, '—'));
+    };
+    b.pick('');
+    b.addEventListener('click', function () {
+      var opts = rights.map(function (r) {
+        return el('button', { type: 'button', role: 'option', class: 'q-msel-opt', 'aria-selected': String(b.value === r.id),
+          onclick: function () { b.pick(r.id); TDC.ui.closePopover(); b.focus(); } }, [face(r)]);
+      });
+      var p = TDC.ui.popover(b, [el('div', { role: 'listbox', class: 'q-msel-list', 'aria-label': label }, opts)]);
+      var br = b.getBoundingClientRect();   // drop down under the button like a <select>, not centred on it
+      p.style.minWidth = br.width + 'px'; p.style.left = (br.left + scrollX) + 'px';
+      var cur = opts.filter(function (o) { return o.getAttribute('aria-selected') === 'true'; })[0]; if (cur) cur.focus();
+      p.addEventListener('keydown', function (e) {
+        var i = opts.indexOf(document.activeElement), d = e.key === 'ArrowDown' ? 1 : e.key === 'ArrowUp' ? -1 : 0;
+        if (d) { e.preventDefault(); opts[(i + d + opts.length) % opts.length].focus(); }
+        if (e.key === 'Escape' || e.key === 'Tab') { TDC.ui.closePopover(); b.focus(); }
+      });
+    });
+    return b;
+  }
+  function hasMath(r) { return !!r.tex || /<(f|sub|sup)>/.test(JSON.stringify(r.html || '')); }
   T.match = function (q) {
     var selects = {};
-    var rights = U.shuffle(q.right, seed(q) + 'r');
+    var rights = U.shuffle(q.right, seed(q) + 'r'), math = rights.some(hasMath);
     var node = el('div', { class: 'q-match' }, q.left.map(function (l) {
-      var sel = el('select', { class: 'input', 'aria-label': I.tx(l.html || l.tex || l.id) }, [el('option', { value: '' }, '—')].concat(rights.map(function (r) {
+      var label = I.tx(l.html || l.tex || l.id);
+      var sel = math ? mathSelect(label, rights) : el('select', { class: 'input', 'aria-label': label }, [el('option', { value: '' }, '—')].concat(rights.map(function (r) {
         var o = el('option', { value: r.id }); I.bind(o, r.html || r.tex, true); return o;
       })));
       selects[l.id] = sel;
@@ -158,7 +188,7 @@
     return {
       node: node,
       get: function () { var o = {}; for (var k in selects) o[k] = selects[k].value; return { v: o }; },
-      set: function (v) { if (v && v.v) for (var k in selects) selects[k].value = v.v[k] || ''; },
+      set: function (v) { if (v && v.v) for (var k in selects) { if (selects[k].pick) selects[k].pick(v.v[k] || ''); else selects[k].value = v.v[k] || ''; } },
       disable: function () { for (var k in selects) selects[k].disabled = true; },
       mark: function () {}
     };

@@ -53,7 +53,9 @@ code, kbd { font-family: var(--font-mono); font-size: .9em; background: var(--su
 .lang-btn { display: flex; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; background: var(--surface); padding: 0; cursor: pointer; font: 600 .78rem var(--font-body); }
 .lang-btn span { padding: .45rem .55rem; color: var(--muted); }
 .lang-btn span.on { background: var(--primary); color: var(--primary-fg); }
-@media (max-width: 640px) { .save-status:not(.unsaved), .save-status .unsaved-text, .brand-text { display: none; } .save-status.unsaved { font-size: 0; } .save-status .dot { width: 10px; height: 10px; margin: 0; } .crumbs { font-size: .82rem; } }
+@media (max-width: 640px) { .save-status:not(.unsaved), .save-status .unsaved-text, .brand-text { display: none; } .save-status.unsaved { font-size: 0; } .save-status .dot { width: 10px; height: 10px; margin: 0; } .crumbs { font-size: .82rem; }
+  /* phone: the logo already links home, so the topic name gets the room */
+  .crumbs:has(.crumb-current) > a, .crumbs:has(.crumb-current) > .sep { display: none; } }
 
 /* ---------- buttons, inputs ---------- */
 .btn {

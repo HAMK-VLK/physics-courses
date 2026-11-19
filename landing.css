@@ -96,6 +96,15 @@ h1 { margin: .2em 0 .3em; font: 700 clamp(1.9rem, 3.2vw + 1rem, 2.9rem)/1.2 var(
 .card.go .m8 { transform: translateY(0.0px); }
 .card.go .m9 { transform: translateY(11.3px); }
 @keyframes buzz { from { transform: translate(-1px, .6px); } to { transform: translate(1px, -.6px); } }
+.card-mecha { --accent: var(--t5); }
+/* Mecha: the block slides down the slope (s = 62 along u = (0.933, 0.359)), speeding up like a released block. */
+.card-mecha .art { --slope: #d9dccf; --arrow: #d98a00; }
+:root[data-theme="dark"] .card-mecha .art { --ink: #ff8cc6; --slope: #2a3340; --arrow: #ffb53d; }
+.art .ramp { fill: var(--slope); stroke: var(--ink); stroke-width: 2; opacity: var(--ink-o); }
+.art .body { fill: var(--surface); stroke: var(--ink); stroke-width: 2.2; }
+.art .dir { stroke: var(--arrow); stroke-width: 2.4; }
+.art .blk { transform-box: view-box; transition: transform 1.1s cubic-bezier(.55, 0, 1, .45); }
+.card.go .blk { transform: translate(57.8px, 22.3px); }
 .card::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 4px; background: var(--accent); }
 .card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: var(--accent); }
 .card h2 { margin: .2rem 0 0; font: 650 1.35rem/1.25 var(--font-head); overflow-wrap: anywhere; hyphens: auto; }

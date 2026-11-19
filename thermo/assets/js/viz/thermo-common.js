@@ -34,7 +34,7 @@
   TV.font = function (g, px, w) { g.font = (w || 600) + ' ' + px + 'px ' + getComputedStyle(document.body).fontFamily; };
   TV.fmt = function (v, unit, digits) {
     if (v == null || !isFinite(v)) return '—';
-    return PLAIN.test(unit || '') ? U.fmtNum(v, digits || 3) + ' ' + unit : U.fmtSI(v, unit || '', digits || 3);
+    return PLAIN.test(unit || '') ? U.fmtNum(v, digits || 3) + (unit === '°' ? '' : ' ') + unit : U.fmtSI(v, unit || '', digits || 3);
   };
   /** Arrow from (x0, y0) to (x1, y1). */
   TV.arrow = function (g, x0, y0, x1, y1, c, wd) {
@@ -87,6 +87,7 @@
     var shown = [];
     defs.forEach(function (d) {
       var p = Object.assign({}, d, ranges[d.id] || {});
+      if (p.plain == null && PLAIN.test(p.unit || '')) p.plain = true;   // slider shows 0.6 m, not 600 mm
       if (values[d.id] != null) p.value = values[d.id];
       base[d.id] = p.value;
       if (fixed.indexOf(d.id) < 0) shown.push(p);
@@ -173,7 +174,7 @@
   TV.device = function (def, vals) {
     return {
       mount: function (host, ctx) {
-        var params = def.params.map(function (p) { var q = Object.assign({}, p); if (vals && vals[p.id] != null) q.value = vals[p.id]; return q; });
+        var params = def.params.map(function (p) { var q = Object.assign({}, p); if (vals && vals[p.id] != null) q.value = vals[p.id]; if (q.plain == null && PLAIN.test(q.unit || '')) q.plain = true; return q; });
         var save = U.debounce(function () { ctx.setState(Object.assign({}, panel.values)); }, 400);
         var panel = V.params(params, function () { update(); save(); }, ctx);
         var btns = el('div', { class: 'thermo-controls' }), stage = el('div', { class: 'thermo-stage' }), reads = el('div', { class: 'readout-list' });

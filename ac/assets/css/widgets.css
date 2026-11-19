@@ -138,6 +138,15 @@ input[type=range]:hover::-webkit-slider-thumb, input[type=range]:focus-visible::
 .q-match { display: grid; gap: .45rem; }
 .q-match-row { display: grid; grid-template-columns: 1fr auto minmax(9rem, 1fr); gap: .6rem; align-items: center; }
 .q-match-arrow { color: var(--muted); }
+/* Maths dropdown (quiz.js mathSelect): looks like a <select>, but its choices render formulas */
+.q-msel { text-align: left; cursor: pointer; padding-right: 2.2rem; min-height: 2.6rem;
+  background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+  background-position: calc(100% - 1.05rem) 55%, calc(100% - .75rem) 55%; background-size: 5px 5px; background-repeat: no-repeat; }
+.q-msel-none { color: var(--muted); }
+.q-msel-list { display: grid; gap: .15rem; }
+.q-msel-opt { text-align: left; padding: .45rem .7rem; border: 0; border-radius: 8px; background: none; color: var(--fg); font: inherit; cursor: pointer; }
+.q-msel-opt:hover, .q-msel-opt:focus-visible { background: var(--surface-2); outline: none; }
+.q-msel-opt[aria-selected="true"] { background: color-mix(in srgb, var(--primary) 14%, transparent); }
 .q-actions { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: .8rem; }
 .q-feedback { margin-top: .6rem; font-weight: 600; min-height: 1em; }
 .q-feedback.ok { color: var(--ok); } .q-feedback.bad { color: var(--bad); } .q-feedback.warn { color: var(--warn); } .q-feedback.info { color: var(--primary); }

@@ -1,4 +1,4 @@
-/* Landing page: EN/FI + theme (phys.prefs), progress cards from tdc.summary / tac.summary / fht.summary. Classic script, no network. */
+/* Landing page: EN/FI + theme (phys.prefs), progress cards from tdc.summary / tac.summary / fht.summary / tmc.summary. Classic script, no network. */
 (function () {
   'use strict';
   var T = {
@@ -12,6 +12,8 @@
       'ac.lead': 'Learn AC circuits by doing: change values, turn the phasors, watch voltage and current shift in phase, take notes right on the page and test yourself.',
       'thermo.title': 'Fluids, Heat and Thermodynamics',
       'thermo.lead': 'Learn the physics of fluids and heat by doing: dive a submarine, squeeze a gas, narrow a pipe, cool a heat sink, take notes right on the page and test yourself.',
+      'mecha.title': 'Mechanics',
+      'mecha.lead': 'Learn mechanics by doing: release a block on a slope, draw free-body diagrams, crash carts, spin a flywheel, take notes right on the page and test yourself.',
       topics: '{n} topics', notStarted: 'Not started', open: 'Open', cont: 'Continue',
       progress: '{v} of {s} sections visited · {p} / {m} points',
       footer: 'Course material CC BY 4.0 · code MIT · provided as is. No accounts, no tracking: progress is saved only in your browser.',
@@ -27,6 +29,8 @@
       'ac.lead': 'Opi vaihtovirtapiirit tekemällä: muuta arvoja, pyöritä osoittimia, katso jännitteen ja virran vaihe-eroa, tee muistiinpanoja suoraan sivulle ja testaa osaamisesi.',
       'thermo.title': 'Fluidit, lämpö ja termodynamiikka',
       'thermo.lead': 'Opi fluidien ja lämmön fysiikkaa tekemällä: sukella sukellusveneellä, purista kaasua, kavenna putkea, jäähdytä jäähdytyslevyä, tee muistiinpanoja suoraan sivulle ja testaa osaamisesi.',
+      'mecha.title': 'Mekaniikka',
+      'mecha.lead': 'Opi mekaniikkaa tekemällä: päästä kappale liukumaan kaltevalla tasolla, piirrä vapaakappalekuvia, törmäytä kärryjä, pyöritä vauhtipyörää, tee muistiinpanoja suoraan sivulle ja testaa osaamisesi.',
       topics: '{n} aihetta', notStarted: 'Ei aloitettu', open: 'Avaa', cont: 'Jatka',
       progress: '{v} / {s} osiota käyty · {p} / {m} pistettä',
       footer: 'Kurssimateriaali CC BY 4.0 · koodi MIT · sellaisenaan. Ei tilejä eikä seurantaa: edistyminen tallentuu vain selaimeesi.',

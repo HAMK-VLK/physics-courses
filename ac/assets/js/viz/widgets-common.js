@@ -13,16 +13,18 @@
     params.forEach(function (p) {
       values[p.id] = p.value;
       var log = !!p.log;
+      // p.plain: the number without an SI prefix (0.6 m, not 600 mm)
+      var show = function (v) { return p.plain ? U.fmtNum(v, 3) + (p.unit ? (p.unit === '°' ? '' : ' ') + p.unit : '') : U.fmtSI(v, p.unit || '', 3); };
       var toS = function (v) { return log ? Math.log(v / p.min) / Math.log(p.max / p.min) * 1000 : (v - p.min) / (p.max - p.min) * 1000; };
       var fromS = function (s) { var v = log ? p.min * Math.pow(p.max / p.min, s / 1000) : p.min + (p.max - p.min) * s / 1000; return p.step ? Math.round(v / p.step) * p.step : +v.toPrecision(3); };
       var range = el('input', { type: 'range', min: 0, max: 1000, step: 1, value: toS(p.value), 'aria-label': ctx.tx(p.tex || p.label) });
-      var out = el('output', { class: 'param-val' }, U.fmtSI(p.value, p.unit || '', 3));
+      var out = el('output', { class: 'param-val' }, show(p.value));
       range.addEventListener('input', function () {
-        var v = fromS(+range.value); values[p.id] = v; out.textContent = U.fmtSI(v, p.unit || '', 3); onChange(values, p.id);
+        var v = fromS(+range.value); values[p.id] = v; out.textContent = show(v); onChange(values, p.id);
       });
       var lab = p.tex ? TDC.formula.el(p.tex) : el('span'); if (!p.tex) TDC.i18n.bind(lab, p.label, true);
       box.appendChild(el('label', { class: 'param' }, [el('span', { class: 'param-name' }, lab), range, out]));
-      p._set = function (v) { values[p.id] = v; range.value = toS(v); out.textContent = U.fmtSI(v, p.unit || '', 3); };
+      p._set = function (v) { values[p.id] = v; range.value = toS(v); out.textContent = show(v); };
     });
     box.values = values;
     box.setValues = function (vals) { params.forEach(function (p) { if (vals && vals[p.id] != null) p._set(vals[p.id]); }); };

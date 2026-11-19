@@ -23,7 +23,7 @@
     });
   });
   // Plain-text maths in prose ("U_T", "R_{eq}", "N_p", "10^-3") becomes MathML, so raw _ and ^ never show.
-  var RAW_MATH = /[A-Za-zΑ-Ωα-ωµ]+_(?:\{[^}]*\}|[A-Za-z0-9]+)(?:\^(?:\{[^}]*\}|[-−]?[A-Za-z0-9]+))?|\b\d+(?:[.,]\d+)?\^(?:\{[^}]*\}|[-−]?\d+)/g;
+  var RAW_MATH = /[A-Za-zΑ-Ωα-ωµ]+_(?:\{[^}]*\}|[A-Za-z0-9Α-Ωα-ωµ]+)(?:\^(?:\{[^}]*\}|[-−]?[A-Za-z0-9]+))?|\b\d+(?:[.,]\d+)?\^(?:\{[^}]*\}|[-−]?\d+)/g;
   var RAW_MATH_1 = new RegExp(RAW_MATH.source), SVGNS = 'http://www.w3.org/2000/svg';
   function upgradeText(t) {
     var p = t.parentNode;
@@ -277,7 +277,7 @@
     ].map(function (f) { return el('div', { class: 'feature' }, [el('span', { class: 'feature-icon', 'aria-hidden': 'true' }, f[0]), el('span', { 'data-i18n': f[1] })]); }));
     var cs = R.courseScore();
     main.append(hero, el('h2', { class: 'section-title', 'data-i18n': 'home.topics' }),
-      cs.max ? el('p', { class: 'home-total' }, scoreText('home.scoreTotal', cs)) : null, grid, features);
+      cs.max ? el('p', { class: 'home-total' }, scoreText('home.scoreTotal', cs)) : '', grid, features);
     I.applyStatic(main);
   };
 

@@ -9,7 +9,7 @@
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="favicon.svg?v=e45cb06618" type="image/svg+xml">
 <link rel="stylesheet" href="tokens.css?v=3f46a9041d">
-<link rel="stylesheet" href="landing.css?v=78cbed7cfd">
+<link rel="stylesheet" href="landing.css?v=d655cfb4e8">
 <script>
   // Apply saved theme/language before first paint to avoid a flash of the wrong theme.
   (function () {
@@ -83,11 +83,23 @@
       </div>
       <a class="btn" href="thermo/index.html"></a>
     </li>
+    <li class="card card-mecha" data-key="tmc.summary" data-topics="6">
+      <!-- Block on an incline. Click: the block slides down the slope, speeding up (ease-in), the amber arrow points down the slope. -->
+      <svg class="art" viewBox="0 0 120 64" aria-hidden="true"><path class="ramp" d="M8 58H112L8 18Z"/><path class="wire" d="M4 58H116"/><g class="blk"><g transform="translate(25.6 19.9) rotate(21)"><rect class="body" x="-7" y="-4.5" width="14" height="9" rx="1.5"/></g></g><path class="dir" d="M44 26L66 34.5M59.3 35.2L66 34.5L61.5 29.6"/></svg>
+      <h2 data-i18n="mecha.title">Mechanics</h2>
+      <p class="sum" data-i18n="mecha.lead"></p>
+      <p class="topics" data-i18n="topics"></p>
+      <div class="foot">
+        <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"><span></span></div>
+        <p class="stat"></p>
+      </div>
+      <a class="btn" href="mecha/index.html"></a>
+    </li>
   </ul>
 </main>
 
 <footer class="foot-note"><p data-i18n="footer"></p></footer>
-<noscript><p class="noscript">Open the courses: <a href="dc/index.html">DC</a> · <a href="ac/index.html">AC</a> · <a href="thermo/index.html">Thermo</a></p></noscript>
-<script src="landing.js?v=ea6fca44ea"></script>
+<noscript><p class="noscript">Open the courses: <a href="dc/index.html">DC</a> · <a href="ac/index.html">AC</a> · <a href="thermo/index.html">Thermo</a> · <a href="mecha/index.html">Mecha</a></p></noscript>
+<script src="landing.js?v=59ec54c79b"></script>
 </body>
 </html>
