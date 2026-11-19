@@ -59,7 +59,8 @@ code, kbd { font-family: var(--font-mono); font-size: .9em; background: var(--su
 
 /* ---------- buttons, inputs ---------- */
 .btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: .4rem; padding: .6rem 1.05rem; border-radius: 9px;
+  display: inline-flex; align-items: center; justify-content: center; gap: .4rem; border-radius: 9px;
+  --pad-y: .6rem; padding: calc(var(--pad-y) - var(--cap-shift, 0em)) 1.05rem calc(var(--pad-y) + var(--cap-shift, 0em));
   border: 1px solid var(--line); background: var(--surface); color: var(--fg); font: 600 .95rem var(--font-body);
   cursor: pointer; text-decoration: none; transition: transform .12s var(--ease), background .15s, border-color .15s;
 }
@@ -73,7 +74,7 @@ code, kbd { font-family: var(--font-mono); font-size: .9em; background: var(--su
 .btn-danger:hover { background: var(--bad); filter: brightness(1.1); box-shadow: 0 6px 18px color-mix(in srgb, var(--bad) 35%, transparent); }
 .btn-danger-ghost { background: transparent; color: var(--bad); border-color: color-mix(in srgb, var(--bad) 45%, var(--line)); }
 .btn-danger-ghost:hover { background: var(--bad-bg); border-color: var(--bad); }
-.btn-small { padding: .38rem .75rem; font-size: .85rem; }
+.btn-small { --pad-y: .38rem; padding-inline: .75rem; font-size: .85rem; }
 .btn-row { display: flex; gap: .5rem; flex-wrap: wrap; margin: 1rem 0; }
 .btn-col { display: flex; flex-direction: column; gap: .5rem; align-items: stretch; }
 /* Text fields: soft filled surface, clear hover, focus glow (one look for every input in the app) */

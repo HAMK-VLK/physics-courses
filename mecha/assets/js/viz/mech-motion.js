@@ -118,7 +118,7 @@
     var motion = !U.reducedMotion();
     function model() { return S.M || (S.M = MM.model(cfg, F.p())); }
 
-    function btn(key, fn) { var b = el('button', { type: 'button', class: 'btn btn-small' }); b.textContent = ctx.t(key); b.dataset.key = key; b.addEventListener('click', function () { if (!F.locked) fn(); }); F.controls.appendChild(b); return b; }
+    function btn(key, fn) { var b = el('button', { type: 'button', class: TV.btnClass(TV.keyKind(key)) }); b.textContent = ctx.t(key); b.dataset.key = key; b.addEventListener('click', function () { if (!F.locked) fn(); }); F.controls.appendChild(b); return b; }
     var bRun = btn('mv.run', function () { S.t = motion ? 0 : T; S.run = motion; refresh(); });
     var bShrink = has('secant') ? btn('mv.shrink', function () {
       var lo = (cfg.ranges && cfg.ranges.dt && cfg.ranges.dt.min) || T / 100;

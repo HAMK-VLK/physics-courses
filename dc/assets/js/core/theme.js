@@ -17,6 +17,14 @@
       return cache[name];
     }
   };
+  // Button labels are centred on their line box, which puts capitals low in fonts with a deep ascent (Segoe UI: ~1 px).
+  // --cap-shift = half of (ascent - descent - cap height) of the body font; .btn padding moves the text by it (main.css).
+  try {
+    var cx = document.createElement('canvas').getContext('2d');
+    cx.font = '100px ' + getComputedStyle(document.documentElement).getPropertyValue('--font-body');
+    var m = cx.measureText('H');
+    if (m.fontBoundingBoxAscent) document.documentElement.style.setProperty('--cap-shift', ((m.fontBoundingBoxAscent - m.fontBoundingBoxDescent - m.actualBoundingBoxAscent) / 200).toFixed(3) + 'em');
+  } catch (e) {}
   // Follow OS changes only while the user has not chosen explicitly.
   try {
     matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {

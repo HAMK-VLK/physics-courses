@@ -49,7 +49,7 @@
     }
     function Tend(R) { return roll ? R.T : isFinite(R.T) ? R.T : R.t1 * 3; }
 
-    function btn(key, fn) { var b = el('button', { type: 'button', class: 'btn btn-small' }); b.textContent = ctx.t(key); b.dataset.key = key; b.addEventListener('click', function () { if (!F.locked) fn(); }); F.controls.appendChild(b); return b; }
+    function btn(key, fn) { var b = el('button', { type: 'button', class: TV.btnClass(TV.keyKind(key)) }); b.textContent = ctx.t(key); b.dataset.key = key; b.addEventListener('click', function () { if (!F.locked) fn(); }); F.controls.appendChild(b); return b; }
     var bGo = btn('mv.run', function () { S.t = motion ? 0 : Tend(run()); S.run = motion; refresh(); });
     var bReset = btn('mv.reset', function () { S.t = 0; S.run = false; refresh(); });
     var sel = null;
@@ -99,8 +99,9 @@
         TV.arrow(g, tx + d * 24 * Math.sin(e), ty - d * 24 * Math.cos(e), tx, ty, col, 3);   // a 24 px tangent stub, long enough for a full head
         TV.lab(g, sym + (sub ? '_' + sub : ''), '', cx + (r0 + 16) * Math.cos(-(a0 + a1) / 2), cy + (r0 + 16) * Math.sin(-(a0 + a1) / 2), col, 'center', 14, bg);
       }
-      if (on && p.M > 0) arcArrow(Rr + 14, 0.3, 1.3, ctx.color('--f-applied'), 'M', '');
-      if (p.Mf > 0 && st.w > 1e-6) arcArrow(Rr + 14, 3.9, 2.9, ctx.color('--f-friction'), 'M', 'μ');
+      var tq = 1.4 / Math.max(p.M, p.Mf, 1e-9);   // arc span in rad per N·m: one scale, so M is longer than M_μ exactly when the wheel speeds up
+      if (on && p.M > 0) arcArrow(Rr + 14, 0.3, 0.3 + p.M * tq, ctx.color('--f-applied'), 'M', '');
+      if (p.Mf > 0 && st.w > 1e-6) arcArrow(Rr + 14, 3.9, 3.9 - p.Mf * tq, ctx.color('--f-friction'), 'M', 'μ');
       TV.font(g, 12, 700); TV.text(g, ctx.t(!started ? 'mr.press' : R.a1 === 0 ? 'mr.noTurn' : st.w <= 1e-6 && S.t > 0 ? 'mr.stopped' : on ? 'mr.on' : 'mr.off'), 10, 14, mu, 'left');
       if (f < 0.999) { TV.font(g, 10, 600); TV.text(g, ctx.t('mr.slow').replace('{n}', U.fmtNum(1 / f, 2)), cx, cy + Rr + (narrow ? 22 : 34), mu, 'center'); }
       // ω,t graph: grows during the run; dashed: the whole run for the current sliders

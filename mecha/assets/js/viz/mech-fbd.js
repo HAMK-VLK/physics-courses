@@ -69,7 +69,7 @@
     F.controls.append(sel, bRel, bReset, bStep);
     var cap = el('div', { class: 'mech-caption', 'aria-live': 'polite' });
     F.stage.before(cap);
-    function btn(key, fn) { var b = el('button', { type: 'button', class: 'btn btn-small' }); b.textContent = ctx.t(key); b.dataset.key = key; b.addEventListener('click', function () { if (!F.locked) fn(); }); return b; }
+    function btn(key, fn) { var b = el('button', { type: 'button', class: TV.btnClass(TV.keyKind(key)) }); b.textContent = ctx.t(key); b.dataset.key = key; b.addEventListener('click', function () { if (!F.locked) fn(); }); return b; }
 
     var geo = {};
     var cv = TDC.viz.canvas(F.stage, { aspect: function (w) { return w < 520 ? 1 : 0.6; }, animate: true, draw: draw });

@@ -121,7 +121,7 @@
         var b = el('button', { type: 'button', class: 'btn btn-small', 'aria-pressed': 'false' }, o); opBtns[o] = b;
         b.addEventListener('click', function () { S.op = o; start(); }); row2.appendChild(b);
       });
-      var bStep = el('button', { type: 'button', class: 'btn btn-small' }), bRun = el('button', { type: 'button', class: 'btn btn-small btn-primary' });
+      var bStep = el('button', { type: 'button', class: 'btn btn-small' }), bRun = el('button', { type: 'button', class: TDC.mechViz.btnClass('play') });
       TDC.i18n.bind(bStep, T('Step', 'Vaihe'), true); TDC.i18n.bind(bRun, T('Run', 'Aja'), true);
       row2.append(bStep, bRun);
       host.append(el('div', { class: 'plot-widget mech-widget' }, [row1, row2, stage, cap]));
@@ -233,8 +233,8 @@
     aspect: function (w) { return w < 520 ? 1.0 : 0.6; },
     params: [{ id: 'x', tex: 'x', min: 4.5, max: 6, step: 0.05, value: 5.05 }],
     buttons: [{ label: T('Run the calculation', 'Aja lasku'), click: function (p, D) { D.S.u = D.motion ? 0 : 99; D.S.run = D.motion; } },
-              { label: T('Keep all digits', 'Säilytä kaikki numerot'), click: function (p, D) { p.mode = 'keep'; D.S.u = D.motion ? 0 : 99; D.S.run = D.motion; D.set({}); } },
-              { label: T('Round every intermediate result', 'Pyöristä jokainen välitulos'), click: function (p, D) { p.mode = 'round'; D.S.u = D.motion ? 0 : 99; D.S.run = D.motion; D.set({}); } }],
+              { label: T('Keep all digits', 'Säilytä kaikki numerot'), play: false, click: function (p, D) { p.mode = 'keep'; D.S.u = D.motion ? 0 : 99; D.S.run = D.motion; D.set({}); } },
+              { label: T('Round every intermediate result', 'Pyöristä jokainen välitulos'), play: false, click: function (p, D) { p.mode = 'round'; D.S.u = D.motion ? 0 : 99; D.S.run = D.motion; D.set({}); } }],
     draw: function (g, w, h, p, ctx, TV, D) {
       var S = D.S; if (S.u == null) S.u = 99;
       if (S.run) { S.u += D.dt / 0.9; if (S.u >= TRAP_STEPS) S.run = false; }
@@ -304,7 +304,7 @@
     aspect: function (w) { return w < 520 ? 1.0 : 0.62; },
     params: [{ id: 'm', tex: 'm', min: 1, max: 9.9, step: 0.1, value: 1.0 }, { id: 'n', label: T('Power of ten, n', 'Kymmenpotenssi, n'), min: -24, max: 24, step: 1, value: -3 }],
     buttons: ['J', 'm', 'Pa', 'W'].map(function (u) { return { label: T(u, u), click: function (p, D) { p.u = u; D.set({}); } }; })
-      .concat([{ label: T('Zoom in from 10²⁴', 'Zoomaa sisään arvosta 10²⁴'), click: function (p, D) { D.S.cur = 24; } }]),
+      .concat([{ label: T('Zoom in from 10²⁴', 'Zoomaa sisään arvosta 10²⁴'), play: true, click: function (p, D) { D.S.cur = 24; } }]),
     draw: function (g, w, h, p, ctx, TV, D) {
       var S = D.S, tgt = p.n + Math.log10(p.m), u = p.u || 'J', F = prefixForms(p);
       if (S.cur == null || !D.motion) S.cur = tgt; else S.cur += (tgt - S.cur) * Math.min(1, D.dt * 5);
@@ -377,7 +377,7 @@
     animate: true,
     aspect: function (w) { return w < 520 ? 1.0 : 0.6; },
     params: [],
-    buttons: DIMF.map(function (f, i) { return { label: T(f.tex, f.tex), click: function (p, D) { p.f = i; D.S.t = D.motion ? 0 : 99; D.S.run = D.motion; D.set({}); } }; })
+    buttons: DIMF.map(function (f, i) { return { label: T(f.tex, f.tex), play: false, click: function (p, D) { p.f = i; D.S.t = D.motion ? 0 : 99; D.S.run = D.motion; D.set({}); } }; })
       .concat([{ label: T('Run', 'Aja'), click: function (p, D) { D.S.t = D.motion ? 0 : 99; D.S.run = D.motion; } }]),
     draw: function (g, w, h, p, ctx, TV, D) {
       var S = D.S, f = DIMF[p.f || 0], nS = Math.max(f.L.length, f.R.length), STEP = 1.1;
@@ -439,7 +439,7 @@
     aspect: function (w) { return w < 520 ? 1.0 : 0.66; },
     params: [{ id: 'A', tex: 'A', min: 1, max: 10, step: 0.1, value: 7 }, { id: 'th', tex: 'θ', min: 0, max: 360, step: 1, value: 35, unit: '°' }],
     buttons: [{ label: T('Unit vectors i, j on/off', 'Yksikkövektorit i, j päälle/pois'), click: function (p, D) { D.S.units = !D.S.units; } },
-              { label: T('Run: sweep θ a full turn', 'Aja: kierrä θ täysi kierros'), click: function (p, D) {
+              { label: T('Run: sweep θ a full turn', 'Aja: kierrä θ täysi kierros'), play: true, click: function (p, D) {
                 if (!D.motion) { D.set({ th: (Math.floor(p.th / 90) + 1) * 90 % 360 + 45 }); return; }
                 D.S.sw = true; D.S.ang = 0; D.set({ th: 0 }); D.S.lastSet = 0; } }],
     drag: {

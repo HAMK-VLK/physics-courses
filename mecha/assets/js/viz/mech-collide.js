@@ -62,7 +62,7 @@
     var S = { t: 0, run: false }, motion = !U.reducedMotion();
     function phys() { var p = F.p(); return two ? MC.twoD(p.m1, p.m2, p.v1, p.b, p.e) : MC.oneD(p.m1, p.m2, p.v1, p.v2, p.e); }
 
-    function btn(key, fn) { var b = el('button', { type: 'button', class: 'btn btn-small' }); b.textContent = ctx.t(key); b.dataset.key = key; b.addEventListener('click', function () { if (!F.locked) fn(); }); F.controls.appendChild(b); return b; }
+    function btn(key, fn) { var b = el('button', { type: 'button', class: TV.btnClass(TV.keyKind(key)) }); b.textContent = ctx.t(key); b.dataset.key = key; b.addEventListener('click', function () { if (!F.locked) fn(); }); F.controls.appendChild(b); return b; }
     var bGo = btn('mv.run', function () { S.t = motion ? 0 : TC + TA; S.run = motion; refresh(); });
     var bReset = btn('mv.reset', function () { S.t = 0; S.run = false; refresh(); });
 
@@ -149,7 +149,7 @@
         });
       }
       ball(P1, r1, '1', '--c-1', 1); ball(P2, r2, '2', '--c-3', 1);
-      if (!after) { var L = Math.min(70, k * p.v1 * TC * 0.6); TV.arrow(g, P1[0] + r1, P1[1], P1[0] + r1 + L, P1[1], acc, 3); lab2(g, 'v', '1', TV.fmt(p.v1, 'm/s', 2), P1[0] + r1 + L / 2, P1[1] - 16, acc, bg, 'center'); }
+      if (!after) { var L = k * p.v1 * TA * 0.6; /* same px per m/s as the u arrows after the impact */ TV.arrow(g, P1[0] + r1, P1[1], P1[0] + r1 + L, P1[1], acc, 3); lab2(g, 'v', '1', TV.fmt(p.v1, 'm/s', 2), P1[0] + r1 + L / 2, P1[1] - 16, acc, bg, 'center'); }
       phaseTag(g, after, true);
     }
 

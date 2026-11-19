@@ -285,6 +285,8 @@
     // A block slides down a 30° incline, speeding up (CSS ease-in), carrying its free-body diagram: weight mg (always
     // vertical, split into dashed components along and across the slope), normal force N and friction F_μ up the slope.
     // The slide group is in slope coordinates (x down the slope, y into it); labels are turned back upright.
+    // Lengths to scale (rules/10-course.md): mg = 64, so mg sin α = 32 along and N = mg cos α = 55.4 across the slope;
+    // F_μ = 18 < 32 (μ ≈ 0.32), so the net force points down the slope, as the speeding-up block needs.
     function arrow(cls, x1, y1, x2, y2) { return '<line class="ha-f ' + cls + '" x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '" marker-end="url(#ha-m-' + cls + ')"/>'; }
     function label(cls, x, y, s) { return '<text class="' + cls + '" x="' + x + '" y="' + y + '" transform="rotate(-30 ' + x + ' ' + y + ')">' + s + '</text>'; }
     var marks = ['w', 'n', 'f'].map(function (c) {
@@ -296,9 +298,9 @@
       '<path class="ha-arc" d="M246 200 A44 44 0 0 1 251.9 178"/><text class="ha-sym" x="226" y="194">α</text>' +
       '<g transform="translate(20 44) rotate(30)"><g class="ha-slide" transform="translate(150 0)">' +
       '<path class="ha-comp" d="M0 -16 V39.4 H32"/>' +
-      arrow('w', 0, -16, 32, 39.4) + arrow('n', 0, -16, 0, -74) + arrow('f', -26, -3, -76, -3) +
+      arrow('w', 0, -16, 32, 39.4) + arrow('n', 0, -16, 0, -71.4) + arrow('f', -26, -3, -44, -3) +
       '<rect class="ha-block" x="-26" y="-32" width="52" height="32" rx="3"/>' +
-      label('w', 40, 44, 'mg') + label('n', 8, -78, 'N') + label('f', -86, -12, 'F<tspan baseline-shift="sub" font-size="11">μ</tspan>') +
+      label('w', 40, 44, 'mg') + label('n', 8, -75, 'N') + label('f', -58, -12, 'F<tspan baseline-shift="sub" font-size="11">μ</tspan>') +
       '</g></g></svg>' });
   }
 

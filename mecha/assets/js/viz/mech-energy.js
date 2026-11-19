@@ -108,7 +108,7 @@
     var S = { t: 0, run: false, R: null }, motion = !U.reducedMotion();
     function run() { return S.R || (S.R = ME.run(cfg, F.p())); }
 
-    function btn(key, fn) { var b = el('button', { type: 'button', class: 'btn btn-small' }); b.textContent = ctx.t(key); b.dataset.key = key; b.addEventListener('click', function () { if (!F.locked) fn(); }); F.controls.appendChild(b); return b; }
+    function btn(key, fn) { var b = el('button', { type: 'button', class: TV.btnClass(TV.keyKind(key)) }); b.textContent = ctx.t(key); b.dataset.key = key; b.addEventListener('click', function () { if (!F.locked) fn(); }); F.controls.appendChild(b); return b; }
     var bGo = btn('mv.release', function () { S.t = motion ? 0 : run().dur; S.run = motion; refresh(); });
     var bReset = btn('mv.reset', function () { S.t = 0; S.run = false; refresh(); });
 

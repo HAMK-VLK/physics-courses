@@ -29,18 +29,20 @@
     return '<text x="' + x + '" y="' + y + '" style="fill:var(' + (c || '--fg') + ');font:italic 600 15px var(--font-math)">' + s +
       (sub ? '<tspan dy="4" style="font:600 11px var(--font-math);font-style:normal">' + sub + '</tspan>' : '') + '</text>';
   }
+  // To scale (m1 = 2 m2, elastic): v1 = 110 along x; u2 = 128.7 along the line of centres (33, 18) at the impact;
+  // u1 = v1 - u2 / 2, so m1 v1 = m1 u1 + m2 u2 and the y-components cancel (m1 u1y = -m2 u2y).
   var FIG_2D = '<svg viewBox="0 0 380 230" role="img" style="max-width:420px">' +
     '<line x1="10" y1="118" x2="120" y2="118" style="stroke:var(--muted);stroke-width:1.5;stroke-dasharray:4 4"/>' +
     '<circle cx="120" cy="118" r="22" style="fill:var(--c-1);opacity:.35;stroke:var(--c-wire);stroke-width:2"/>' +
     '<circle cx="153" cy="136" r="15" style="fill:var(--c-3);opacity:.35;stroke:var(--c-wire);stroke-width:2"/>' +
-    sSym(112, 123, 'm', '1') + sSym(147, 141, 'm', '2') +
-    sArrow(14, 100, 64, 100, '--f-accel') + sSym(30, 92, 'v', '1', '--f-accel') +
-    sArrow(120, 118, 224, 118, '--f-applied', true) + sSym(200, 110, 'u', '1x', '--f-applied') +
-    sArrow(120, 118, 120, 70, '--f-normal', true) + sSym(94, 78, 'u', '1y', '--f-normal') +
-    sArrow(120, 118, 224, 70, '--f-accel') + sSym(190, 84, 'u', '1', '--f-accel') +
-    sArrow(153, 136, 232, 136, '--f-applied', true) + sSym(212, 154, 'u', '2x', '--f-applied') +
-    sArrow(153, 136, 153, 196, '--f-normal', true) + sSym(160, 192, 'u', '2y', '--f-normal') +
-    sArrow(153, 136, 232, 196, '--f-accel') + sSym(206, 190, 'u', '2', '--f-accel') +
+    sSym(80, 152, 'm', '1') + sSym(124, 174, 'm', '2') +
+    sArrow(4, 70, 114, 70, '--f-accel') + sSym(48, 62, 'v', '1', '--f-accel') +
+    sArrow(120, 118, 173.5, 118, '--f-applied', true) + sSym(178, 122, 'u', '1x', '--f-applied') +
+    sArrow(120, 118, 120, 87.1, '--f-normal', true) + sSym(90, 84, 'u', '1y', '--f-normal') +
+    sArrow(120, 118, 173.5, 87.1, '--f-accel') + sSym(178, 86, 'u', '1', '--f-accel') +
+    sArrow(153, 136, 266, 136, '--f-applied', true) + sSym(272, 140, 'u', '2x', '--f-applied') +
+    sArrow(153, 136, 153, 197.7, '--f-normal', true) + sSym(126, 200, 'u', '2y', '--f-normal') +
+    sArrow(153, 136, 266, 197.7, '--f-accel') + sSym(272, 204, 'u', '2', '--f-accel') +
     '<line x1="300" y1="40" x2="350" y2="40" style="stroke:var(--fg);stroke-width:1.5"/><polygon points="355,40 346,36 346,44" style="fill:var(--fg)"/>' +
     '<line x1="300" y1="40" x2="300" y2="-2" style="stroke:var(--fg);stroke-width:1.5"/><polygon points="300,-6 296,3 304,3" style="fill:var(--fg)"/>' +
     sSym(352, 58, 'x') + sSym(308, 8, 'y') + '</svg>';

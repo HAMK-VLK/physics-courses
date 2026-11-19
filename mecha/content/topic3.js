@@ -42,13 +42,14 @@
     return '<text x="' + x + '" y="' + y + '" style="fill:var(' + (c || '--fg') + ');font:italic 600 15px var(--font-math)">' + t +
       (sub ? '<tspan dy="4" style="font-size:11px">' + sub + '</tspan>' : '') + '</text>';
   }
+  // The book rests on the table, so G = N, and the pairs N/N' and G/G' are equal: all four arrows are 60 units long.
   var FIG_N3 = '<svg viewBox="0 0 340 210" role="img" style="max-width:420px">' +
     '<path d="M10 186 Q170 176 330 186" style="fill:none;stroke:var(--f-applied);stroke-width:2.5"/>' +
     '<rect x="95" y="104" width="150" height="10" rx="2" style="fill:var(--m-ground);stroke:var(--c-wire);stroke-width:2"/>' +
     '<line x1="108" y1="114" x2="108" y2="182" style="stroke:var(--c-wire);stroke-width:4"/><line x1="232" y1="114" x2="232" y2="182" style="stroke:var(--c-wire);stroke-width:4"/>' +
     '<rect x="140" y="62" width="60" height="42" rx="3" style="fill:var(--m-body);stroke:var(--c-wire);stroke-width:2"/>' +
-    sArrow(158, 83, 158, 140, '--f-weight') + sText(140, 152, 'G') +
-    sArrow(184, 104, 184, 40, '--f-normal') + sText(190, 46, 'N') +
+    sArrow(158, 83, 158, 143, '--f-weight') + sText(140, 155, 'G') +
+    sArrow(184, 104, 184, 44, '--f-normal') + sText(190, 50, 'N') +
     sArrow(214, 108, 214, 168, '--f-normal', true) + sText(190, 162, 'N′') +
     sArrow(40, 200, 40, 140, '--f-weight', true) + sText(48, 150, 'G′') + '</svg>';
   var FIG_ROLL = '<svg viewBox="0 0 260 200" role="img" style="max-width:300px">' +
@@ -84,8 +85,8 @@
     aspect: function (w) { return w < 520 ? 1 : 0.55; },
     params: [{ id: 'F', tex: 'F', min: 1, max: 20, step: 1, value: 6, unit: 'N' },
              { id: 'm', tex: 'm', min: 0.5, max: 5, step: 0.5, value: 2, unit: 'kg' }],
-    buttons: [{ label: T('Run: F, 2F, 3F (same m)', 'Aja: F, 2F, 3F (sama m)'), click: function (p, D) { n2run(D, 'F', p); } },
-              { label: T('Run: m, 2m, 3m (same F)', 'Aja: m, 2m, 3m (sama F)'), click: function (p, D) { n2run(D, 'm', p); } }],
+    buttons: [{ label: T('Run: F, 2F, 3F (same m)', 'Aja: F, 2F, 3F (sama m)'), play: true, click: function (p, D) { n2run(D, 'F', p); } },
+              { label: T('Run: m, 2m, 3m (same F)', 'Aja: m, 2m, 3m (sama F)'), play: true, click: function (p, D) { n2run(D, 'm', p); } }],
     draw: function (g, w, h, p, ctx, TV, D) {
       var S = D.S, mode = S.mode || 'F', L = 4;
       if (changed(S, p, ['F', 'm'])) { S.run = false; S.t = 0; }
@@ -197,20 +198,20 @@
       var fg = ctx.color('--fg'), wire = ctx.color('--c-wire'), mu = ctx.color('--muted'), bg = ctx.color('--surface'), fs = fsz(w);
       g.clearRect(0, 0, w, h); g.lineJoin = 'round';
       // scene: floor marks scroll when the block slides (the view follows the block)
-      var fy = h * 0.36, bw = Math.min(90, w * 0.16), bh = bw * 0.55, bx = w * 0.42, sc = h * 0.08 / (10 * G0);   // fixed scale: a heavier block gets longer N and mg arrows
+      var fy = h * 0.36, bw = Math.min(90, w * 0.16), bh = bw * 0.55, bx = w * 0.42, sc = h * 0.08 / (10 * G0);   // one fixed scale for N, mg, F and F_μ: a heavier block gets longer arrows
       g.fillStyle = ctx.color('--m-ground'); g.fillRect(0, fy, w, h * 0.06); g.strokeStyle = wire; g.lineWidth = 2; line(g, 0, fy, w, fy);
       g.lineWidth = 1.2; for (var k = -1; k < w / 30 + 1; k++) { var hx = k * 30 - (x * 40) % 30; line(g, hx, fy + 2, hx - 8, fy + h * 0.05); }
       g.fillStyle = ctx.color('--m-body'); g.lineWidth = 2; TV.rr(g, bx - bw / 2, fy - bh, bw, bh, 3); g.fill(); g.stroke();
       g.strokeStyle = mu; g.lineWidth = 2; line(g, bx + bw / 2, fy - bh / 2, w * 0.8, fy - bh / 2);
       TV.lcd(g, ctx, w * 0.88, fy - bh / 2, nf(Fp, 3) + ' N', fs - 1);   // the spring scale reads the pull
       var cy = fy - bh / 2;
-      farrow(g, TV, bx, cy, 0, -1, N * sc + bh / 2, ctx.color('--f-normal'), 'N', '', bg, fs);
+      farrow(g, TV, bx, cy, 0, -1, N * sc, ctx.color('--f-normal'), 'N', '', bg, fs);
       farrow(g, TV, bx, cy, 0, 1, N * sc, ctx.color('--f-weight'), 'mg', '', bg, fs);
       if (F > 0) {
-        TV.arrow(g, bx + bw / 2, cy - 8, bx + bw / 2 + Fp * sc * 1.6, cy - 8, ctx.color('--f-applied'), 3);
-        lab(g, 'F', '', bx + bw / 2 + Fp * sc * 1.6 + 10, cy - 20, ctx.color('--f-applied'), 'center', fs, bg);
-        TV.arrow(g, bx - bw / 2, fy - 4, bx - bw / 2 - F * sc * 1.6, fy - 4, ctx.color('--f-friction'), 3);
-        lab(g, 'F_μ', '', bx - bw / 2 - F * sc * 1.6 - 12, fy - 18, ctx.color('--f-friction'), 'center', fs, bg);
+        TV.arrow(g, bx + bw / 2, cy - 8, bx + bw / 2 + Fp * sc, cy - 8, ctx.color('--f-applied'), 3);
+        lab(g, 'F', '', bx + bw / 2 + Fp * sc + 10, cy - 20, ctx.color('--f-applied'), 'center', fs, bg);
+        TV.arrow(g, bx - bw / 2, fy - 4, bx - bw / 2 - F * sc, fy - 4, ctx.color('--f-friction'), 3);
+        lab(g, 'F_μ', '', bx - bw / 2 - F * sc - 12, fy - 18, ctx.color('--f-friction'), 'center', fs, bg);
       }
       if (moving) { var Lv = Math.min(w * 0.3, 12 + 8 * vk); TV.arrow(g, bx - Lv / 2, fy - bh - 14, bx + Lv / 2, fy - bh - 14, ctx.color('--f-accel'), 2.5); lab(g, 'v', ' = ' + nf(vk, 2) + ' m/s', bx + Lv / 2 + 8, fy - bh - 14, ctx.color('--f-accel'), 'left', fs, bg); }
       if (p.muk > p.mus) lab(g, '', ctx.tx(T('μ_k cannot exceed μ_s: μ_k = μ_s is used', 'μ_k ei voi olla suurempi kuin μ_s: käytetään μ_k = μ_s')), 8, 33, ctx.color('--bad'), 'left', fs - 1, bg);

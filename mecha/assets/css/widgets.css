@@ -229,7 +229,15 @@ mark.annot-mark { background: color-mix(in srgb, var(--mark) 40%, transparent); 
 
 /* mech widgets (viz/mech-*.js) */
 .mech-controls:empty { display: none; }
-.mech-controls { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; }
+.mech-controls { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; margin: .4rem 0 .9rem; }
+/* The button that starts the animation: filled pill with a play mark, a short pulse when it first appears */
+.btn-play { border-radius: 999px; --pad-y: .48rem; padding-inline: .85rem 1.05rem; font-weight: 700; letter-spacing: .01em;
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--primary) 30%, transparent); animation: play-hint 1.6s ease-out .8s 3; }
+.btn-play::before { content: ''; flex: none; border-style: solid; border-width: .36em 0 .36em .6em;
+  border-color: transparent transparent transparent currentColor; margin-right: .1em; translate: 0 var(--cap-shift, 0em); }
+.btn-play:hover { transform: translateY(-1px); }
+@keyframes play-hint { from { box-shadow: 0 0 0 0 color-mix(in srgb, var(--primary) 55%, transparent); } to { box-shadow: 0 0 0 10px transparent; } }
+.btn-reset::before { content: '↺'; font-weight: 700; }
 .mech-planet { width: auto; max-width: 100%; }
 .readout.readout-warn b { color: var(--c-2); }
 .mech-caption { background: var(--info-bg); border-radius: var(--radius-sm); padding: .55rem .75rem; margin: .5rem 0; line-height: 1.5; }

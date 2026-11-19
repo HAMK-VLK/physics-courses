@@ -144,6 +144,9 @@
     return F;
   };
 
+  /** Button classes: Run/Release start the animation (filled ▶ button), Reset gets ↺, the rest stay quiet. */
+  TV.btnClass = function (kind) { return 'btn btn-small' + (kind === 'play' ? ' btn-primary btn-play' : kind === 'reset' ? ' btn-reset' : ''); };
+  TV.keyKind = function (key) { return /^mv\.(run|release)$/.test(key) ? 'play' : key === 'mv.reset' ? 'reset' : ''; };
   /** Readouts of a widget: cfg.readouts(p, s) when given, else the widget's defaults. */
   TV.reads = function (F, cfg, p, s, defaults) { F.readouts(cfg.readouts ? cfg.readouts(p, s) : defaults); };
   /** Play/pause toggle button (hidden when the user prefers reduced motion). */
@@ -202,7 +205,9 @@
         var cv = V.canvas(stage, { aspect: def.aspect || function (w) { return w < 520 ? 0.85 : 0.5; }, animate: !!def.animate,
           draw: function (g, w, h, t, dt) { D.w = w; D.h = h; D.t = t || 0; D.dt = dt || 0; def.draw(g, w, h, panel.values, ctx, TV, D); } });
         (def.buttons || []).forEach(function (b) {
-          var btn = el('button', { type: 'button', class: 'btn btn-small' });
+          // a button that sets run to anything but false starts the animation; b.play overrides (mode switches)
+          var kind = b.play != null ? (b.play ? 'play' : '') : /\.run\s*=(?!\s*false)/.test(String(b.click)) ? 'play' : /^Reset\b/.test(b.label.en || '') ? 'reset' : '';
+          var btn = el('button', { type: 'button', class: TV.btnClass(kind) });
           TDC.i18n.bind(btn, b.label, true);
           btn.addEventListener('click', function () { if (!locked) { b.click(panel.values, D); cv.redraw(); } });
           btns.appendChild(btn);
