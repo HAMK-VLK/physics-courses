@@ -7,7 +7,7 @@ Applied Sciences and the course authors.
 
 | Part | Files | Licence |
 |---|---|---|
-| Course material: lesson texts, practice questions, glossary, examples, interface texts | `dc/content/`, `dc/lang/`, `ac/content/`, `ac/lang/`, `thermo/content/`, `thermo/lang/` | [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/) |
+| Course material: lesson texts, practice questions, glossary, examples, interface texts | `dc/content/`, `dc/lang/`, `ac/content/`, `ac/lang/`, `thermo/content/`, `thermo/lang/`, `mecha/content/`, `mecha/lang/` | [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/) |
 | Software: the web apps, simulators and landing page | `index.html`, `*/index.html`, `*/assets/`, `landing.*` | MIT License (see the file `LICENSE`) |
 
 ## Reusing the material (CC BY 4.0)
