@@ -7,7 +7,7 @@ body {
   background-size: 24px 24px; background-attachment: fixed;
   transition: background-color .25s var(--ease), color .25s var(--ease);
 }
-h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.2; margin: 1.4em 0 .5em; letter-spacing: -.01em; overflow-wrap: anywhere; hyphens: auto; }   /* long Finnish compounds on phones */
+h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.2; margin: 1.4em 0 .5em; letter-spacing: -.01em; overflow-wrap: anywhere; hyphens: manual; }   /* long Finnish compounds on phones */
 h1 { font-size: clamp(1.9rem, 3.2vw + 1rem, 2.9rem); font-weight: 700; }
 h2 { font-size: clamp(1.4rem, 1.2vw + 1rem, 1.8rem); font-weight: 650; }
 h3 { font-size: 1.2rem; font-weight: 650; }
@@ -179,7 +179,7 @@ main table { overflow-wrap: normal; }   /* Blink would split "34,1 mW" in auto-w
 .toc a:hover { background: var(--surface-2); color: var(--fg); }
 .toc a.current { background: var(--info-bg); color: var(--fg); font-weight: 600; }
 .toc-head strong { flex: 1; }
-.toc-head strong, .toc a { min-width: 0; overflow-wrap: anywhere; hyphens: auto; }   /* long Finnish compounds must not make the sidebar scroll sideways */
+.toc-head strong, .toc a { min-width: 0; overflow-wrap: anywhere; hyphens: manual; }   /* long Finnish compounds must not make the sidebar scroll sideways */
 .toc-min { flex: none; width: 30px; height: 30px; }
 .toc-min span { display: inline-block; transition: transform .2s; }
 /* minimised: only the header stays, so margin annotations under the list are visible and drawable */

@@ -32,8 +32,7 @@ a { color: var(--primary); text-underline-offset: 3px; }
 main { max-width: 62rem; margin: 0 auto; padding: 1rem clamp(1rem, 3vw, 2rem) 2rem; }
 .hero { padding: clamp(1rem, 5vw, 3.5rem) 0 1rem; }
 .eyebrow { margin: 0; color: var(--primary); font-weight: 600; font-size: .95rem; }
-h1 { margin: .2em 0 .3em; font: 700 clamp(1.9rem, 3.2vw + 1rem, 2.9rem)/1.2 var(--font-head); letter-spacing: -.01em; overflow-wrap: anywhere; hyphens: auto; }
-:lang(en) h1, :lang(en) .card h2 { hyphens: manual; }
+h1 { margin: .2em 0 .3em; font: 700 clamp(1.9rem, 3.2vw + 1rem, 2.9rem)/1.2 var(--font-head); letter-spacing: -.01em; overflow-wrap: anywhere; hyphens: manual; }
 .art { align-self: center; width: 180px; height: 96px; fill: none; stroke-linecap: round; stroke-linejoin: round;
   --ink: var(--accent); --l1: var(--t5); --l2: #12936f; --l3: #8250df; --ink-o: .6;
   --plus: #d32f2f; --minus: #000; --bulb: #b8860b; --bulb-lit: #fff3a8; }
@@ -107,7 +106,7 @@ h1 { margin: .2em 0 .3em; font: 700 clamp(1.9rem, 3.2vw + 1rem, 2.9rem)/1.2 var(
 .card.go .blk { transform: translate(57.8px, 22.3px); }
 .card::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 4px; background: var(--accent); }
 .card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: var(--accent); }
-.card h2 { margin: .2rem 0 0; font: 650 1.35rem/1.25 var(--font-head); overflow-wrap: anywhere; hyphens: auto; }
+.card h2 { margin: .2rem 0 0; font: 650 1.35rem/1.25 var(--font-head); overflow-wrap: anywhere; hyphens: manual; }
 .sum { margin: 0; color: var(--muted); font-size: .95rem; flex: 1; }
 .topics { margin: 0; font-size: .85rem; font-weight: 600; }
 .foot { display: flex; flex-direction: column; gap: .35rem; margin-top: .5rem; }

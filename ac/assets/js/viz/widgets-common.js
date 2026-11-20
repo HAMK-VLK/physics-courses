@@ -81,11 +81,19 @@
       if (visible) { last = performance.now(); raf = requestAnimationFrame(frame); }
     });
     io.observe(c);
+    // Reduced motion stops the loop, so a widget that changes state without calling redraw() froze (s.f. calculator):
+    // redraw each visible looping canvas once after any input on the page (a timer runs after the widget's own handler).
+    var poke = 0, EV = ['input', 'change', 'click'];
+    function onInput() {
+      if (opts.animate === false || !visible || poke || !c.isConnected || !U.reducedMotion()) return;
+      poke = setTimeout(function () { poke = 0; opts.draw(g, w, h, (performance.now() - t0) / 1000, 0); });
+    }
+    EV.forEach(function (e) { document.addEventListener(e, onInput, true); });
     size();
     return {
       canvas: c,
       redraw: function () { if (opts.animate === false || U.reducedMotion()) opts.draw(g, w, h, (performance.now() - t0) / 1000, 0); },
-      destroy: function () { cancelAnimationFrame(raf); ro.disconnect(); io.disconnect(); }
+      destroy: function () { cancelAnimationFrame(raf); clearTimeout(poke); ro.disconnect(); io.disconnect(); EV.forEach(function (e) { document.removeEventListener(e, onInput, true); }); }
     };
   };
 
